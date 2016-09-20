@@ -12,6 +12,8 @@
   },
   "keywords": [
     "react-native",
+    "ios",
+    "android",
     "rename",
     "renamer",
     "react native renamer"
