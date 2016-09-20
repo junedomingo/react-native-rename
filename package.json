@@ -1,0 +1,33 @@
+{
+  "name": "react-native-rename",
+  "version": "1.0.0",
+  "description": "Rename react-native app with just one command",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JuneDomingo/react-native-rename.git"
+  },
+  "keywords": [
+    "react-native",
+    "rename",
+    "renamer",
+    "react native renamer"
+  ],
+  "author": "June Domingo <june@cynder.io>",
+  "license": "MIT",
+  "bin": {
+    "react-native-rename": "index.js"
+  },
+  "bugs": {
+    "url": "https://github.com/JuneDomingo/react-native-rename/issues"
+  },
+  "homepage": "https://github.com/JuneDomingo/react-native-rename#readme",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "project-name": "^0.2.6",
+    "replace": "^0.3.0"
+  }
+}
