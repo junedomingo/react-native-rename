@@ -36,8 +36,8 @@ program
 
 		// Lowercase strings
 		replace({
-			regex: currentName.toLowerCase(),
-			replacement: newName.toLowerCase(),
+			regex: lowercaseCurrentName,
+			replacement: lowercaseCurrentName,
 			paths: [
 				'./android/app/BUCK',
 				'./android/app/build.gradle',
