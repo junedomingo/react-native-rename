@@ -13,6 +13,7 @@ program
 	.action((currentName, newName) => {
 		if (currentName !== projectName) return console.log("App name didn't match");
 
+		const lowercaseCurrentName = currentName.toLowerCase();
 		const pattern = /^([0-9]|[a-z])+([0-9a-z]+)$/i;
 
 		if (!pattern.test(newName)) {
@@ -47,8 +48,17 @@ program
 		});
 
 		// Delete folders
-		const androidFolder = currentName.toLowerCase();
-		childProcess.exec(`rm -rf ios/build ios/${currentName} ios/${currentName}.xcodeproj ios/${currentName}Tests android/app/src/main/java/com/${androidFolder}`, (error, stdout) => {
+		let foldersToDelete = [
+			`ios/build`,
+			`ios/${currentName}`,
+			`ios/${currentName}.xcodeproj`,
+			`ios/${currentName}Tests`,
+			`android/app/src/main/java/com/${lowercaseCurrentName}`
+		];
+
+		foldersToDelete = foldersToDelete.toString().replace(/,/g, ' ');
+
+		childProcess.exec(`rm -rf ${foldersToDelete}`, (error, stdout) => {
 			if (error !== null) console.log(`exec error: ${error}`);
 		});
 
