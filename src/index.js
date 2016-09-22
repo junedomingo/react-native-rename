@@ -25,11 +25,17 @@ program
 			regex: currentName,
 			replacement: newName,
 			paths: [
-				'./index.ios.js',
-				'./index.android.js',
-				'./android/settings.gradle',
-				'./android/app/src/main/res/values/strings.xml',
-				'./package.json'
+				`./package.json`,
+				`./index.ios.js`,
+				`./ios/${currentName}/Base.lproj/LaunchScreen.xib`,
+				`./ios/${currentName}/AppDelegate.m`,
+				`./ios/${currentName}.xcodeproj/xcshareddata/xcschemes/${currentName}.xcscheme`,
+				`./ios/${currentName}.xcodeproj/project.pbxproj`,
+				`./ios/${currentName}Tests/${currentName}Tests.m`,
+				`./index.android.js`,
+				`./android/app/src/main/java/com/${lowercaseCurrentName}/MainActivity.java`,
+				`./android/app/src/main/res/values/strings.xml`,
+				`./android/settings.gradle`
 			],
 			recursive: true,
 			silent: true
@@ -40,31 +46,32 @@ program
 			regex: lowercaseCurrentName,
 			replacement: lowercaseNewName,
 			paths: [
-				'./android/app/BUCK',
-				'./android/app/build.gradle',
-				'./android/app/src/main/AndroidManifest.xml'
+				`./android/app/BUCK`,
+				`./android/app/build.gradle`,
+				`./android/app/src/main/AndroidManifest.xml`,
+				`./android/app/src/main/java/com/${lowercaseCurrentName}/MainActivity.java`,
+				`./android/app/src/main/java/com/${lowercaseCurrentName}/MainApplication.java`
 			],
 			recursive: true,
 			silent: true
 		});
 
-		// Delete folders
-		let foldersToDelete = [
-			`ios/build`,
-			`ios/${currentName}`,
-			`ios/${currentName}.xcodeproj`,
-			`ios/${currentName}Tests`,
-			`android/app/src/main/java/com/${lowercaseCurrentName}`
+		let commands = [
+			`mv ios/${currentName} ios/${newName}`,
+			`mv ios/${currentName}.xcodeproj/xcshareddata/xcschemes/${currentName}.xcscheme ios/${currentName}.xcodeproj/xcshareddata/xcschemes/${newName}.xcscheme`,
+			`mv ios/${currentName}.xcodeproj ios/${newName}.xcodeproj`,
+			`mv ios/${currentName}Tests/${currentName}Tests.m ios/${currentName}Tests/${newName}Tests.m`,
+			`mv ios/${currentName}Tests ios/${newName}Tests`,
+			`mv android/app/src/main/java/com/${lowercaseCurrentName} android/app/src/main/java/com/${lowercaseNewName}`,
+			`rm -rf ios/build`,
+			`rm -rf android/.gradle`,
+			`rm -rf android/app/build`,
+			`rm -rf android/build`
 		];
 
-		foldersToDelete = foldersToDelete.toString().replace(/,/g, ' ');
+		commands = commands.toString().replace(/,/g, ' && ');
 
-		childProcess.exec(`rm -rf ${foldersToDelete}`, (error, stdout) => {
-			if (error !== null) console.log(`exec error: ${error}`);
-		});
-
-		// Upgrade app
-		childProcess.exec('react-native upgrade', (error, stdout) => {
+		childProcess.exec(commands, (error, stdout) => {
 			if (error !== null) console.log(`exec error: ${error}`);
 			console.log(`App successfully renamed to ${newName}`);
 		});
