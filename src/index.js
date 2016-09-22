@@ -8,12 +8,13 @@ const replace = require("replace");
 const projectName = name();
 
 program
-	.version('1.0.1')
+	.version('1.0.2')
 	.arguments('<currentName> <newName>')
 	.action((currentName, newName) => {
 		if (currentName !== projectName) return console.log("App name didn't match");
 
 		const lowercaseCurrentName = currentName.toLowerCase();
+		const lowercaseNewName = newName.toLowerCase();
 		const pattern = /^([0-9]|[a-z])+([0-9a-z]+)$/i;
 
 		if (!pattern.test(newName)) {
@@ -37,7 +38,7 @@ program
 		// Lowercase strings
 		replace({
 			regex: lowercaseCurrentName,
-			replacement: lowercaseCurrentName,
+			replacement: lowercaseNewName,
 			paths: [
 				'./android/app/BUCK',
 				'./android/app/build.gradle',
