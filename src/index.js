@@ -8,7 +8,7 @@ const replace = require("replace");
 const projectName = name();
 
 program
-	.version('1.0.2')
+	.version('1.0.3')
 	.arguments('<currentName> <newName>')
 	.action((currentName, newName) => {
 		if (currentName !== projectName) return console.log("App name didn't match");
