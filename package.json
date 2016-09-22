@@ -1,10 +1,11 @@
 {
   "name": "react-native-rename",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Rename react-native app with just one command",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "node_modules/babel-cli/bin/babel.js src --out-dir lib"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,7 @@
   "author": "June Domingo <june@cynder.io>",
   "license": "MIT",
   "bin": {
-    "react-native-rename": "index.js"
+    "react-native-rename": "lib/index.js"
   },
   "bugs": {
     "url": "https://github.com/JuneDomingo/react-native-rename/issues"
@@ -31,5 +32,15 @@
     "commander": "^2.9.0",
     "project-name": "^0.2.6",
     "replace": "^0.3.0"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-core": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0"
   }
 }
