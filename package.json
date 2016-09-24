@@ -30,18 +30,22 @@
   },
   "homepage": "https://github.com/JuneDomingo/react-native-rename#readme",
   "dependencies": {
+    "cheerio": "^0.22.0",
     "commander": "^2.9.0",
+    "file-exists": "^2.0.0",
     "project-name": "^0.2.6",
     "replace": "^0.3.0"
   },
   "babel": {
     "presets": [
-      "es2015"
+      "es2015",
+      "stage-2"
     ]
   },
   "devDependencies": {
     "babel-cli": "^6.14.0",
     "babel-core": "^6.14.0",
-    "babel-preset-es2015": "^6.14.0"
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-stage-2": "^6.13.0"
   }
 }
