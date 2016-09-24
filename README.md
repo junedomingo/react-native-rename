@@ -1,8 +1,6 @@
 ### React Native Rename
 Rename react-native app with just one command
 
->This package assumes that your project `name` in `package.json` and registered component in AppRegistry are the same.
-
 #### Installation
 ```
 npm install react-native-rename -g
@@ -10,7 +8,14 @@ npm install react-native-rename -g
 
 #### Usage
 ```
-react-native-rename CURRENT_NAME NEW_NAME
+react-native-rename <currentProjectName> <newName>
 ```
 
-`CURRENT_NAME` is from `package.json` name property
+#### Example
+
+```
+react-native-rename AwesomeApp "Cool App"
+```
+
+`currentProjectName` is from `package.json` `name` property
+>Yes, it allows you to add spaces :-)
