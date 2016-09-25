@@ -10,12 +10,11 @@ npm install react-native-rename -g
 ```
 react-native-rename <currentProjectName> <newName>
 ```
+`currentProjectName` is from `package.json` `name` property
 
 #### Example
 
 ```
 react-native-rename AwesomeApp "Cool App"
 ```
-
-`currentProjectName` is from `package.json` `name` property
 >Yes, it allows you to add spaces :-)
