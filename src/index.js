@@ -26,13 +26,9 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 		const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
 		program
-			.version('1.0.5')
+			.version('1.0.6')
 			.arguments('<newName>')
 			.action((newName) => {
-
-				if (newName === currentAppName) {
-					return console.log(`Please try a different name.`);
-				}
 
 				const nS_NewName = newName.replace(/\s/g, '');
 				const lC_Ns_NewName = nS_NewName.toLowerCase();
@@ -41,6 +37,10 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 				// Check if entered new name is valid based on regex pattern
 				if (!pattern.test(newName)) {
 					return console.log(`"${newName}" is not a valid name for a project. Please use a valid identifier name (alphanumeric and space).`);
+				}
+
+				if (newName === currentAppName || newName === nS_CurrentAppName || newName === lC_Ns_CurrentAppName) {
+					return console.log(`Please try a different name.`);
 				}
 
 				// Rename all folders
