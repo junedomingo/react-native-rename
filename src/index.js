@@ -26,7 +26,7 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 		const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
 		program
-			.version('1.0.6')
+			.version('1.0.7')
 			.arguments('<newName>')
 			.action((newName) => {
 
@@ -82,7 +82,9 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 					replace({
 						regex: `<string name="app_name">${currentAppName}</string>`,
 						replacement: `<string name="app_name">${newName}</string>`,
-						paths: [`./android/app/src/main/res/values/strings.xml`],
+						paths: [
+							`./android/app/src/main/res/values/strings.xml`
+						],
 						...replaceOptions
 					});
 
@@ -93,7 +95,9 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 					replace({
 						regex: `text="${nS_CurrentAppName}"`,
 						replacement: `text="${newName}"`,
-						paths: [`./ios/${nS_NewName}/Base.lproj/LaunchScreen.xib`],
+						paths: [
+							`./ios/${nS_NewName}/Base.lproj/LaunchScreen.xib`
+						],
 						...replaceOptions
 					});
 
@@ -101,7 +105,9 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 					replace({
 						regex: `text="${currentAppName}"`,
 						replacement: `text="${newName}"`,
-						paths: [`./ios/${nS_NewName}/Base.lproj/LaunchScreen.xib`],
+						paths: [
+							`./ios/${nS_NewName}/Base.lproj/LaunchScreen.xib`
+						],
 						...replaceOptions
 					});
 
@@ -110,7 +116,6 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 						regex: lC_Ns_CurrentAppName,
 						replacement: lC_Ns_NewName,
 						paths: [
-							`./android/app/BUCK`,
 							`./android/app/build.gradle`,
 							`./android/app/src/main/AndroidManifest.xml`,
 							`./android/app/src/main/java/com/${lC_Ns_NewName}/MainActivity.java`
@@ -118,12 +123,26 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 						...replaceOptions
 					});
 
+					// Check if BUCK exists, because some project don't have this file
+					if (fileExists(`./android/app/BUCK`)) {
+						replace({
+							regex: lC_Ns_CurrentAppName,
+							replacement: lC_Ns_NewName,
+							paths: [
+								`./android/app/BUCK`
+							],
+							...replaceOptions
+						});
+					}
+
 					// Check if MainApplication.java exists, because some project don't have this file
 					if (fileExists(`./android/app/src/main/java/com/${lC_Ns_NewName}/MainApplication.java`)) {
 						replace({
 							regex: lC_Ns_CurrentAppName,
 							replacement: lC_Ns_NewName,
-							paths: [`./android/app/src/main/java/com/${lC_Ns_NewName}/MainApplication.java`],
+							paths: [
+								`./android/app/src/main/java/com/${lC_Ns_NewName}/MainApplication.java`
+							],
 							...replaceOptions
 						});
 					}
