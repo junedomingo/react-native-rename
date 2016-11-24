@@ -72,6 +72,7 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 							ex. ./ios/CoolApp  --->  <string name="app_name">CoolApp</string>
 							and try running the command again with you new app name.
 							ex. react-native-rename "Awesome App"
+                            If your're using Windows OS, please run this command using Git Bash or Cygwin or other equivalent that runs Linux commands.
 						`);
 						process.exit(1);
 					}
