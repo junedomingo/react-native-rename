@@ -26,7 +26,7 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 		const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
 		program
-			.version('1.0.7')
+			.version('1.0.8')
 			.arguments('<newName>')
 			.action((newName) => {
 
