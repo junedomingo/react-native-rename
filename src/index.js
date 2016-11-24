@@ -176,7 +176,7 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 
 					console.log(`App successfully renamed to "${newName}"`);
 
-				}, 1000);
+				}, 5000);
 
 			})
 			.parse(process.argv);
