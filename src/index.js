@@ -1,6 +1,5 @@
-#!/usr/bin/env node --harmony
-/* eslint-disable no-console */
-/* eslint-disable no-param-reassign */
+#!/usr/bin/env node
+
 import cheerio from 'cheerio';
 import childProcess from 'child_process';
 import fileExists from 'file-exists';
