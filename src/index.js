@@ -142,7 +142,8 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 							regex: lC_Ns_CurrentAppName,
 							replacement: lC_Ns_NewName,
 							paths: [
-								`./ios/Podfile`
+								`./ios/Podfile`,
+								`./ios/${lC_Ns_NewName}.xcworkspace/contents.xcworkspacedata`
 							],
 							...replaceOptions
 						});
