@@ -47,12 +47,14 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 					`mv ./ios/${nS_CurrentAppName} ios/${nS_NewName}`,
 					`mv ./ios/${nS_CurrentAppName}.xcodeproj/xcshareddata/xcschemes/${nS_CurrentAppName}.xcscheme ios/${nS_CurrentAppName}.xcodeproj/xcshareddata/xcschemes/${nS_NewName}.xcscheme`,
 					`mv ./ios/${nS_CurrentAppName}.xcodeproj ios/${nS_NewName}.xcodeproj`,
+					`mv ./ios/${nS_CurrentAppName}.xcworkspace ios/${nS_NewName}.xcworkspace`,
 					`mv ./ios/${nS_CurrentAppName}Tests/${nS_CurrentAppName}Tests.m ios/${nS_CurrentAppName}Tests/${nS_NewName}Tests.m`,
 					`mv ./ios/${nS_CurrentAppName}Tests ios/${nS_NewName}Tests`,
 					`mv ./android/app/src/main/java/com/${lC_Ns_CurrentAppName} android/app/src/main/java/com/${lC_Ns_NewName}`,
 					`rm -rf ./ios/${nS_CurrentAppName}`,
 					`rm -rf ./ios/${nS_CurrentAppName}.xcodeproj/xcshareddata/xcschemes/${nS_CurrentAppName}.xcscheme`,
 					`rm -rf ./ios/${nS_CurrentAppName}.xcodeproj`,
+					`rm -rf ./ios/${nS_CurrentAppName}.xcworkspace`,
 					`rm -rf ./ios/${nS_CurrentAppName}Tests/${nS_CurrentAppName}Tests.m`,
 					`rm -rf ./ios/${nS_CurrentAppName}Tests`,
 					`rm -rf ./android/app/src/main/java/com/${lC_Ns_CurrentAppName}`,
@@ -130,6 +132,17 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 							replacement: lC_Ns_NewName,
 							paths: [
 								`./android/app/BUCK`
+							],
+							...replaceOptions
+						});
+					}
+					// Check if Podfile exists, because some project don't have this file
+					if (fileExists(`./ios/Podfile`)) {
+						replace({
+							regex: lC_Ns_CurrentAppName,
+							replacement: lC_Ns_NewName,
+							paths: [
+								`./ios/Podfile`
 							],
 							...replaceOptions
 						});
