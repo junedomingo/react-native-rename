@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+// nS - No Space
+// lC - Lowercase
+
 import cheerio from 'cheerio';
 import childProcess from 'child_process';
 import fileExists from 'file-exists';
@@ -25,7 +28,7 @@ fs.readFile('./android/app/src/main/res/values/strings.xml', 'utf8', (err, marku
 		const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
 		program
-			.version('1.0.9')
+			.version('1.0.10')
 			.arguments('<newName>')
 			.action((newName) => {
 
