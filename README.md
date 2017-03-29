@@ -8,6 +8,8 @@ Rename react-native app with just one command
 
 #### Installation
 ```
+yarn global add react-native-rename
+or
 npm install react-native-rename -g
 ```
 
