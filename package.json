@@ -1,6 +1,6 @@
 {
   "name": "react-native-rename",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Rename react-native app with just one command",
   "main": "lib/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JuneDomingo/react-native-rename.git"
+    "url": "git+https://github.com/junedomingo/react-native-rename.git"
   },
   "keywords": [
     "react-native",
@@ -27,10 +27,11 @@
     "react-native-rename": "lib/index.js"
   },
   "bugs": {
-    "url": "https://github.com/JuneDomingo/react-native-rename/issues"
+    "url": "https://github.com/junedomingo/react-native-rename/issues"
   },
-  "homepage": "https://github.com/JuneDomingo/react-native-rename#readme",
+  "homepage": "https://github.com/junedomingo/react-native-rename#readme",
   "dependencies": {
+    "cheerio": "^0.22.0",
     "colors": "^1.1.2",
     "commander": "^2.9.0",
     "mv": "^2.1.1",
