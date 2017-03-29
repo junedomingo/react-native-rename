@@ -23,5 +23,5 @@ react-native-rename <newName>
 
 #### Example
 ```
-react-native-rename "Awesome App"
+react-native-rename "Travel App"
 ```
