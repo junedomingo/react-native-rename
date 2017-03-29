@@ -13,7 +13,7 @@ npm install react-native-rename -g
 
 Switch to new branch first
 ```
-git checkout -b reaname-app
+git checkout -b rename-app
 ```
 
 #### Usage
