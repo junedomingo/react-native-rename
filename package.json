@@ -1,10 +1,11 @@
 {
   "name": "react-native-rename",
-  "version": "1.0.10",
+  "version": "2.0.0",
   "description": "Rename react-native app with just one command",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "esw src",
     "prepublish": "node_modules/.bin/babel src --out-dir lib"
   },
   "repository": {
@@ -30,10 +31,10 @@
   },
   "homepage": "https://github.com/JuneDomingo/react-native-rename#readme",
   "dependencies": {
-    "cheerio": "^0.22.0",
+    "colors": "^1.1.2",
     "commander": "^2.9.0",
-    "file-exists": "^2.0.0",
-    "outdent": "^0.2.1",
+    "mv": "^2.1.1",
+    "path-exists": "^3.0.0",
     "project-name": "^0.2.6",
     "replace": "^0.3.0"
   },
@@ -46,7 +47,10 @@
   "devDependencies": {
     "babel-cli": "^6.14.0",
     "babel-core": "^6.14.0",
+    "babel-eslint": "^7.2.1",
     "babel-preset-es2015": "^6.14.0",
-    "babel-preset-stage-2": "^6.13.0"
+    "babel-preset-stage-2": "^6.13.0",
+    "eslint": "^3.18.0",
+    "eslint-watch": "^3.0.1"
   }
 }
