@@ -13,6 +13,7 @@ import program from 'commander';
 import replace from 'replace';
 import {foldersAndFiles} from './config/foldersAndFiles';
 import {filesToModifyContent} from './config/filesToModifyContent';
+import childProcess from 'child_process';
 
 const projectName = name();
 const replaceOptions = {
@@ -65,6 +66,20 @@ readFile('./android/app/src/main/res/values/strings.xml')
 					|| newName === lC_Ns_CurrentAppName) {
 					return console.log(`Please try a different name.`);
 				}
+
+				// Clean builds on both platform
+				let builds = [
+					`rm -rf ./ios/build`,
+					`rm -rf ./android/.gradle`,
+					`rm -rf ./android/app/build`,
+					`rm -rf ./android/build`
+				];
+
+				builds = builds.toString().replace(/,/g, ' && ');
+
+				childProcess.exec(builds, (error, stdout) => {
+					if (error !== null) console.log(error);
+				});
 
 				foldersAndFiles(currentAppName, newName)
 					.map((element, index) => {
