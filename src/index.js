@@ -13,6 +13,7 @@ import program from 'commander';
 import replace from 'replace';
 import {foldersAndFiles} from './config/foldersAndFiles';
 import {filesToModifyContent} from './config/filesToModifyContent';
+import childProcess from 'child_process';
 
 const projectName = name();
 const replaceOptions = {
@@ -50,7 +51,7 @@ readFile('./android/app/src/main/res/values/strings.xml')
 		const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
 		program
-			.version('2.0.1')
+			.version('2.0.2')
 			.arguments('<newName>')
 			.action(newName => {
 				const nS_NewName = newName.replace(/\s/g, '');
@@ -66,8 +67,22 @@ readFile('./android/app/src/main/res/values/strings.xml')
 					return console.log(`Please try a different name.`);
 				}
 
+				// Clean builds on both platform
+				let builds = [
+					`rm -rf ./ios/build`,
+					`rm -rf ./android/.gradle`,
+					`rm -rf ./android/app/build`,
+					`rm -rf ./android/build`
+				];
+
+				builds = builds.toString().replace(/,/g, ' && ');
+
+				childProcess.exec(builds, (error, stdout) => {
+					if (error !== null) console.log(error);
+				});
+
 				foldersAndFiles(currentAppName, newName)
-					.map((element, index) => {
+					.forEach((element, index) => {
 						const dest = element.replace(new RegExp(nS_CurrentAppName, 'gi'), nS_NewName);
 						pathExists(element)
 							.then(exists => {
@@ -86,7 +101,7 @@ readFile('./android/app/src/main/res/values/strings.xml')
 											console.log(`${dest} ${colors.green('RENAMED')}`);
 										});
 									} else {
-										// Rename childdren file
+										// Rename children files and folders
 										mv(element, dest, err => {
 											if (err) return;
 											console.log(`${dest} ${colors.green('RENAMED')}`);
@@ -118,5 +133,5 @@ readFile('./android/app/src/main/res/values/strings.xml')
 	})
 	.catch(err => {
 		if (err.code === 'ENOENT') return console.log('Directory should be created using "react-native init"');
-		return console.log('Something went wrong: ', err.code);
+		return console.log('Something went wrong: ', err);
 	});
