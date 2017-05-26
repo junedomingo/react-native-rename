@@ -82,7 +82,7 @@ readFile('./android/app/src/main/res/values/strings.xml')
 				});
 
 				foldersAndFiles(currentAppName, newName)
-					.map((element, index) => {
+					.forEach((element, index) => {
 						const dest = element.replace(new RegExp(nS_CurrentAppName, 'gi'), nS_NewName);
 						pathExists(element)
 							.then(exists => {
@@ -101,7 +101,7 @@ readFile('./android/app/src/main/res/values/strings.xml')
 											console.log(`${dest} ${colors.green('RENAMED')}`);
 										});
 									} else {
-										// Rename childdren file
+										// Rename children files and folders
 										mv(element, dest, err => {
 											if (err) return;
 											console.log(`${dest} ${colors.green('RENAMED')}`);
@@ -133,5 +133,5 @@ readFile('./android/app/src/main/res/values/strings.xml')
 	})
 	.catch(err => {
 		if (err.code === 'ENOENT') return console.log('Directory should be created using "react-native init"');
-		return console.log('Something went wrong: ', err.code);
+		return console.log('Something went wrong: ', err);
 	});
