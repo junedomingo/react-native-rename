@@ -37,7 +37,8 @@
     "mv": "^2.1.1",
     "path-exists": "^3.0.0",
     "project-name": "^0.2.6",
-    "replace": "^0.3.0"
+    "replace": "^0.3.0",
+    "shelljs": "^0.7.7"
   },
   "babel": {
     "presets": [

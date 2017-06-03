@@ -11,9 +11,9 @@ import name from 'project-name';
 import pathExists from 'path-exists';
 import program from 'commander';
 import replace from 'replace';
+import shell from 'shelljs';
 import {foldersAndFiles} from './config/foldersAndFiles';
 import {filesToModifyContent} from './config/filesToModifyContent';
-import childProcess from 'child_process';
 
 const projectName = name();
 const replaceOptions = {
@@ -68,18 +68,12 @@ readFile('./android/app/src/main/res/values/strings.xml')
 				}
 
 				// Clean builds on both platform
-				let builds = [
-					`rm -rf ./ios/build`,
-					`rm -rf ./android/.gradle`,
-					`rm -rf ./android/app/build`,
-					`rm -rf ./android/build`
-				];
-
-				builds = builds.toString().replace(/,/g, ' && ');
-
-				childProcess.exec(builds, (error, stdout) => {
-					if (error !== null) console.log(error);
-				});
+				shell.rm('-rf', [
+					'./ios/build/*',
+					'./android/.gradle/*',
+					'./android/app/build/*',
+					'./android/build/*'
+				]);
 
 				foldersAndFiles(currentAppName, newName)
 					.forEach((element, index) => {
