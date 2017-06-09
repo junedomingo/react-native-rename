@@ -8,6 +8,7 @@ export function foldersAndFiles(currentAppName, newName) {
 
 	return [
 		`./ios/${nS_CurrentAppName}`,
+		`./ios/${nS_NewName}/${nS_CurrentAppName}.entitlements`,
 		`./ios/${nS_CurrentAppName}-tvOS`,
 		`./ios/${nS_CurrentAppName}-tvOSTests`,
 		`./ios/${nS_CurrentAppName}.xcodeproj`,
