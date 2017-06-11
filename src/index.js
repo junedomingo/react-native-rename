@@ -83,7 +83,7 @@ readFile('./android/app/src/main/res/values/strings.xml')
 								setTimeout(() => {
 									if (exists) {
 										// android
-										if (index === 8) {
+										if (index === 0) {
 											mv(element, dest.toLowerCase(), err => {
 												if (err) return console.log('Error in renaming Adroid folder.', err);
 												console.log(`${dest.toLowerCase()} ${colors.green('RENAMED')}`);

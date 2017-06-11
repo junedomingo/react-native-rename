@@ -7,6 +7,7 @@ export function foldersAndFiles(currentAppName, newName) {
 	const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
 	return [
+		`./android/app/src/main/java/com/${lC_Ns_CurrentAppName}`, // must be in 0 index
 		`./ios/${nS_CurrentAppName}`,
 		`./ios/${nS_NewName}/${nS_CurrentAppName}.entitlements`,
 		`./ios/${nS_CurrentAppName}-tvOS`,
@@ -16,7 +17,6 @@ export function foldersAndFiles(currentAppName, newName) {
 		`./ios/${nS_NewName}.xcodeproj/xcshareddata/xcschemes/${nS_CurrentAppName}.xcscheme`,
 		`./ios/${nS_CurrentAppName}Tests`,
 		`./ios/${nS_NewName}Tests/${nS_CurrentAppName}Tests.m`,
-		`./android/app/src/main/java/com/${lC_Ns_CurrentAppName}`,
 		`./ios/${nS_CurrentAppName}.xcworkspace`
 	];
 }
