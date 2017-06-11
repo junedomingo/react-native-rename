@@ -51,7 +51,7 @@ readFile('./android/app/src/main/res/values/strings.xml')
 		const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
 		program
-			.version('2.0.3')
+			.version('2.0.4')
 			.arguments('<newName>')
 			.action(newName => {
 				const nS_NewName = newName.replace(/\s/g, '');
