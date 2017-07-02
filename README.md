@@ -24,7 +24,16 @@ git checkout -b rename-app
 react-native-rename <newName>
 ```
 
+> With custom Bundle Identifier (Android)
+```
+react-native-rename <newName> -b <bundleIdentifier>
+```
+
 #### Example
 ```
 react-native-rename "Travel App"
+```
+> With custom Bundle Identifier
+```
+react-native-rename "Travel App" -b com.junedomingo.travelapp
 ```
