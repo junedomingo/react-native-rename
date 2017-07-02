@@ -14,17 +14,6 @@ export function filesToModifyContent(currentAppName, newName, projectName) {
       paths: ['./android/app/src/main/res/values/strings.xml']
     },
     {
-      regex: lC_Ns_CurrentAppName,
-      replacement: lC_Ns_NewName,
-      paths: [
-        // './android/app/BUCK',
-        // './android/app/build.gradle',
-        // './android/app/src/main/AndroidManifest.xml',
-        // `./android/app/src/main/java/com/${lC_Ns_NewName}/MainActivity.java`,
-        // `./android/app/src/main/java/com/${lC_Ns_NewName}/MainApplication.java`
-      ]
-    },
-    {
       regex: nS_CurrentAppName,
       replacement: nS_NewName,
       paths: [
@@ -37,8 +26,6 @@ export function filesToModifyContent(currentAppName, newName, projectName) {
         `./ios/${nS_NewName}/AppDelegate.m`,
         './android/settings.gradle',
         `./ios/${nS_NewName}Tests/${nS_NewName}Tests.m`,
-        // `./android/app/src/main/java/com/${lC_Ns_NewName}/MainApplication.java`,
-        // `./android/app/src/main/java/com/${lC_Ns_NewName}/MainActivity.java`,
         './ios/build/info.plist'
       ]
     },

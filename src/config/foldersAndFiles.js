@@ -7,7 +7,6 @@ export function foldersAndFiles(currentAppName, newName) {
   const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
   return [
-    // `./android/app/src/main/java/com/${lC_Ns_CurrentAppName}`, // must be in 0 index
     `./ios/${nS_CurrentAppName}`,
     `./ios/${nS_NewName}/${nS_CurrentAppName}.entitlements`,
     `./ios/${nS_CurrentAppName}-tvOS`,

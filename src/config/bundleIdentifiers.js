@@ -40,10 +40,7 @@ export function bundleIdentifiers(currentAppName, newName, projectName, currentB
     {
       regex: lC_Ns_CurrentBundleID,
       replacement: lC_Ns_NewBundleID,
-      paths: [
-        `${newBundlePath}/MainActivity.java`,
-        `${newBundlePath}/MainApplication.java`
-      ]
+      paths: [`${newBundlePath}/MainApplication.java`]
     },
     {
       regex: nS_CurrentAppName,

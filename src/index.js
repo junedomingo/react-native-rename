@@ -93,14 +93,6 @@ readFile('./android/app/src/main/res/values/strings.xml')
               .then(exists => {
                 setTimeout(() => {
                   if (exists) {
-                    // android
-                    // if (index === 0) {
-                    //   mv(element, dest.toLowerCase(), err => {
-                    //     if (err) return console.log('Error in renaming Adroid folder.', err);
-                    //     console.log(`${dest.toLowerCase()} ${colors.green('RENAMED')}`);
-                    //   });
-                    //   return;
-                    // }
                     mv(element, dest, err => {
                       if (err) return console.log('Error in renaming folder.', err);
                       console.log(`${dest} ${colors.green('RENAMED')}`);
@@ -142,7 +134,6 @@ readFile('./android/app/src/main/res/values/strings.xml')
               const javaFileBase = './android/app/src/main/java';
               const newJavaPath = `${javaFileBase}/${newBundleID.replace(/\./g, '/')}`;
               const currentJavaPath = `${javaFileBase}/${currentBundleID.replace(/\./g, '/')}`;
-              const javaPath = bundleID ? newJavaPath : currentJavaPath;
 
               const javaFiles = [
                 `MainActivity.java`,
@@ -151,9 +142,9 @@ readFile('./android/app/src/main/res/values/strings.xml')
 
               if (bundleID) {
                 newBundlePath = newJavaPath;
-                console.log({newBundlePath});
+
                 for (const file of javaFiles) {
-                  mv(`${currentJavaPath}/${file}`, `${newJavaPath}/${file}`, {mkdirp: true}, err => {
+                  mv(`${currentJavaPath}/${file}`, `${newBundlePath}/${file}`, {mkdirp: true}, err => {
                     if (err) return console.log('Error in moving java files.', err);
                     console.log(`${newBundlePath} ${colors.green('BUNDLE INDENTIFIER CHANGED')}`);
                   });
@@ -161,6 +152,7 @@ readFile('./android/app/src/main/res/values/strings.xml')
               } else {
                 newBundlePath = newBundleID.replace(/\./g, '/').toLowerCase();
                 newBundlePath = `${javaFileBase}/${newBundlePath}`;
+
                 for (const file of javaFiles) {
                   mv(`${currentJavaPath}/${file}`, `${newBundlePath}/${file}`, {mkdirp: true}, err => {
                     if (err) return console.log('Error in moving java files.', err);
