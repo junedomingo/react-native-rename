@@ -44,6 +44,15 @@ function replaceContent(regex, replacement, paths) {
   }
 }
 
+function moveJavaFiles(javaFiles, currentJavaPath, newBundlePath) {
+  for (const file of javaFiles) {
+    mv(`${currentJavaPath}/${file}`, `${newBundlePath}/${file}`, {mkdirp: true}, err => {
+      if (err) return console.log('Error in moving java files.', err);
+      console.log(`${newBundlePath} ${colors.green('BUNDLE INDENTIFIER CHANGED')}`);
+    });
+  }
+}
+
 readFile('./android/app/src/main/res/values/strings.xml')
   .then(data => {
     const $ = cheerio.load(data);
@@ -52,7 +61,7 @@ readFile('./android/app/src/main/res/values/strings.xml')
     const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
     program
-      .version('2.1.0')
+      .version('2.1.1')
       .arguments('<newName>')
       .option('-b, --bundleID [value]', 'Set custom bundle identifier eg. "com.junedomingo.travelapp"')
       .action((newName) => {
@@ -142,23 +151,11 @@ readFile('./android/app/src/main/res/values/strings.xml')
 
               if (bundleID) {
                 newBundlePath = newJavaPath;
-
-                for (const file of javaFiles) {
-                  mv(`${currentJavaPath}/${file}`, `${newBundlePath}/${file}`, {mkdirp: true}, err => {
-                    if (err) return console.log('Error in moving java files.', err);
-                    console.log(`${newBundlePath} ${colors.green('BUNDLE INDENTIFIER CHANGED')}`);
-                  });
-                }
+                moveJavaFiles(javaFiles, currentJavaPath, newBundlePath);
               } else {
                 newBundlePath = newBundleID.replace(/\./g, '/').toLowerCase();
                 newBundlePath = `${javaFileBase}/${newBundlePath}`;
-
-                for (const file of javaFiles) {
-                  mv(`${currentJavaPath}/${file}`, `${newBundlePath}/${file}`, {mkdirp: true}, err => {
-                    if (err) return console.log('Error in moving java files.', err);
-                    console.log(`${newBundlePath} ${colors.green('BUNDLE INDENTIFIER CHANGED')}`);
-                  });
-                }
+                moveJavaFiles(javaFiles, currentJavaPath, newBundlePath);
               }
 
               setTimeout(function () {
