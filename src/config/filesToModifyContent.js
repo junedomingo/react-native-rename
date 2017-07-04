@@ -27,7 +27,8 @@ export function filesToModifyContent(currentAppName, newName, projectName) {
         './android/settings.gradle',
         `./ios/${nS_NewName}Tests/${nS_NewName}Tests.m`,
         './ios/build/info.plist',
-        './ios/Podfile'
+        './ios/Podfile',
+        './app.json'
       ]
     },
     {
@@ -44,11 +45,6 @@ export function filesToModifyContent(currentAppName, newName, projectName) {
       regex: `"name": "${nS_CurrentAppName}"`,
       replacement: `"name": "${nS_NewName}"`,
       paths: ['./package.json']
-    },
-    {
-      regex: nS_CurrentAppName,
-      replacement: nS_NewName,
-      paths: ['./app.json']
     },
     {
       regex: `"displayName": "${currentAppName}"`,
