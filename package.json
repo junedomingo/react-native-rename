@@ -1,6 +1,6 @@
 {
   "name": "react-native-rename",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Rename react-native app with just one command",
   "main": "lib/index.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "react",
     "space"
   ],
-  "author": "June Domingo <june@cynder.io>",
+  "author": "June Domingo <junedomingo@gmail.com>",
   "license": "MIT",
   "bin": {
     "react-native-rename": "lib/index.js"
