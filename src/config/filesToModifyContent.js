@@ -26,7 +26,8 @@ export function filesToModifyContent(currentAppName, newName, projectName) {
         `./ios/${nS_NewName}/AppDelegate.m`,
         './android/settings.gradle',
         `./ios/${nS_NewName}Tests/${nS_NewName}Tests.m`,
-        './ios/build/info.plist'
+        './ios/build/info.plist',
+        './ios/Podfile'
       ]
     },
     {
