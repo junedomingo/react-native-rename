@@ -10,7 +10,7 @@ import mv from 'mv';
 import name from 'project-name';
 import pathExists from 'path-exists';
 import program from 'commander';
-import replace from 'replace';
+import replace from 'node-replace';
 import shell from 'shelljs';
 import {foldersAndFiles} from './config/foldersAndFiles';
 import {filesToModifyContent} from './config/filesToModifyContent';
