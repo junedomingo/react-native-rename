@@ -70,7 +70,7 @@ readFile('./android/app/src/main/res/values/strings.xml')
     const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
     program
-      .version('2.1.6')
+      .version('2.1.7')
       .arguments('<newName>')
       .option(
         '-b, --bundleID [value]',
@@ -105,6 +105,12 @@ readFile('./android/app/src/main/res/values/strings.xml')
         ) {
           return console.log(`Please try a different name.`);
         }
+
+        console.log(
+          `${colors.yellow(
+            'Please make sure to run "watchman watch-del-all" and "npm start --reset-cache" after renaming the app. '
+          )}`
+        );
 
         // Clean builds on both platform
         shell.rm('-rf', [
