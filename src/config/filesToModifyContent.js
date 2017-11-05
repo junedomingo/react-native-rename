@@ -15,6 +15,7 @@ export function filesToModifyContent(currentAppName, newName) {
       regex: nS_CurrentAppName,
       replacement: nS_NewName,
       paths: [
+        './index.js',
         './index.android.js',
         './index.ios.js',
         `./ios/${nS_NewName}.xcodeproj/project.pbxproj`,
