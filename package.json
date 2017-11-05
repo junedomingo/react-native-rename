@@ -1,12 +1,21 @@
 {
   "name": "react-native-rename",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "Rename react-native app with just one command",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "esw src",
-    "prepublish": "node_modules/.bin/babel src --out-dir lib"
+    "prepublish": "babel src --out-dir lib",
+    "format": "prettier --write '**/*.{js,jsx}'",
+    "lint": "eslint '**/*.{js,jsx}'",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "**/*.js": [
+      "format",
+      "lint --fix",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
@@ -35,9 +44,9 @@
     "colors": "^1.1.2",
     "commander": "^2.9.0",
     "mv": "^2.1.1",
+    "node-replace": "^0.3.3",
     "path-exists": "^3.0.0",
     "project-name": "^0.2.6",
-    "node-replace": "^0.3.3",
     "shelljs": "^0.7.7"
   },
   "babel": {
@@ -47,12 +56,16 @@
     ]
   },
   "devDependencies": {
-    "babel-cli": "^6.14.0",
-    "babel-core": "^6.14.0",
-    "babel-eslint": "^7.2.1",
-    "babel-preset-es2015": "^6.14.0",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.1",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.13.0",
-    "eslint": "^3.18.0",
-    "eslint-watch": "^3.0.1"
+    "eslint": "^4.10.0",
+    "eslint-config-prettier": "^2.7.0",
+    "eslint-plugin-prettier": "^2.3.1",
+    "eslint-watch": "^3.1.3",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.3.0",
+    "prettier": "^1.7.4"
   }
 }

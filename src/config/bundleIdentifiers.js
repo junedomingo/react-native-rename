@@ -1,11 +1,16 @@
 // nS - No Space
 // lC - Lowercase
 
-export function bundleIdentifiers(currentAppName, newName, projectName, currentBundleID, newBundleID, newBundlePath) {
+export function bundleIdentifiers(
+  currentAppName,
+  newName,
+  projectName,
+  currentBundleID,
+  newBundleID,
+  newBundlePath
+) {
   const nS_CurrentAppName = currentAppName.replace(/\s/g, '');
   const nS_NewName = newName.replace(/\s/g, '');
-  const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
-  const lC_Ns_NewName = nS_NewName.toLowerCase();
   const lC_Ns_CurrentBundleID = currentBundleID.toLowerCase();
   const lC_Ns_NewBundleID = newBundleID.toLowerCase();
 
@@ -16,36 +21,33 @@ export function bundleIdentifiers(currentAppName, newName, projectName, currentB
       paths: [
         './android/app/BUCK',
         './android/app/build.gradle',
-        './android/app/src/main/AndroidManifest.xml'
-      ]
+        './android/app/src/main/AndroidManifest.xml',
+      ],
     },
     {
       regex: currentBundleID,
       replacement: newBundleID,
-      paths: [`./ios/${nS_NewName}.xcodeproj/project.pbxproj`]
+      paths: [`./ios/${nS_NewName}.xcodeproj/project.pbxproj`],
     },
     {
       regex: lC_Ns_CurrentBundleID,
       replacement: lC_Ns_NewBundleID,
-      paths: [`./ios/${nS_NewName}.xcodeproj/project.pbxproj`]
+      paths: [`./ios/${nS_NewName}.xcodeproj/project.pbxproj`],
     },
     {
       regex: currentBundleID,
       replacement: newBundleID,
-      paths: [
-        `${newBundlePath}/MainActivity.java`,
-        `${newBundlePath}/MainApplication.java`
-      ]
+      paths: [`${newBundlePath}/MainActivity.java`, `${newBundlePath}/MainApplication.java`],
     },
     {
       regex: lC_Ns_CurrentBundleID,
       replacement: lC_Ns_NewBundleID,
-      paths: [`${newBundlePath}/MainApplication.java`]
+      paths: [`${newBundlePath}/MainApplication.java`],
     },
     {
       regex: nS_CurrentAppName,
       replacement: nS_NewName,
-      paths: [`${newBundlePath}/MainActivity.java`]
+      paths: [`${newBundlePath}/MainActivity.java`],
     },
   ];
 }

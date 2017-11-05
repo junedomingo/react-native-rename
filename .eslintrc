@@ -1,54 +1,22 @@
 {
-	"extends": [
-		"eslint:recommended"
-	],
-	"parser": "babel-eslint",
-	"parserOptions": {
-		"ecmaVersion": 6,
-		"sourceType": "module",
-		"ecmaFeatures": {}
-	},
-	"env": {
-		"browser": true,
-		"es6": true,
-		"jquery": true,
-		"mocha": true,
-		"node": true
-	},
-	"rules": {
-		"arrow-body-style": [1, "as-needed"],
-		"arrow-parens": [1, "as-needed"],
-		"class-methods-use-this": 0,
-		"comma-dangle": [1, "never"],
-		"consistent-return": 0,
-		"eol-last": 0,
-		"func-names": 0,
-		"import/extensions": 0,
-		"import/imports-first": 0,
-		"import/no-extraneous-dependencies": 0,
-		"import/no-unresolved": 0,
-		"indent": [1, "tab", { "SwitchCase": 1, "VariableDeclarator": 1 }],
-		"linebreak-style": 0,
-		"max-len": 0,
-		"new-cap": 0,
-		"no-alert": 0,
-		"no-console": 0,
-		"no-debugger": 1,
-		"no-global-assign": 0,
-		"no-lone-blocks": 0,
-		"no-multi-spaces": 1,
-		"no-shadow": 0,
-		"no-tabs": 0,
-		"no-trailing-spaces": 1,
-		"no-underscore-dangle": 0,
-		"no-unsafe-negation": 0,
-		"no-unused-vars": [1, { "varsIgnorePattern": "(bindActionCreators|colors|chalk|dotenv|PropTypes)", "args": "none" }],
-		"no-use-before-define": 0,
-		"no-useless-constructor": 0,
-		"no-var": 1,
-		"object-curly-spacing": 1,
-		"one-var": 0,
-		"quotes": 0,
-		"semi": [1, "always"]
-	}
+  "extends": ["eslint:recommended", "prettier"],
+  "parser": "babel-eslint",
+  "plugins": ["prettier"],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "rules": {
+    "arrow-body-style": [1, "as-needed"],
+    "indent": ["off", "spaces", { "SwitchCase": 1, "VariableDeclarator": 1 }],
+    "no-alert": 0,
+    "no-console": 0,
+    "no-debugger": 1,
+    "newline-before-return": "error"
+  }
 }
