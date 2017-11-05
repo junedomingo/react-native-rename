@@ -70,7 +70,7 @@ readFile('./android/app/src/main/res/values/strings.xml')
     const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
     program
-      .version('2.1.5')
+      .version('2.1.6')
       .arguments('<newName>')
       .option(
         '-b, --bundleID [value]',
