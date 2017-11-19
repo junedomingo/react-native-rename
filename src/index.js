@@ -52,7 +52,7 @@ readFile('./android/app/src/main/res/values/strings.xml')
     const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
     program
-      .version('2.1.8')
+      .version('2.1.9')
       .arguments('<newName>')
       .option(
         '-b, --bundleID [value]',
@@ -76,7 +76,9 @@ readFile('./android/app/src/main/res/values/strings.xml')
 
         if (!pattern.test(newName)) {
           return console.log(
-            `"${newName}" is not a valid name for a project. Please use a valid identifier name (alphanumeric and space).`
+            `"${
+              newName
+            }" is not a valid name for a project. Please use a valid identifier name (alphanumeric and space).`
           );
         }
 
@@ -150,7 +152,7 @@ readFile('./android/app/src/main/res/values/strings.xml')
 
             // Create new bundle folder if doesn't exist yet
             if (!fs.existsSync(newBundlePath)) {
-              fs.mkdirSync(newBundlePath);
+              shell.mkdir('-p', newBundlePath);
             }
 
             // Move javaFiles
