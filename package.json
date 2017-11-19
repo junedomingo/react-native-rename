@@ -1,6 +1,6 @@
 {
   "name": "react-native-rename",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "Rename react-native app with just one command",
   "main": "lib/index.js",
   "scripts": {
@@ -43,10 +43,7 @@
     "cheerio": "^0.22.0",
     "colors": "^1.1.2",
     "commander": "^2.9.0",
-    "mv": "^2.1.1",
     "node-replace": "^0.3.3",
-    "path-exists": "^3.0.0",
-    "project-name": "^0.2.6",
     "shelljs": "^0.7.7"
   },
   "babel": {
