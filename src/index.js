@@ -6,17 +6,15 @@
 import cheerio from 'cheerio';
 import colors from 'colors';
 import fs from 'fs';
-import mv from 'mv';
-import name from 'project-name';
-import pathExists from 'path-exists';
 import program from 'commander';
 import replace from 'node-replace';
 import shell from 'shelljs';
+import pjson from '../package.json';
 import { foldersAndFiles } from './config/foldersAndFiles';
 import { filesToModifyContent } from './config/filesToModifyContent';
 import { bundleIdentifiers } from './config/bundleIdentifiers';
 
-const projectName = name();
+const projectName = pjson.name;
 const replaceOptions = {
   recursive: true,
   silent: true,
@@ -46,22 +44,6 @@ function replaceContent(regex, replacement, paths) {
   }
 }
 
-function moveJavaFiles(javaFiles, currentJavaPath, newBundlePath) {
-  for (const file of javaFiles) {
-    mv(
-      `${currentJavaPath}/${file}`,
-      `${newBundlePath}/${file}`,
-      {
-        mkdirp: true,
-      },
-      err => {
-        if (err) return console.log('Error in moving java files.', err);
-        console.log(`${newBundlePath} ${colors.green('BUNDLE INDENTIFIER CHANGED')}`);
-      }
-    );
-  }
-}
-
 readFile('./android/app/src/main/res/values/strings.xml')
   .then(data => {
     const $ = cheerio.load(data);
@@ -70,7 +52,7 @@ readFile('./android/app/src/main/res/values/strings.xml')
     const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
     program
-      .version('2.1.7')
+      .version('2.1.8')
       .arguments('<newName>')
       .option(
         '-b, --bundleID [value]',
@@ -120,38 +102,31 @@ readFile('./android/app/src/main/res/values/strings.xml')
           './android/build/*',
         ]);
 
+        // Move files and folders from ./config/foldersAndFiles.js
         foldersAndFiles(currentAppName, newName).forEach((element, index) => {
           const dest = element.replace(new RegExp(nS_CurrentAppName, 'gi'), nS_NewName);
-          pathExists(element).then(exists => {
-            setTimeout(() => {
-              if (exists) {
-                mv(element, dest, err => {
-                  if (err) return console.log('Error in renaming folder.', err);
-                  console.log(`${dest} ${colors.green('RENAMED')}`);
-                });
+          setTimeout(() => {
+            if (fs.existsSync(element) || !fs.existsSync(element)) {
+              if (shell.exec(`git mv ${element} ${dest}`).code === 0) {
+                console.log(`${dest} ${colors.green('RENAMED')}`);
               } else {
-                // Rename children files and folders
-                mv(element, dest, err => {
-                  if (err) return;
-                  console.log(`${dest} ${colors.green('RENAMED')}`);
-                });
+                console.log("Ignore above error if this file doesn't exist");
               }
-            }, 600 * index);
-          });
+            }
+          }, 600 * index);
         });
 
+        // Modify file content from ./config/filesToModifyContent.js
         setTimeout(() => {
           filesToModifyContent(currentAppName, newName, projectName).map(file => {
             file.paths.map((path, index) => {
               const newPaths = [];
-              pathExists(path).then(exists => {
-                if (exists) {
-                  newPaths.push(path);
-                  setTimeout(() => {
-                    replaceContent(file.regex, file.replacement, newPaths);
-                  }, 500 * index);
-                }
-              });
+              if (fs.existsSync(path)) {
+                newPaths.push(path);
+                setTimeout(() => {
+                  replaceContent(file.regex, file.replacement, newPaths);
+                }, 500 * index);
+              }
             });
           });
         }, 8000);
@@ -164,18 +139,33 @@ readFile('./android/app/src/main/res/values/strings.xml')
             const javaFileBase = './android/app/src/main/java';
             const newJavaPath = `${javaFileBase}/${newBundleID.replace(/\./g, '/')}`;
             const currentJavaPath = `${javaFileBase}/${currentBundleID.replace(/\./g, '/')}`;
-
             const javaFiles = [`MainActivity.java`, `MainApplication.java`];
 
             if (bundleID) {
               newBundlePath = newJavaPath;
-              moveJavaFiles(javaFiles, currentJavaPath, newBundlePath);
             } else {
               newBundlePath = newBundleID.replace(/\./g, '/').toLowerCase();
               newBundlePath = `${javaFileBase}/${newBundlePath}`;
-              moveJavaFiles(javaFiles, currentJavaPath, newBundlePath);
             }
 
+            // Create new bundle folder if doesn't exist yet
+            if (!fs.existsSync(newBundlePath)) {
+              fs.mkdirSync(newBundlePath);
+            }
+
+            // Move javaFiles
+            for (const file of javaFiles) {
+              if (
+                shell.exec(`git mv ${currentJavaPath}/${file} ${newBundlePath}/${file} -f`).code ===
+                0
+              ) {
+                console.log(`${newBundlePath} ${colors.green('BUNDLE INDENTIFIER CHANGED')}`);
+              } else {
+                console.log(`ERROR: git mv ${currentJavaPath}/${file} ${newBundlePath}/${file} -f`);
+              }
+            }
+
+            // Modify file content from ./config/bundleIdentifiers.js
             setTimeout(function() {
               bundleIdentifiers(
                 currentAppName,
@@ -187,14 +177,12 @@ readFile('./android/app/src/main/res/values/strings.xml')
               ).map(file => {
                 file.paths.map((path, index) => {
                   const newPaths = [];
-                  pathExists(path).then(exists => {
-                    if (exists) {
-                      newPaths.push(path);
-                      setTimeout(() => {
-                        replaceContent(file.regex, file.replacement, newPaths);
-                      }, 500 * index);
-                    }
-                  });
+                  if (fs.existsSync(path)) {
+                    newPaths.push(path);
+                    setTimeout(() => {
+                      replaceContent(file.regex, file.replacement, newPaths);
+                    }, 500 * index);
+                  }
                 });
               });
             }, 2000);
