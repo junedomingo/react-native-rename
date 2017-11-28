@@ -1,11 +1,12 @@
 {
   "name": "react-native-rename",
-  "version": "2.1.9",
+  "version": "2.2.0",
   "description": "Rename react-native app with just one command",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "babel src --out-dir lib",
+    "relink": "sudo npm unlink && sudo npm run prepublish && sudo npm link",
     "format": "prettier --write '**/*.{js,jsx}'",
     "lint": "eslint '**/*.{js,jsx}'",
     "precommit": "lint-staged"
