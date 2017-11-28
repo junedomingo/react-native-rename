@@ -15,8 +15,8 @@ import { foldersAndFiles } from './config/foldersAndFiles';
 import { filesToModifyContent } from './config/filesToModifyContent';
 import { bundleIdentifiers } from './config/bundleIdentifiers';
 
-const testRNProject = ''; // For Development eg '/Users/junedomingo/Desktop/RN49'
-const __dirname = testRNProject || process.cwd();
+const devTestRNProject = ''; // For Development eg '/Users/junedomingo/Desktop/RN49'
+const __dirname = devTestRNProject || process.cwd();
 const projectName = pjson.name;
 const replaceOptions = {
   recursive: true,
@@ -46,8 +46,10 @@ function replaceContent(regex, replacement, paths) {
 }
 
 const deletePreviousBundleDirectory = dir => {
+  dir = dir.replace(/\./g, '/');
   const deleteDirectory = shell.rm('-rf', dir);
   Promise.resolve(deleteDirectory);
+  console.log('Done removing previous bundle directory.'.green);
 };
 
 const cleanBuilds = () => {
@@ -57,8 +59,8 @@ const cleanBuilds = () => {
     path.join(__dirname, 'android/app/build/*'),
     path.join(__dirname, 'android/build/*'),
   ]);
-
   Promise.resolve(deleteDirectories);
+  console.log('Done removing builds.'.green);
 };
 
 readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
@@ -112,16 +114,17 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
               itemsProcessed += index;
 
               if (fs.existsSync(path.join(__dirname, element)) || !fs.existsSync(path.join(__dirname, element))) {
-                if (!fs.existsSync(path.join(__dirname, dest))) {
+                // don't run this in production
+                if (devTestRNProject.length && !fs.existsSync(path.join(__dirname, dest))) {
                   shell.mkdir('-p', dest);
                 }
 
-                const move = testRNProject.length
-                  ? shell.mv('-f', path.join(__dirname, element), path.join(__dirname, dest)).code === 0
-                  : shell.exec(`git mv ${path.join(__dirname, element)} ${path.join(__dirname, dest)}`).code === 0;
+                const move = devTestRNProject.length
+                  ? shell.mv('-f', path.join(__dirname, element), path.join(__dirname, dest)).code === 0 // for development
+                  : shell.exec(`git mv ${path.join(__dirname, element)} ${path.join(__dirname, dest)}`).code === 0; // for production
 
                 if (move) {
-                  console.log(`${dest} ${colors.green('RENAMED')}`);
+                  console.log(`/${dest} ${colors.green('RENAMED')}`);
                 } else {
                   console.log("Ignore above error if this file doesn't exist");
                 }
@@ -130,7 +133,7 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
               if (itemsProcessed === listOfFoldersAndFiles.length) {
                 resolve();
               }
-            }, 100 * index);
+            }, 200 * index);
           });
         });
 
@@ -153,7 +156,7 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
                     if (itemsProcessed === filePathsCount) {
                       resolve();
                     }
-                  }, 100 * index);
+                  }, 200 * index);
                 }
               });
             });
@@ -178,14 +181,15 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
               }
 
               // Create new bundle folder if doesn't exist yet
-              if (!fs.existsSync(path.join(__dirname, newBundlePath)))
+              if (!fs.existsSync(path.join(__dirname, newBundlePath))) {
                 shell.mkdir('-p', path.join(__dirname, newBundlePath));
+              }
 
               // Move javaFiles
               let itemsProcessed = 0;
               for (const file of javaFiles) {
                 itemsProcessed++;
-                const move = testRNProject.length
+                const move = devTestRNProject.length
                   ? shell.mv(
                       '-f',
                       path.join(__dirname, currentJavaPath, file),
@@ -231,10 +235,10 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
                       itemsProcessed += index;
                       replaceContent(file.regex, file.replacement, newPaths);
                       if (itemsProcessed === filePathsCount) {
-                        const oldBundleNameDir = path.join(__dirname, javaFileBase, currentBundleID).replace('.', '/');
+                        const oldBundleNameDir = path.join(__dirname, javaFileBase, currentBundleID);
                         resolve(oldBundleNameDir);
                       }
-                    }, 100 * index);
+                    }, 200 * index);
                   }
                 });
               }
@@ -248,7 +252,7 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
             .then(resolveBundleIdentifiers)
             .then(deletePreviousBundleDirectory)
             .then(cleanBuilds)
-            .then(() => console.log('APP SUCCESSFULLY RENAMED!'))
+            .then(() => console.log(`APP SUCCESSFULLY RENAMED TO "${newName}"! 🎉 🎉 🎉`.green))
             .then(() =>
               console.log(
                 `${colors.yellow(
