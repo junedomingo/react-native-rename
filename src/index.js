@@ -121,7 +121,7 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
 
                 const move = devTestRNProject.length
                   ? shell.mv('-f', path.join(__dirname, element), path.join(__dirname, dest)).code === 0 // for development
-                  : shell.exec(`git mv ${path.join(__dirname, element)} ${path.join(__dirname, dest)}`).code === 0; // for production
+                  : shell.exec(`git mv "${path.join(__dirname, element)}" "${path.join(__dirname, dest)}"`).code === 0; // for production
 
                 if (move) {
                   console.log(`/${dest} ${colors.green('RENAMED')}`);
@@ -196,16 +196,16 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
                       path.join(__dirname, newBundlePath, file)
                     ).code === 0
                   : shell.exec(
-                      `git mv ${path.join(__dirname, currentJavaPath, file)} ${path.join(
+                      `git mv "${path.join(__dirname, currentJavaPath, file)}" "${path.join(
                         __dirname,
                         newBundlePath,
                         file
-                      )} -f`
+                      )}" -f`
                     ).code === 0;
                 if (move) {
                   console.log(`${newBundlePath} ${colors.green('BUNDLE INDENTIFIER CHANGED')}`);
                 } else {
-                  console.log(`ERROR: git mv ${currentJavaPath}/${file} ${newBundlePath}/${file} -f`);
+                  console.log(`ERROR: git mv "${currentJavaPath}/${file}" "${newBundlePath}/${file}" -f`);
                 }
 
                 if (itemsProcessed === javaFiles.length) {
