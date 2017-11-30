@@ -9,6 +9,7 @@
     "relink": "sudo npm unlink && sudo npm run prepublish && sudo npm link",
     "format": "prettier --write '**/*.{js,jsx}'",
     "lint": "eslint '**/*.{js,jsx}'",
+    "react-native-rename": "babel-node src/index.js",
     "precommit": "lint-staged"
   },
   "lint-staged": {
