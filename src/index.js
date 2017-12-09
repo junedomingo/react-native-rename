@@ -261,6 +261,13 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
             .then(deletePreviousBundleDirectory)
             .then(cleanBuilds)
             .then(() => console.log(`APP SUCCESSFULLY RENAMED TO "${newName}"! 🎉 🎉 🎉`.green))
+            .then(() => {
+              if (fs.existsSync(path.join(__dirname, 'ios', 'Podfile'))) {
+                console.log(
+                  `${colors.yellow('Podfile has been modified, please run "pod install" inside ios directory.')}`
+                );
+              }
+            })
             .then(() =>
               console.log(
                 `${colors.yellow(
