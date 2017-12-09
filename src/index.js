@@ -109,24 +109,25 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
           listOfFoldersAndFiles.forEach((element, index) => {
             const dest = element.replace(new RegExp(nS_CurrentAppName, 'gi'), nS_NewName);
             let itemsProcessed = 1;
+            const successMsg = `/${dest} ${colors.green('RENAMED')}`;
 
             setTimeout(() => {
               itemsProcessed += index;
 
               if (fs.existsSync(path.join(__dirname, element)) || !fs.existsSync(path.join(__dirname, element))) {
-                // don't run this in production
-                if (devTestRNProject.length && !fs.existsSync(path.join(__dirname, dest))) {
-                  shell.mkdir('-p', dest);
-                }
+                const move = shell.exec(
+                  `git mv "${path.join(__dirname, element)}" "${path.join(__dirname, dest)}" 2>/dev/null`
+                );
 
-                const move = devTestRNProject.length
-                  ? shell.mv('-f', path.join(__dirname, element), path.join(__dirname, dest)).code === 0 // for development
-                  : shell.exec(`git mv "${path.join(__dirname, element)}" "${path.join(__dirname, dest)}"`).code === 0; // for production
-
-                if (move) {
-                  console.log(`/${dest} ${colors.green('RENAMED')}`);
-                } else {
-                  console.log("Ignore above error if this file doesn't exist");
+                if (move.code === 0) {
+                  console.log(successMsg);
+                } else if (move.code === 128) {
+                  // if "outside repository" error occured
+                  if (shell.mv('-f', path.join(__dirname, element), path.join(__dirname, dest)).code === 0) {
+                    console.log(successMsg);
+                  } else {
+                    console.log("Ignore above error if this file doesn't exist");
+                  }
                 }
               }
 
@@ -189,23 +190,30 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
               let itemsProcessed = 0;
               for (const file of javaFiles) {
                 itemsProcessed++;
-                const move = devTestRNProject.length
-                  ? shell.mv(
+                const successMsg = `${newBundlePath} ${colors.green('BUNDLE INDENTIFIER CHANGED')}`;
+                const move = shell.exec(
+                  `git mv "${path.join(__dirname, currentJavaPath, file)}" "${path.join(
+                    __dirname,
+                    newBundlePath,
+                    file
+                  )}" 2>/dev/null`
+                );
+
+                if (move === 0) {
+                  console.log(successMsg);
+                } else if (move.code === 128) {
+                  // if "outside repository" error occured
+                  if (
+                    shell.mv(
                       '-f',
                       path.join(__dirname, currentJavaPath, file),
                       path.join(__dirname, newBundlePath, file)
                     ).code === 0
-                  : shell.exec(
-                      `git mv "${path.join(__dirname, currentJavaPath, file)}" "${path.join(
-                        __dirname,
-                        newBundlePath,
-                        file
-                      )}" -f`
-                    ).code === 0;
-                if (move) {
-                  console.log(`${newBundlePath} ${colors.green('BUNDLE INDENTIFIER CHANGED')}`);
-                } else {
-                  console.log(`ERROR: git mv "${currentJavaPath}/${file}" "${newBundlePath}/${file}" -f`);
+                  ) {
+                    console.log(successMsg);
+                  } else {
+                    console.log(`Error moving: "${currentJavaPath}/${file}" "${newBundlePath}/${file}"`);
+                  }
                 }
 
                 if (itemsProcessed === javaFiles.length) {
