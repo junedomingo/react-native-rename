@@ -6,9 +6,7 @@ Rename react-native app with just one command
 
 > This package assumes that you created your react-native project using `react-native init`.
 
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/rLaZTxWeQsGAsDnqWnPDEK7u/junedomingo/react-native-rename'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/rLaZTxWeQsGAsDnqWnPDEK7u/junedomingo/react-native-rename.svg' />
-</a>
+
 
 #### Installation
 ```
