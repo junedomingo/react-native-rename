@@ -29,7 +29,7 @@ export function bundleIdentifiers(currentAppName, newName, projectName, currentB
       paths: [`${newBundlePath}/MainActivity.java`],
     },
     {
-      regex: currentBundleID,
+      regex: lC_Ns_CurrentBundleID,
       replacement: lC_Ns_NewBundleID,
       paths: [
         `ios/${nS_NewName}.xcodeproj/project.pbxproj`,
