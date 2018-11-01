@@ -105,7 +105,7 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
         // Move files and folders from ./config/foldersAndFiles.js
         const resolveFoldersAndFiles = new Promise(resolve => {
           listOfFoldersAndFiles.forEach((element, index) => {
-            const dest = element.replace(new RegExp(nS_CurrentAppName, 'gi'), nS_NewName);
+            const dest = element.replace(new RegExp(nS_CurrentAppName, 'i'), nS_NewName);
             let itemsProcessed = 1;
             const successMsg = `/${dest} ${colors.green('RENAMED')}`;
 
