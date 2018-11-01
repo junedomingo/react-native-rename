@@ -76,7 +76,7 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
       .option('-b, --bundleID [value]', 'Set custom bundle identifier eg. "com.junedomingo.travelapp"')
       .action(newName => {
         const nS_NewName = newName.replace(/\s/g, '');
-        const pattern = /^([0-9]|[a-z])+([0-9a-z\s]+)$/i;
+        const pattern = new RegExp('^([\\p{Letter}\\p{Number}])+([\\p{Letter}\\p{Number}\\s]+)$', 'u');
         const lC_Ns_NewAppName = nS_NewName.toLowerCase();
         const bundleID = program.bundleID ? program.bundleID.toLowerCase() : null;
         let newBundlePath;
