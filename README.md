@@ -6,7 +6,7 @@ Rename react-native app with just one command
 
 > This package assumes that you created your react-native project using `react-native init`.
 
-
+**Note:** This package does not attempt to properly rename build artifacts such as `ios/build` or Cocoa Pod installation targets. After renaming your project you should clean, build, and reinstall third party dependencies to get it running properly with the new name.
 
 #### Installation
 ```
@@ -16,7 +16,7 @@ npm install react-native-rename -g
 ```
 
 Switch to new branch first
->better to have back-up
+> better to have back-up
 
 ```
 git checkout -b rename-app
