@@ -45,11 +45,16 @@ function replaceContent(regex, replacement, paths) {
   }
 }
 
-const deletePreviousBundleDirectory = dir => {
-  dir = dir.replace(/\./g, '/');
-  const deleteDirectory = shell.rm('-rf', dir);
-  Promise.resolve(deleteDirectory);
-  console.log('Done removing previous bundle directory.'.green);
+const deletePreviousBundleDirectory = ({ oldBundleNameDir, shouldDelete }) => {
+  if (shouldDelete) {
+    const dir = oldBundleNameDir.replace(/\./g, '/');
+    const deleteDirectory = shell.rm('-rf', dir);
+    Promise.resolve(deleteDirectory);
+    console.log('Done removing previous bundle directory.'.green);
+  } else {
+    Promise.resolve();
+    console.log('Bundle directory was not changed. Keeping...'.yellow);
+  }
 };
 
 const cleanBuilds = () => {
@@ -188,34 +193,36 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
               let itemsProcessed = 0;
               for (const file of javaFiles) {
                 itemsProcessed++;
+                const currentFile = path.join(__dirname, currentJavaPath, file);
+                const newFile = path.join(__dirname, newBundlePath, file);
                 const successMsg = `${newBundlePath} ${colors.green('BUNDLE INDENTIFIER CHANGED')}`;
-                const move = shell.exec(
-                  `git mv "${path.join(__dirname, currentJavaPath, file)}" "${path.join(
-                    __dirname,
-                    newBundlePath,
-                    file
-                  )}" 2>/dev/null`
-                );
 
-                if (move === 0) {
-                  console.log(successMsg);
-                } else if (move.code === 128) {
-                  // if "outside repository" error occured
-                  if (
-                    shell.mv(
-                      '-f',
-                      path.join(__dirname, currentJavaPath, file),
-                      path.join(__dirname, newBundlePath, file)
-                    ).code === 0
-                  ) {
+                if (currentFile !== newFile) {
+                  const move = shell.exec(`git mv "${currentFile}" "${newFile}" 2>/dev/null`);
+
+                  if (move === 0) {
                     console.log(successMsg);
-                  } else {
-                    console.log(`Error moving: "${currentJavaPath}/${file}" "${newBundlePath}/${file}"`);
+                  } else if (move.code === 128) {
+                    // if "outside repository" error occured
+                    if (shell.mv('-f', currentFile, newFile).code === 0) {
+                      console.log(successMsg);
+                    } else {
+                      console.log(`Error moving: "${currentJavaPath}/${file}" "${newBundlePath}/${file}"`);
+                    }
                   }
+                } else {
+                  console.log(`${newFile} ${colors.yellow('Package file is identical. Skipping...')}`);
                 }
 
                 if (itemsProcessed === javaFiles.length) {
-                  const vars = { currentBundleID, newBundleID, newBundlePath, javaFileBase };
+                  const vars = {
+                    currentBundleID,
+                    newBundleID,
+                    newBundlePath,
+                    javaFileBase,
+                    currentJavaPath,
+                    newJavaPath,
+                  };
                   resolve(vars);
                 }
               }
@@ -225,7 +232,7 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
         const resolveBundleIdentifiers = params =>
           new Promise(resolve => {
             let filePathsCount = 0;
-            const { currentBundleID, newBundleID, newBundlePath, javaFileBase } = params;
+            const { currentBundleID, newBundleID, newBundlePath, javaFileBase, currentJavaPath, newJavaPath } = params;
 
             bundleIdentifiers(
               currentAppName,
@@ -248,7 +255,7 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
                     replaceContent(file.regex, file.replacement, newPaths);
                     if (itemsProcessed === filePathsCount) {
                       const oldBundleNameDir = path.join(__dirname, javaFileBase, currentBundleID);
-                      resolve(oldBundleNameDir);
+                      resolve({ oldBundleNameDir, shouldDelete: currentJavaPath !== newJavaPath });
                     }
                   }, 200 * index);
                 }
