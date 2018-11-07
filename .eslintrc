@@ -17,6 +17,7 @@
     "no-alert": 0,
     "no-console": 0,
     "no-debugger": 1,
-    "newline-before-return": "error"
+    "newline-before-return": "error",
+    "no-useless-escape": 0
   }
 }

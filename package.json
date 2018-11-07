@@ -52,11 +52,15 @@
     "presets": [
       "es2015",
       "stage-2"
+    ],
+    "plugins": [
+      "transform-unicode-property-regex"
     ]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.1",
+    "babel-plugin-transform-unicode-property-regex": "^2.0.5",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.13.0",
     "eslint": "^4.10.0",
