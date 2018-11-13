@@ -175,7 +175,6 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
               const javaFileBase = '/android/app/src/main/java';
               const newJavaPath = `${javaFileBase}/${newBundleID.replace(/\./g, '/')}`;
               const currentJavaPath = `${javaFileBase}/${currentBundleID.replace(/\./g, '/')}`;
-              const javaFiles = [`MainActivity.java`, `MainApplication.java`];
 
               if (bundleID) {
                 newBundlePath = newJavaPath;
@@ -184,48 +183,36 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
                 newBundlePath = `${javaFileBase}/${newBundlePath}`;
               }
 
-              // Create new bundle folder if doesn't exist yet
-              if (!fs.existsSync(path.join(__dirname, newBundlePath))) {
-                shell.mkdir('-p', path.join(__dirname, newBundlePath));
-              }
+              const fullCurrentBundlePath = path.join(__dirname, currentJavaPath);
+              const fullNewBundlePath = path.join(__dirname, newBundlePath);
 
-              // Move javaFiles
-              let itemsProcessed = 0;
-              for (const file of javaFiles) {
-                itemsProcessed++;
-                const currentFile = path.join(__dirname, currentJavaPath, file);
-                const newFile = path.join(__dirname, newBundlePath, file);
+              // Create new bundle folder if doesn't exist yet
+              if (!fs.existsSync(fullNewBundlePath)) {
+                shell.mkdir('-p', fullNewBundlePath);
+                const move = shell.exec(`git mv "${fullCurrentBundlePath}/"* "${fullNewBundlePath}" 2>/dev/null`);
                 const successMsg = `${newBundlePath} ${colors.green('BUNDLE INDENTIFIER CHANGED')}`;
 
-                if (currentFile !== newFile) {
-                  const move = shell.exec(`git mv "${currentFile}" "${newFile}" 2>/dev/null`);
-
-                  if (move === 0) {
+                if (move.code === 0) {
+                  console.log(successMsg);
+                } else if (move.code === 128) {
+                  // if "outside repository" error occured
+                  if (shell.mv('-f', fullCurrentBundlePath, fullNewBundlePath).code === 0) {
                     console.log(successMsg);
-                  } else if (move.code === 128) {
-                    // if "outside repository" error occured
-                    if (shell.mv('-f', currentFile, newFile).code === 0) {
-                      console.log(successMsg);
-                    } else {
-                      console.log(`Error moving: "${currentJavaPath}/${file}" "${newBundlePath}/${file}"`);
-                    }
+                  } else {
+                    console.log(`Error moving: "${currentJavaPath}" "${newBundlePath}"`);
                   }
-                } else {
-                  console.log(`${newFile} ${colors.yellow('Package file is identical. Skipping...')}`);
-                }
-
-                if (itemsProcessed === javaFiles.length) {
-                  const vars = {
-                    currentBundleID,
-                    newBundleID,
-                    newBundlePath,
-                    javaFileBase,
-                    currentJavaPath,
-                    newJavaPath,
-                  };
-                  resolve(vars);
                 }
               }
+
+              const vars = {
+                currentBundleID,
+                newBundleID,
+                newBundlePath,
+                javaFileBase,
+                currentJavaPath,
+                newJavaPath,
+              };
+              resolve(vars);
             });
           });
 
