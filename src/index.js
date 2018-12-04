@@ -45,11 +45,16 @@ function replaceContent(regex, replacement, paths) {
   }
 }
 
-const deletePreviousBundleDirectory = dir => {
-  dir = dir.replace(/\./g, '/');
-  const deleteDirectory = shell.rm('-rf', dir);
-  Promise.resolve(deleteDirectory);
-  console.log('Done removing previous bundle directory.'.green);
+const deletePreviousBundleDirectory = ({ oldBundleNameDir, shouldDelete }) => {
+  if (shouldDelete) {
+    const dir = oldBundleNameDir.replace(/\./g, '/');
+    const deleteDirectory = shell.rm('-rf', dir);
+    Promise.resolve(deleteDirectory);
+    console.log('Done removing previous bundle directory.'.green);
+  } else {
+    Promise.resolve();
+    console.log('Bundle directory was not changed. Keeping...'.yellow);
+  }
 };
 
 const cleanBuilds = () => {
@@ -71,7 +76,7 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
     const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
     program
-      .version('2.3.2')
+      .version('2.4.0')
       .arguments('<newName>')
       .option('-b, --bundleID [value]', 'Set custom bundle identifier eg. "com.junedomingo.travelapp"')
       .action(newName => {
@@ -170,7 +175,6 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
               const javaFileBase = '/android/app/src/main/java';
               const newJavaPath = `${javaFileBase}/${newBundleID.replace(/\./g, '/')}`;
               const currentJavaPath = `${javaFileBase}/${currentBundleID.replace(/\./g, '/')}`;
-              const javaFiles = [`MainActivity.java`, `MainApplication.java`];
 
               if (bundleID) {
                 newBundlePath = newJavaPath;
@@ -179,53 +183,43 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
                 newBundlePath = `${javaFileBase}/${newBundlePath}`;
               }
 
+              const fullCurrentBundlePath = path.join(__dirname, currentJavaPath);
+              const fullNewBundlePath = path.join(__dirname, newBundlePath);
+
               // Create new bundle folder if doesn't exist yet
-              if (!fs.existsSync(path.join(__dirname, newBundlePath))) {
-                shell.mkdir('-p', path.join(__dirname, newBundlePath));
-              }
-
-              // Move javaFiles
-              let itemsProcessed = 0;
-              for (const file of javaFiles) {
-                itemsProcessed++;
+              if (!fs.existsSync(fullNewBundlePath)) {
+                shell.mkdir('-p', fullNewBundlePath);
+                const move = shell.exec(`git mv "${fullCurrentBundlePath}/"* "${fullNewBundlePath}" 2>/dev/null`);
                 const successMsg = `${newBundlePath} ${colors.green('BUNDLE INDENTIFIER CHANGED')}`;
-                const move = shell.exec(
-                  `git mv "${path.join(__dirname, currentJavaPath, file)}" "${path.join(
-                    __dirname,
-                    newBundlePath,
-                    file
-                  )}" 2>/dev/null`
-                );
 
-                if (move === 0) {
+                if (move.code === 0) {
                   console.log(successMsg);
                 } else if (move.code === 128) {
                   // if "outside repository" error occured
-                  if (
-                    shell.mv(
-                      '-f',
-                      path.join(__dirname, currentJavaPath, file),
-                      path.join(__dirname, newBundlePath, file)
-                    ).code === 0
-                  ) {
+                  if (shell.mv('-f', fullCurrentBundlePath, fullNewBundlePath).code === 0) {
                     console.log(successMsg);
                   } else {
-                    console.log(`Error moving: "${currentJavaPath}/${file}" "${newBundlePath}/${file}"`);
+                    console.log(`Error moving: "${currentJavaPath}" "${newBundlePath}"`);
                   }
                 }
-
-                if (itemsProcessed === javaFiles.length) {
-                  const vars = { currentBundleID, newBundleID, newBundlePath, javaFileBase };
-                  resolve(vars);
-                }
               }
+
+              const vars = {
+                currentBundleID,
+                newBundleID,
+                newBundlePath,
+                javaFileBase,
+                currentJavaPath,
+                newJavaPath,
+              };
+              resolve(vars);
             });
           });
 
         const resolveBundleIdentifiers = params =>
           new Promise(resolve => {
             let filePathsCount = 0;
-            const { currentBundleID, newBundleID, newBundlePath, javaFileBase } = params;
+            const { currentBundleID, newBundleID, newBundlePath, javaFileBase, currentJavaPath, newJavaPath } = params;
 
             bundleIdentifiers(
               currentAppName,
@@ -248,7 +242,7 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
                     replaceContent(file.regex, file.replacement, newPaths);
                     if (itemsProcessed === filePathsCount) {
                       const oldBundleNameDir = path.join(__dirname, javaFileBase, currentBundleID);
-                      resolve(oldBundleNameDir);
+                      resolve({ oldBundleNameDir, shouldDelete: currentJavaPath !== newJavaPath });
                     }
                   }, 200 * index);
                 }
