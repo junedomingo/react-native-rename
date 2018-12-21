@@ -97,7 +97,7 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
             );
         }
 
-        if (!pattern.test(newName)) {
+        if (!bundleID && !pattern.test(newName)) {
           return console.log(
             `"${newName}" is not a valid name for a project. Please use a valid identifier name (alphanumeric and space).`
           );
