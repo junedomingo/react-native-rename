@@ -196,7 +196,7 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
                   console.log(successMsg);
                 } else if (move.code === 128) {
                   // if "outside repository" error occured
-                  if (shell.mv('-f', fullCurrentBundlePath, fullNewBundlePath).code === 0) {
+                  if (shell.mv('-f', fullCurrentBundlePath + '/*', fullNewBundlePath).code === 0) {
                     console.log(successMsg);
                   } else {
                     console.log(`Error moving: "${currentJavaPath}" "${newBundlePath}"`);
