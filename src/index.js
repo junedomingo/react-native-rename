@@ -95,11 +95,9 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
             return console.log(
               'Invalid Bundle Identifier. Add something like "com.travelapp" or "com.junedomingo.travelapp"'
             );
-        }
-
-        if (!pattern.test(newName)) {
+        } else if (!pattern.test(newName)) {
           return console.log(
-            `"${newName}" is not a valid name for a project. Please use a valid identifier name (alphanumeric and space).`
+            `"${newName}" is not a valid name for a project. Please use a valid identifier name (alphanumeric and space) or specify a custom bundleId`
           );
         }
 
