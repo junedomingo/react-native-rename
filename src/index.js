@@ -94,10 +94,15 @@ loadAppConfig()
         if (bundleID) {
           newBundlePath = bundleID.replace(/\./g, '/');
           const id = bundleID.split('.');
-          if (id.length < 2)
+          const validBundleID = /^([a-zA-Z]([a-zA-Z0-9_])*\.)+[a-zA-Z]([a-zA-Z0-9_])*$/u;
+          if (id.length < 2) {
             return console.log(
               'Invalid Bundle Identifier. Add something like "com.travelapp" or "com.junedomingo.travelapp"'
             );
+          }
+          if (!validBundleID.test(bundleID)) {
+            return console.log('Invalid Bundle Identifier. It must have at least two segments (one or more dots). Each segment must start with a letter. All characters must be alphanumeric or an underscore [a-zA-Z0-9_]')
+          }
         }
 
         if (!pattern.test(newName)) {
