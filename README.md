@@ -8,37 +8,37 @@ Rename react-native app with just one command
 
 **Note:** This package does not attempt to properly rename build artifacts such as `ios/build` or Cocoa Pod installation targets. After renaming your project you should clean, build, and reinstall third party dependencies to get it running properly with the new name.
 
-#### Installation
-```
-yarn global add react-native-rename
-or
-npm install react-native-rename -g
-```
-
-Switch to new branch first
-> better to have back-up
-
+#### Switch to new branch (recommended)
 ```
 git checkout -b rename-app
 ```
 
 #### Usage
 ```
-react-native-rename <newName>
+npx react-native-rename <newName>
 ```
 
 > With custom Bundle Identifier (Android only. For iOS, please use Xcode)
 ```
-react-native-rename <newName> -b <bundleIdentifier>
+npx react-native-rename <newName> -b <bundleIdentifier>
 ```
 
 #### Example
 ```
-react-native-rename "Travel App"
+npx react-native-rename "Travel App"
 ```
 > With custom Bundle Identifier
 ```
-react-native-rename "Travel App" -b com.junedomingo.travelapp
+npx react-native-rename "Travel App" -b com.junedomingo.travelapp
+```
+
+#### Installation
+```
+yarn global add react-native-rename
+
+# or
+
+npm install react-native-rename -g
 ```
 
 <a href="https://www.buymeacoffee.com/junedomingo"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;"  target="_blank"></a>
