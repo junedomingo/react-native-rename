@@ -10,35 +10,36 @@ Rename react-native app with just one command
 
 #### Switch to new branch (recommended)
 ```
-git checkout -b rename-app
+$ git checkout -b rename-app
 ```
 
 #### Usage
 ```
-npx react-native-rename <newName>
+$ npx react-native-rename <newName>
 ```
 
 > With custom Bundle Identifier (Android only. For iOS, please use Xcode)
 ```
-npx react-native-rename <newName> -b <bundleIdentifier>
+$ npx react-native-rename <newName> -b <bundleIdentifier>
 ```
 
 #### Example
 ```
-npx react-native-rename "Travel App"
+$ npx react-native-rename "Travel App"
 ```
 > With custom Bundle Identifier
 ```
-npx react-native-rename "Travel App" -b com.junedomingo.travelapp
+$ npx react-native-rename "Travel App" -b com.junedomingo.travelapp
 ```
 
-#### Installation
+#### Local installation
+With **Yarn**:
 ```
-yarn global add react-native-rename
-
-# or
-
-npm install react-native-rename -g
+$ yarn global add react-native-rename
+```
+With **npm**:
+```
+$ npm install react-native-rename -g
 ```
 
 <a href="https://www.buymeacoffee.com/junedomingo"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;"  target="_blank"></a>
