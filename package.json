@@ -46,6 +46,7 @@
     "colors": "^1.1.2",
     "commander": "^2.9.0",
     "node-replace": "^0.3.3",
+    "replace-last": "^1.2.6",
     "shelljs": "^0.7.7"
   },
   "babel": {
