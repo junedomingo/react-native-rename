@@ -26,11 +26,11 @@ $ git checkout -b rename-app
 ```
 ##### Then, Rename your app
 ```
-$ npx react-native-rename "Travel App"
+$ npx react-native-rename Travel App
 ```
 > With custom Bundle Identifier
 ```
-$ npx react-native-rename "Travel App" -b com.junedomingo.travelapp
+$ npx react-native-rename Travel App -b com.junedomingo.travelapp
 ```
 
 ### Local installation
