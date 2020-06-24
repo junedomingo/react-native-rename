@@ -1,7 +1,7 @@
 // nS - No Space
 // lC - Lowercase
 
-export function filesToModifyContent(currentAppName, newName) {
+export function filesToModifyContent(currentAppName, newName, bundleID) {
   const nS_CurrentAppName = currentAppName.replace(/\s/g, '');
   const nS_NewName = newName.replace(/\s/g, '');
 
@@ -38,6 +38,11 @@ export function filesToModifyContent(currentAppName, newName) {
     {
       regex: currentAppName,
       replacement: newName,
+      paths: [`ios/${nS_NewName}/Info.plist`],
+    },
+    {
+      regex: /\$\(PRODUCT_BUNDLE_IDENTIFIER\)/,
+      replacement: bundleID,
       paths: [`ios/${nS_NewName}/Info.plist`],
     },
     {

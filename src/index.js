@@ -77,16 +77,15 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
 
     program
       .version('2.4.1')
-      .arguments('<newName>')
+      .arguments('<newName> <bundleID>')
       .option('-b, --bundleID [value]', 'Set custom bundle identifier eg. "com.junedomingo.travelapp"')
-      .action(newName => {
+      .action((newName, bundleID) => {
         const nS_NewName = newName.replace(/\s/g, '');
         const pattern = /^([\p{Letter}\p{Number}])+([\p{Letter}\p{Number}\s]+)$/u;
         const lC_Ns_NewAppName = nS_NewName.toLowerCase();
-        const bundleID = program.bundleID ? program.bundleID.toLowerCase() : null;
         let newBundlePath;
         const listOfFoldersAndFiles = foldersAndFiles(currentAppName, newName);
-        const listOfFilesToModifyContent = filesToModifyContent(currentAppName, newName, projectName);
+        const listOfFilesToModifyContent = filesToModifyContent(currentAppName, newName, bundleID);
 
         if (bundleID) {
           newBundlePath = bundleID.replace(/\./g, '/');
@@ -171,7 +170,7 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
             readFile(path.join(__dirname, 'android/app/src/main/AndroidManifest.xml')).then(data => {
               const $ = cheerio.load(data);
               const currentBundleID = $('manifest').attr('package');
-              const newBundleID = program.bundleID ? bundleID : `com.${lC_Ns_NewAppName}`;
+              const newBundleID = bundleID ? bundleID : `com.${lC_Ns_NewAppName}`;
               const javaFileBase = '/android/app/src/main/java';
               const newJavaPath = `${javaFileBase}/${newBundleID.replace(/\./g, '/')}`;
               const currentJavaPath = `${javaFileBase}/${currentBundleID.replace(/\./g, '/')}`;
@@ -221,33 +220,28 @@ readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
             let filePathsCount = 0;
             const { currentBundleID, newBundleID, newBundlePath, javaFileBase, currentJavaPath, newJavaPath } = params;
 
-            bundleIdentifiers(
-              currentAppName,
-              newName,
-              projectName,
-              currentBundleID,
-              newBundleID,
-              newBundlePath
-            ).map(file => {
-              filePathsCount += file.paths.length - 1;
-              let itemsProcessed = 0;
+            bundleIdentifiers(currentAppName, newName, projectName, currentBundleID, newBundleID, newBundlePath).map(
+              file => {
+                filePathsCount += file.paths.length - 1;
+                let itemsProcessed = 0;
 
-              file.paths.map((filePath, index) => {
-                const newPaths = [];
-                if (fs.existsSync(path.join(__dirname, filePath))) {
-                  newPaths.push(path.join(__dirname, filePath));
+                file.paths.map((filePath, index) => {
+                  const newPaths = [];
+                  if (fs.existsSync(path.join(__dirname, filePath))) {
+                    newPaths.push(path.join(__dirname, filePath));
 
-                  setTimeout(() => {
-                    itemsProcessed += index;
-                    replaceContent(file.regex, file.replacement, newPaths);
-                    if (itemsProcessed === filePathsCount) {
-                      const oldBundleNameDir = path.join(__dirname, javaFileBase, currentBundleID);
-                      resolve({ oldBundleNameDir, shouldDelete: currentJavaPath !== newJavaPath });
-                    }
-                  }, 200 * index);
-                }
-              });
-            });
+                    setTimeout(() => {
+                      itemsProcessed += index;
+                      replaceContent(file.regex, file.replacement, newPaths);
+                      if (itemsProcessed === filePathsCount) {
+                        const oldBundleNameDir = path.join(__dirname, javaFileBase, currentBundleID);
+                        resolve({ oldBundleNameDir, shouldDelete: currentJavaPath !== newJavaPath });
+                      }
+                    }, 200 * index);
+                  }
+                });
+              }
+            );
           });
 
         const rename = () => {
