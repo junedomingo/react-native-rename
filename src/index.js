@@ -68,10 +68,13 @@ const cleanBuilds = () => {
   console.log('Done removing builds.'.green);
 };
 
-readFile(path.join(__dirname, 'android/app/src/main/res/values/strings.xml'))
-  .then(data => {
-    const $ = cheerio.load(data);
-    const currentAppName = $('string[name=app_name]').text();
+const loadAppConfig = () => {
+  return readFile(path.join(__dirname, 'app.json')).then(data => JSON.parse(data));
+}
+
+loadAppConfig()
+  .then(appConfig => {
+    const currentAppName = appConfig.name;
     const nS_CurrentAppName = currentAppName.replace(/\s/g, '');
     const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
