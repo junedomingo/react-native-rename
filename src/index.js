@@ -68,12 +68,10 @@ const cleanBuilds = () => {
   console.log('Done removing builds.'.green);
 };
 
-const loadAppConfig = () => {
-  return readFile(path.join(__dirname, 'app.json')).then(data => JSON.parse(data));
-}
+const loadAppConfig = () => readFile(path.join(__dirname, 'app.json')).then((data) => JSON.parse(data));
 
 loadAppConfig()
-  .then(appConfig => {
+  .then((appConfig) => {
     const currentAppName = appConfig.name;
     const nS_CurrentAppName = currentAppName.replace(/\s/g, '');
     const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
@@ -82,7 +80,7 @@ loadAppConfig()
       .version('2.4.1')
       .arguments('<newName>')
       .option('-b, --bundleID [value]', 'Set custom bundle identifier eg. "com.junedomingo.travelapp"')
-      .action(newName => {
+      .action((newName) => {
         const nS_NewName = newName.replace(/\s/g, '');
         const pattern = /^([\p{Letter}\p{Number}])+([\p{Letter}\p{Number}\s]+)$/u;
         const lC_Ns_NewAppName = nS_NewName.toLowerCase();
@@ -101,7 +99,9 @@ loadAppConfig()
             );
           }
           if (!validBundleID.test(bundleID)) {
-            return console.log('Invalid Bundle Identifier. It must have at least two segments (one or more dots). Each segment must start with a letter. All characters must be alphanumeric or an underscore [a-zA-Z0-9_]')
+            return console.log(
+              'Invalid Bundle Identifier. It must have at least two segments (one or more dots). Each segment must start with a letter. All characters must be alphanumeric or an underscore [a-zA-Z0-9_]'
+            );
           }
         }
 
@@ -116,7 +116,7 @@ loadAppConfig()
         }
 
         // Move files and folders from ./config/foldersAndFiles.js
-        const resolveFoldersAndFiles = new Promise(resolve => {
+        const resolveFoldersAndFiles = new Promise((resolve) => {
           listOfFoldersAndFiles.forEach((element, index) => {
             const dest = element.replace(new RegExp(nS_CurrentAppName, 'i'), nS_NewName);
             let itemsProcessed = 1;
@@ -151,10 +151,10 @@ loadAppConfig()
 
         // Modify file content from ./config/filesToModifyContent.js
         const resolveFilesToModifyContent = () =>
-          new Promise(resolve => {
+          new Promise((resolve) => {
             let filePathsCount = 0;
             let itemsProcessed = 0;
-            listOfFilesToModifyContent.map(file => {
+            listOfFilesToModifyContent.map((file) => {
               filePathsCount += file.paths.length;
 
               file.paths.map((filePath, index) => {
@@ -175,8 +175,8 @@ loadAppConfig()
           });
 
         const resolveJavaFiles = () =>
-          new Promise(resolve => {
-            readFile(path.join(__dirname, 'android/app/src/main/AndroidManifest.xml')).then(data => {
+          new Promise((resolve) => {
+            readFile(path.join(__dirname, 'android/app/src/main/AndroidManifest.xml')).then((data) => {
               const $ = cheerio.load(data);
               const currentBundleID = $('manifest').attr('package');
               const newBundleID = program.bundleID ? bundleID : `com.${lC_Ns_NewAppName}`;
@@ -224,38 +224,33 @@ loadAppConfig()
             });
           });
 
-        const resolveBundleIdentifiers = params =>
-          new Promise(resolve => {
+        const resolveBundleIdentifiers = (params) =>
+          new Promise((resolve) => {
             let filePathsCount = 0;
             const { currentBundleID, newBundleID, newBundlePath, javaFileBase, currentJavaPath, newJavaPath } = params;
 
-            bundleIdentifiers(
-              currentAppName,
-              newName,
-              projectName,
-              currentBundleID,
-              newBundleID,
-              newBundlePath
-            ).map(file => {
-              filePathsCount += file.paths.length - 1;
-              let itemsProcessed = 0;
+            bundleIdentifiers(currentAppName, newName, projectName, currentBundleID, newBundleID, newBundlePath).map(
+              (file) => {
+                filePathsCount += file.paths.length - 1;
+                let itemsProcessed = 0;
 
-              file.paths.map((filePath, index) => {
-                const newPaths = [];
-                if (fs.existsSync(path.join(__dirname, filePath))) {
-                  newPaths.push(path.join(__dirname, filePath));
+                file.paths.map((filePath, index) => {
+                  const newPaths = [];
+                  if (fs.existsSync(path.join(__dirname, filePath))) {
+                    newPaths.push(path.join(__dirname, filePath));
 
-                  setTimeout(() => {
-                    itemsProcessed += index;
-                    replaceContent(file.regex, file.replacement, newPaths);
-                    if (itemsProcessed === filePathsCount) {
-                      const oldBundleNameDir = path.join(__dirname, javaFileBase, currentBundleID);
-                      resolve({ oldBundleNameDir, shouldDelete: currentJavaPath !== newJavaPath });
-                    }
-                  }, 200 * index);
-                }
-              });
-            });
+                    setTimeout(() => {
+                      itemsProcessed += index;
+                      replaceContent(file.regex, file.replacement, newPaths);
+                      if (itemsProcessed === filePathsCount) {
+                        const oldBundleNameDir = path.join(__dirname, javaFileBase, currentBundleID);
+                        resolve({ oldBundleNameDir, shouldDelete: currentJavaPath !== newJavaPath });
+                      }
+                    }, 200 * index);
+                  }
+                });
+              }
+            );
           });
 
         const rename = () => {
@@ -287,7 +282,7 @@ loadAppConfig()
       .parse(process.argv);
     if (!process.argv.slice(2).length) program.outputHelp();
   })
-  .catch(err => {
+  .catch((err) => {
     if (err.code === 'ENOENT') return console.log('Directory should be created using "react-native init"');
 
     return console.log('Something went wrong: ', err);
