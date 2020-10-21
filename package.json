@@ -7,15 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "babel src --out-dir lib",
     "relink": "sudo npm unlink && sudo npm run prepublish && sudo npm link",
-    "format": "prettier --write '**/*.{js,jsx}' --loglevel 'silent'",
-    "lint": "eslint '**/*.{js,jsx}'",
+    "format": "prettier --write 'src/**/*.{js,jsx}'",
+    "lint": "eslint 'src/**/*.{js,jsx}'",
     "react-native-rename": "babel-node src/index.js",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "**/*.js": [
-      "format",
-      "lint --fix"
+    "src/**/*.js": [
+      "prettier --write",
+      "eslint --fix"
     ]
   },
   "husky": {
