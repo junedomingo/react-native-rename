@@ -127,7 +127,7 @@ loadAppConfig()
 
               if (fs.existsSync(path.join(__dirname, element)) || !fs.existsSync(path.join(__dirname, element))) {
                 const move = shell.exec(
-                  `git mv "${path.join(__dirname, element)}" "${path.join(__dirname, dest)}" 2>/dev/null`
+                  `git mv -k "${path.join(__dirname, element)}" "${path.join(__dirname, dest)}"`
                 );
 
                 if (move.code === 0) {
@@ -197,7 +197,7 @@ loadAppConfig()
               // Create new bundle folder if doesn't exist yet
               if (!fs.existsSync(fullNewBundlePath)) {
                 shell.mkdir('-p', fullNewBundlePath);
-                const move = shell.exec(`git mv "${fullCurrentBundlePath}/"* "${fullNewBundlePath}" 2>/dev/null`);
+                const move = shell.exec(`git mv -k "${fullCurrentBundlePath}/"* "${fullNewBundlePath}"`);
                 const successMsg = `${newBundlePath} ${colors.green('BUNDLE INDENTIFIER CHANGED')}`;
 
                 if (move.code === 0) {
@@ -250,7 +250,7 @@ loadAppConfig()
                     replaceContent(file.regex, file.replacement, newPaths);
                     if (itemsProcessed === filePathsCount) {
                       const oldBundleNameDir = path.join(__dirname, javaFileBase, currentBundleID);
-                      resolve({ oldBundleNameDir, shouldDelete: currentJavaPath !== newJavaPath });
+                      resolve({ oldBundleNameDir, shouldDelete: !newJavaPath.includes(currentJavaPath) });
                     }
                   }, 200 * index);
                 }
