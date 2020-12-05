@@ -18,6 +18,7 @@ import { bundleIdentifiers } from './config/bundleIdentifiers';
 const devTestRNProject = ''; // For Development eg '/Users/junedomingo/Desktop/RN49'
 const __dirname = devTestRNProject || process.cwd();
 const projectName = pjson.name;
+const projectVersion = pjson.version;
 const replaceOptions = {
   recursive: true,
   silent: true,
@@ -79,7 +80,7 @@ loadAppConfig()
     const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
     program
-      .version('2.4.1')
+      .version(projectVersion)
       .arguments('<newName>')
       .option('-b, --bundleID [value]', 'Set custom bundle identifier eg. "com.junedomingo.travelapp"')
       .action(newName => {
