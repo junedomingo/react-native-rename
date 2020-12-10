@@ -180,7 +180,7 @@ loadAppConfig()
             readFile(path.join(__dirname, 'android/app/src/main/AndroidManifest.xml')).then(data => {
               const $ = cheerio.load(data);
               const currentBundleID = $('manifest').attr('package');
-              const newBundleID = program.bundleID ? bundleID : `com.${lC_Ns_NewAppName}`;
+              const newBundleID = program.bundleID ? bundleID : currentBundleID;
               const javaFileBase = '/android/app/src/main/java';
               const newJavaPath = `${javaFileBase}/${newBundleID.replace(/\./g, '/')}`;
               const currentJavaPath = `${javaFileBase}/${currentBundleID.replace(/\./g, '/')}`;
