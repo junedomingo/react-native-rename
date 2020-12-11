@@ -3,7 +3,6 @@
 // nS - No Space
 // lC - Lowercase
 
-import cheerio from 'cheerio';
 import colors from 'colors';
 import fs from 'fs';
 import program from 'commander';
@@ -14,7 +13,9 @@ import path from 'path';
 import { foldersAndFiles } from './config/foldersAndFiles';
 import { filesToModifyContent } from './config/filesToModifyContent';
 import { bundleIdentifiers } from './config/bundleIdentifiers';
+import { loadAppConfig, loadAndroidManifest } from './utils'
 
+const androidEnvs = ['main', 'debug'];
 const devTestRNProject = ''; // For Development eg '/Users/junedomingo/Desktop/RN49'
 const __dirname = devTestRNProject || process.cwd();
 const projectName = pjson.name;
@@ -23,15 +24,6 @@ const replaceOptions = {
   recursive: true,
   silent: true,
 };
-
-function readFile(filePath) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(filePath, (err, data) => {
-      if (err) reject(err);
-      resolve(data);
-    });
-  });
-}
 
 function replaceContent(regex, replacement, paths) {
   replace({
@@ -59,9 +51,6 @@ const cleanBuilds = () => {
   return Promise.resolve(deleteDirectories);
 };
 
-const loadAppConfig = () => readFile(path.join(__dirname, 'app.json')).then(data => JSON.parse(data));
-
-const readAndroidManifest = () => readFile(path.join(__dirname, 'android/app/src/main/AndroidManifest.xml'));
 
 loadAppConfig()
   .then(appConfig => {
@@ -164,10 +153,6 @@ loadAppConfig()
             });
           });
 
-
-        const androidEnvs = ['main', 'debug'];
-
-
         const resolveBundleIdentifiers = params => {
           const { currentBundleID, newBundleID, newBundlePath } = params;
 
@@ -197,14 +182,12 @@ loadAppConfig()
 
         const resolveJavaFiles = () =>
           new Promise(resolve => {
-            readAndroidManifest().then(data => {
-              const $ = cheerio.load(data);
-              const currentBundleID = $('manifest').attr('package');
+            loadAndroidManifest().then($data => {
+              const currentBundleID = $data('manifest').attr('package');
               const newBundleID = program.bundleID ? bundleID : currentBundleID;
 
-
               const promises = androidEnvs.map(env => {
-                return new Promise(res => {
+                return new Promise(envResolve => {
                   const javaFileBase = `android/app/src/${env}/java`;
 
                   const newJavaPath = `${javaFileBase}/${newBundleID.replace(/\./g, '/')}`;
@@ -254,27 +237,18 @@ loadAppConfig()
                     newJavaPath,
                   };
 
-                  console.log(vars);
-
-                  // res()
-
-                  resolveBundleIdentifiers(vars).then(res);
-
-                  // res()
+                  return resolveBundleIdentifiers(vars).then(envResolve);
                 })
               })
 
-              Promise.all(promises).then(resolve);
-              // resolve(vars);
+              return Promise.all(promises).then(resolve);
             });
           });
-
 
         const rename = () => {
           resolveFoldersAndFiles
             .then(resolveFilesToModifyContent)
             .then(resolveJavaFiles)
-            // .then(resolveBundleIdentifiers)
             .then(cleanBuilds)
             .then(() => console.log(`APP SUCCESSFULLY RENAMED TO "${newName}"! 🎉 🎉 🎉`.green))
             .then(() => {
