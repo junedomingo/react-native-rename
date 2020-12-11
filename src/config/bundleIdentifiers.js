@@ -2,7 +2,7 @@
 // lC - Lowercase
 import globby from "globby";
 
-export function bundleIdentifiers(currentAppName, newName, projectName, currentBundleID, newBundleID, newBundlePath) {
+export function bundleIdentifiers({ currentAppName, newName, currentBundleID, newBundleID, newBundlePath }) {
   const nS_CurrentAppName = currentAppName.replace(/\s/g, '');
   const nS_NewName = newName.replace(/\s/g, '');
 
@@ -15,7 +15,7 @@ export function bundleIdentifiers(currentAppName, newName, projectName, currentB
     {
       regex: currentBundleID,
       replacement: newBundleID,
-      paths: globby.sync(['android/app/src/**/*.java'])
+      paths: globby.sync([`${newBundlePath}/**/*.java`])
     },
     {
       // App name (probably) doesn't start with `.`, but the bundle ID will
