@@ -13,11 +13,9 @@ import path from 'path';
 import { foldersAndFiles } from './config/foldersAndFiles';
 import { filesToModifyContent } from './config/filesToModifyContent';
 import { bundleIdentifiers } from './config/bundleIdentifiers';
-import { loadAppConfig, loadAndroidManifest } from './utils'
+import { loadAppConfig, loadAndroidManifest, __dirname } from './utils'
 
 const androidEnvs = ['main', 'debug'];
-const devTestRNProject = ''; // For Development eg '/Users/junedomingo/Desktop/RN49'
-const __dirname = devTestRNProject || process.cwd();
 const projectName = pjson.name;
 const projectVersion = pjson.version;
 const replaceOptions = {
@@ -163,19 +161,14 @@ loadAppConfig()
             currentBundleID,
             newBundleID,
             newBundlePath
-          }).map(file => new Promise(resolve => {
-            file.paths.map((filePath, index) => {
-              const newPaths = [];
-              if (fs.existsSync(path.join(__dirname, filePath))) {
-                newPaths.push(path.join(__dirname, filePath));
-
-                setTimeout(() => {
-                  replaceContent(file.regex, file.replacement, newPaths);
-                  resolve();
-                }, 200 * index);
-              }
-            });
-          }));
+          }).map(file => Promise.all(file.paths.map((filePath) => new Promise(resolve => {
+            const newPaths = [];
+            if (fs.existsSync(path.join(__dirname, filePath))) {
+              newPaths.push(path.join(__dirname, filePath));
+              replaceContent(file.regex, file.replacement, newPaths);
+            }
+            resolve();
+          }))));
 
           return Promise.all(promises);
         }

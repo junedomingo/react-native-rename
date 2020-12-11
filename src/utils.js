@@ -2,6 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import cheerio from 'cheerio';
 
+const devTestRNProject = ''; // For Development eg '/Users/junedomingo/Desktop/RN49'
+export const __dirname = devTestRNProject || process.cwd();
+
 function readFile(filePath) {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, (err, data) => {
