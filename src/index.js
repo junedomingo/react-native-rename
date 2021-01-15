@@ -54,13 +54,13 @@ loadAppConfig()
   .then(appConfig => {
     const currentAppName = appConfig.name;
     const nS_CurrentAppName = currentAppName.replace(/\s/g, '');
-    const lC_Ns_CurrentAppName = nS_CurrentAppName.toLowerCase();
 
     program
       .version(projectVersion)
-      .arguments('<newName>')
+      .arguments('[newName]')
       .option('-b, --bundleID [value]', 'Set custom bundle identifier eg. "com.junedomingo.travelapp"')
-      .action(newName => {
+      .action((argName) => {
+        const newName = argName || currentAppName;
         const nS_NewName = newName.replace(/\s/g, '');
         const pattern = /^([\p{Letter}\p{Number}])+([\p{Letter}\p{Number}\s]+)$/u;
         const bundleID = program.bundleID ? program.bundleID.toLowerCase() : null;
@@ -86,10 +86,6 @@ loadAppConfig()
           return console.log(
             `"${newName}" is not a valid name for a project. Please use a valid identifier name (alphanumeric and space).`
           );
-        }
-
-        if (newName === currentAppName || newName === nS_CurrentAppName || newName === lC_Ns_CurrentAppName) {
-          return console.log('Please try a different name.');
         }
 
         // Move files and folders from ./config/foldersAndFiles.js
