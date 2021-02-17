@@ -1,9 +1,11 @@
 // nS - No Space
 // lC - Lowercase
 
+import { clearAppName } from '../utils';
+
 export function foldersAndFiles(currentAppName, newName) {
-  const nS_CurrentAppName = currentAppName.replace(/\s/g, '');
-  const nS_NewName = newName.replace(/\s/g, '');
+  const nS_CurrentAppName = clearAppName(currentAppName);
+  const nS_NewName = clearAppName(newName);
 
   return [
     `ios/${nS_CurrentAppName}`,
