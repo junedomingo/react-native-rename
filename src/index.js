@@ -49,7 +49,6 @@ const cleanBuilds = () => {
   return Promise.resolve(deleteDirectories);
 };
 
-
 loadAppConfig()
   .then(appConfig => {
     const currentAppName = appConfig.name;
@@ -181,7 +180,7 @@ loadAppConfig()
 
                   const newJavaPath = `${javaFileBase}/${newBundleID.replace(/\./g, '/')}`;
                   const currentJavaPath = `${javaFileBase}/${currentBundleID.replace(/\./g, '/')}`;
-                  const shouldDelete = !newJavaPath.includes(currentJavaPath)
+                  const shouldDelete = !newJavaPath.includes(currentJavaPath);
 
                   if (bundleID) {
                     newBundlePath = newJavaPath;
@@ -193,28 +192,26 @@ loadAppConfig()
                   const fullCurrentBundlePath = path.join(__dirname, currentJavaPath);
                   const fullNewBundlePath = path.join(__dirname, newBundlePath);
 
-                  // Create new bundle folder if doesn't exist yet
-                  if (!fs.existsSync(fullNewBundlePath)) {
-                    shell.mkdir('-p', fullNewBundlePath);
-                    const gitMove = shell.exec(`git mv -k "${fullCurrentBundlePath}/"* "${fullNewBundlePath}"`);
-                    const successMsg = `${newBundlePath} ${colors.green('BUNDLE INDENTIFIER CHANGED')}`;
+                  shell.mkdir('-p', fullNewBundlePath);
 
-                    if (gitMove.code === 0) {
+                  const gitMove = shell.exec(`git mv -k "${fullCurrentBundlePath}/"* "${fullNewBundlePath}"`);
+                  const successMsg = `${newBundlePath} ${colors.green('BUNDLE IDENTIFIER CHANGED')}`;
+
+                  if (gitMove.code === 0) {
+                    console.log(successMsg);
+                  } else if (gitMove.code === 128) {
+                    const shellMove = shell.mv('-f', fullCurrentBundlePath + '/*', fullNewBundlePath);
+                    // if "outside repository" error occured
+                    if (shellMove.code === 0) {
                       console.log(successMsg);
-                    } else if (gitMove.code === 128) {
-                      const shellMove = shell.mv('-f', fullCurrentBundlePath + '/*', fullNewBundlePath);
-                      // if "outside repository" error occured
-                      if (shellMove.code === 0) {
-                        console.log(successMsg);
 
-                      } else {
-                        console.log(`Error moving: "${currentJavaPath}" "${newBundlePath}"`);
-                      }
+                    } else {
+                      console.log(`Error moving: "${currentJavaPath}" "${newBundlePath}"`);
                     }
+                  }
 
-                    if (shouldDelete) {
-                      shell.rm('-rf', fullCurrentBundlePath);
-                    }
+                  if (shouldDelete) {
+                    shell.rm('-rf', fullCurrentBundlePath);
                   }
 
                   const vars = {
