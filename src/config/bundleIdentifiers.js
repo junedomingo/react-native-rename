@@ -8,9 +8,14 @@ export function bundleIdentifiers({ currentAppName, newName, currentBundleID, ne
 
   return [
     {
-      regex: new RegExp(`package="${currentBundleID}"`),
+      regex: `package="${currentBundleID}"`,
       replacement: `package="${newBundleID}"`,
-      paths: ['android/app/BUCK', 'android/app/build.gradle', 'android/app/src/main/AndroidManifest.xml'],
+      paths: ['android/app/src/main/AndroidManifest.xml'],
+    },
+    {
+      regex: `"${currentBundleID}"`,
+      replacement: `"${newBundleID}"`,
+      paths: ['android/app/BUCK', 'android/app/_BUCK', 'android/app/build.gradle'],
     },
     {
       regex: currentBundleID,
