@@ -13,7 +13,7 @@ import path from 'path';
 import { foldersAndFiles } from './config/foldersAndFiles';
 import { filesToModifyContent } from './config/filesToModifyContent';
 import { bundleIdentifiers } from './config/bundleIdentifiers';
-import { loadAppConfig, loadAndroidManifest, __dirname } from './utils'
+import { loadAppConfig, loadAndroidManifest, __dirname, iosRequiredPaths } from './utils'
 
 const androidEnvs = ['main', 'debug'];
 const projectName = pjson.name;
@@ -87,39 +87,46 @@ loadAppConfig()
           );
         }
 
+        const validatePaths = () => new Promise((resolve, reject) => {
+          const paths = iosRequiredPaths(currentAppName);
+
+          paths.forEach((item) => {
+            if (!fs.existsSync(path.join(__dirname, item))) {
+              reject(new Error(`Can't find an ios path or project. Make sure that the ios project path and property 'name' in app.json the same.`));
+            }
+          });
+
+          resolve();
+        });
+
         // Move files and folders from ./config/foldersAndFiles.js
-        const resolveFoldersAndFiles = new Promise(resolve => {
-          listOfFoldersAndFiles.forEach((element, index) => {
+        const resolveFoldersAndFiles = () => {
+          const promises = listOfFoldersAndFiles.map((element) => {
             const dest = element.replace(new RegExp(nS_CurrentAppName, 'i'), nS_NewName);
-            let itemsProcessed = 1;
+
             const successMsg = `/${dest} ${colors.green('RENAMED')}`;
 
-            setTimeout(() => {
-              itemsProcessed += index;
+            const src = path.join(__dirname, element);
+            const dst = path.join(__dirname, dest);
 
-              if (fs.existsSync(path.join(__dirname, element)) || !fs.existsSync(path.join(__dirname, element))) {
-                const move = shell.exec(
-                  `git mv -k "${path.join(__dirname, element)}" "${path.join(__dirname, dest)}"`
-                );
+            const move = shell.exec(
+              `git mv -k "${src}" "${dst}"`
+            );
 
-                if (move.code === 0) {
-                  console.log(successMsg);
-                } else if (move.code === 128) {
-                  // if "outside repository" error occured
-                  if (shell.mv('-f', path.join(__dirname, element), path.join(__dirname, dest)).code === 0) {
-                    console.log(successMsg);
-                  } else {
-                    console.log("Ignore above error if this file doesn't exist");
-                  }
-                }
+            if (move.code === 0) {
+              console.log(successMsg);
+            } else if (move.code === 128) {
+              // if "outside repository" error occured
+              if (shell.mv('-f', src, dst).code === 0) {
+                console.log(successMsg);
+              } else {
+                console.log("Ignore above error if this file doesn't exist");
               }
-
-              if (itemsProcessed === listOfFoldersAndFiles.length) {
-                resolve();
-              }
-            }, 200 * index);
+            }
           });
-        });
+
+          return Promise.all(promises);
+        };
 
         // Modify file content from ./config/filesToModifyContent.js
         const resolveFilesToModifyContent = () =>
@@ -231,35 +238,42 @@ loadAppConfig()
             });
           });
 
-        const rename = () => {
-          resolveFoldersAndFiles
-            .then(resolveFilesToModifyContent)
-            .then(resolveJavaFiles)
-            .then(cleanBuilds)
-            .then(() => console.log(`APP SUCCESSFULLY RENAMED TO "${newName}"! 🎉 🎉 🎉`.green))
-            .then(() => {
-              if (fs.existsSync(path.join(__dirname, 'ios', 'Podfile'))) {
-                console.log(
-                  `${colors.yellow('Podfile has been modified, please run "pod install" inside ios directory.')}`
-                );
-              }
-            })
-            .then(() =>
+        const run = () => Promise.resolve()
+          .then(validatePaths)
+          .then(resolveFoldersAndFiles)
+          .then(resolveFilesToModifyContent)
+          .then(resolveJavaFiles)
+          .then(cleanBuilds)
+          .then(() => console.log(`APP SUCCESSFULLY RENAMED TO "${newName}"! 🎉 🎉 🎉`.green))
+          .then(() => {
+            if (fs.existsSync(path.join(__dirname, 'ios', 'Podfile'))) {
               console.log(
-                `${colors.yellow(
-                  'Please make sure to run "watchman watch-del-all" and "npm start --reset-cache" before running the app. '
-                )}`
-              )
-            );
-        };
+                `${colors.yellow('Podfile has been modified, please run "pod install" inside ios directory.')}`
+              );
+            }
+          })
+          .then(() =>
+            console.log(
+              `${colors.yellow(
+                'Please make sure to run "watchman watch-del-all" and "npm start --reset-cache" before running the app.'
+              )}`
+            )
+          );
 
-        rename();
+        return run().catch((error) => {
+          console.log(colors.red(error));
+        });
       })
       .parse(process.argv);
-    if (!process.argv.slice(2).length) program.outputHelp();
+
+    if (!process.argv.slice(2).length) {
+      program.outputHelp();
+    }
   })
   .catch(err => {
-    if (err.code === 'ENOENT') return console.log('Directory should be created using "react-native init"');
+    if (err.code === 'ENOENT') {
+      return console.log('Directory should be created using "react-native init"');
+    }
 
     return console.log('Something went wrong: ', err);
   });
