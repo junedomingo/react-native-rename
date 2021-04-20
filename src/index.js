@@ -51,7 +51,7 @@ const cleanBuilds = () => {
 
 loadAppConfig()
   .then(appConfig => {
-    const currentAppName = appConfig.name;
+    const currentAppName = appConfig.name || (appConfig.expo && appConfig.expo.name);
     const nS_CurrentAppName = currentAppName.replace(/\s/g, '');
 
     program
