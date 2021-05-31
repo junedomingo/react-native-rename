@@ -87,12 +87,14 @@ loadAppConfig()
           );
         }
 
-        const validatePaths = () => new Promise((resolve, reject) => {
+        const validatePaths = () => new Promise(resolve => {
           const paths = iosRequiredPaths(currentAppName);
 
           paths.forEach((item) => {
             if (!fs.existsSync(path.join(__dirname, item))) {
-              reject(new Error(`Can't find an ios path or project. Make sure that the ios project path and property 'name' in app.json the same.`));
+              const warning = `Can't find an ios path or project. Make sure that the ios project path and property 'name' in app.json the same.`;
+
+              console.log(colors.red(warning));
             }
           });
 

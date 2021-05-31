@@ -22,7 +22,6 @@ export function iosRequiredPaths(currentAppName) {
   const nS_CurrentAppName = currentAppName.replace(/\s/g, '');
 
   return [
-    `ios/${nS_CurrentAppName}`,
-    `ios/${nS_CurrentAppName}.xcodeproj`,
+    `ios/${nS_CurrentAppName}`
   ]
 }
