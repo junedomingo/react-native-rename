@@ -1,6 +1,6 @@
 // nS - No Space
 // lC - Lowercase
-import globby from "globby";
+import globby from 'globby';
 
 export function bundleIdentifiers({ currentAppName, newName, currentBundleID, newBundleID, newBundlePath }) {
   const nS_CurrentAppName = currentAppName.replace(/\s/g, '');
@@ -20,7 +20,7 @@ export function bundleIdentifiers({ currentAppName, newName, currentBundleID, ne
     {
       regex: currentBundleID,
       replacement: newBundleID,
-      paths: globby.sync([`${newBundlePath}/**/*.java`])
+      paths: globby.sync([`${newBundlePath}/**/*.java`]),
     },
     {
       // App name (probably) doesn't start with `.`, but the bundle ID will
