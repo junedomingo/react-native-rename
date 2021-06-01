@@ -2,7 +2,6 @@
 
 const shell = require('shelljs');
 const path = require('path');
-const fs = require('fs');
 
 const run = (cwd, args) => {
   shell.exec(`node ../../../lib/index.js ${args}`, {
@@ -18,10 +17,6 @@ const getDiff = (cwd) => {
   });
 
   return diff.stdout;
-}
-
-const getExpected = (name) => {
-  return fs.readFileSync(path.join(__dirname, `./patches/${name}`)).toString()
 }
 
 const resetGit = (cwd) => {
@@ -49,10 +44,24 @@ describe('rn-versions/0.64', () => {
   test('change bundle id', () => {
     run(cwd, `-b "com.test64.app"`);
 
-    const expected = getExpected('rename-bundle-id-simple.patch');
+    const result = getDiff(cwd);
 
-    const actual = getDiff(cwd);
+    expect(result).toMatchSnapshot();
+  });
 
-    expect(actual).toBe(expected);
-  })
+  test('change app name', () => {
+    run(cwd, `"New Test App"`);
+
+    const result = getDiff(cwd);
+
+    expect(result).toMatchSnapshot();
+  });
+
+  test('change app name and bundle id', () => {
+    run(cwd, `"New Test App" -b "com.test64.app"`);
+
+    const result = getDiff(cwd);
+
+    expect(result).toMatchSnapshot();
+  });
 });
