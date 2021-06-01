@@ -1,0 +1,1173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rn-versions/0.64 change app name 1`] = `
+"diff --git a/tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainActivity.java b/tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainActivity.java
+index a2f226f..aabb272 100644
+--- a/tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainActivity.java
++++ b/tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainActivity.java
+@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
+    */
+   @Override
+   protected String getMainComponentName() {
+-    return \\"TestApp64\\";
++    return \\"NewTestApp\\";
+   }
+ }
+diff --git a/tests/rn-versions/0.64/android/app/src/main/res/values/strings.xml b/tests/rn-versions/0.64/android/app/src/main/res/values/strings.xml
+index cd83eb8..74f6d3f 100644
+--- a/tests/rn-versions/0.64/android/app/src/main/res/values/strings.xml
++++ b/tests/rn-versions/0.64/android/app/src/main/res/values/strings.xml
+@@ -1,3 +1,3 @@
+ <resources>
+-    <string name=\\"app_name\\">TestApp64</string>
++    <string name=\\"app_name\\">New Test App</string>
+ </resources>
+diff --git a/tests/rn-versions/0.64/android/settings.gradle b/tests/rn-versions/0.64/android/settings.gradle
+index 9bd6294..07c3ec2 100644
+--- a/tests/rn-versions/0.64/android/settings.gradle
++++ b/tests/rn-versions/0.64/android/settings.gradle
+@@ -1,3 +1,3 @@
+-rootProject.name = 'TestApp64'
++rootProject.name = 'NewTestApp'
+ apply from: file(\\"../node_modules/@react-native-community/cli-platform-android/native_modules.gradle\\"); applyNativeModulesSettingsGradle(settings)
+ include ':app'
+diff --git a/tests/rn-versions/0.64/app.json b/tests/rn-versions/0.64/app.json
+index d5a56c7..ad50215 100644
+--- a/tests/rn-versions/0.64/app.json
++++ b/tests/rn-versions/0.64/app.json
+@@ -1,4 +1,4 @@
+ {
+-  \\"name\\": \\"TestApp64\\",
+-  \\"displayName\\": \\"TestApp64\\"
++  \\"name\\": \\"NewTestApp\\",
++  \\"displayName\\": \\"New Test App\\"
+ }
+\\\\ No newline at end of file
+diff --git a/tests/rn-versions/0.64/ios/TestApp64.xcodeproj/project.pbxproj b/tests/rn-versions/0.64/ios/NewTestApp.xcodeproj/project.pbxproj
+similarity index 85%
+rename from tests/rn-versions/0.64/ios/TestApp64.xcodeproj/project.pbxproj
+rename to tests/rn-versions/0.64/ios/NewTestApp.xcodeproj/project.pbxproj
+index fe62c0f..a2bac30 100644
+--- a/tests/rn-versions/0.64/ios/TestApp64.xcodeproj/project.pbxproj
++++ b/tests/rn-versions/0.64/ios/NewTestApp.xcodeproj/project.pbxproj
+@@ -7,7 +7,7 @@
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
+-		00E356F31AD99517003FC87E /* TestApp64Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TestApp64Tests.m */; };
++		00E356F31AD99517003FC87E /* NewTestAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* NewTestAppTests.m */; };
+ 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+ 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+ 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+@@ -20,21 +20,21 @@
+ 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+ 			proxyType = 1;
+ 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
+-			remoteInfo = TestApp64;
++			remoteInfo = NewTestApp;
+ 		};
+ /* End PBXContainerItemProxy section */
+ 
+ /* Begin PBXFileReference section */
+-		00E356EE1AD99517003FC87E /* TestApp64Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestApp64Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
++		00E356EE1AD99517003FC87E /* NewTestAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewTestAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+ 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = \\"<group>\\"; };
+-		00E356F21AD99517003FC87E /* TestApp64Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestApp64Tests.m; sourceTree = \\"<group>\\"; };
+-		13B07F961A680F5B00A75B9A /* TestApp64.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestApp64.app; sourceTree = BUILT_PRODUCTS_DIR; };
+-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = TestApp64/AppDelegate.h; sourceTree = \\"<group>\\"; };
+-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = TestApp64/AppDelegate.m; sourceTree = \\"<group>\\"; };
+-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = TestApp64/Images.xcassets; sourceTree = \\"<group>\\"; };
+-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = TestApp64/Info.plist; sourceTree = \\"<group>\\"; };
+-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = TestApp64/main.m; sourceTree = \\"<group>\\"; };
+-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = TestApp64/LaunchScreen.storyboard; sourceTree = \\"<group>\\"; };
++		00E356F21AD99517003FC87E /* NewTestAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewTestAppTests.m; sourceTree = \\"<group>\\"; };
++		13B07F961A680F5B00A75B9A /* NewTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
++		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = NewTestApp/AppDelegate.h; sourceTree = \\"<group>\\"; };
++		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = NewTestApp/AppDelegate.m; sourceTree = \\"<group>\\"; };
++		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = NewTestApp/Images.xcassets; sourceTree = \\"<group>\\"; };
++		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NewTestApp/Info.plist; sourceTree = \\"<group>\\"; };
++		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = NewTestApp/main.m; sourceTree = \\"<group>\\"; };
++		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NewTestApp/LaunchScreen.storyboard; sourceTree = \\"<group>\\"; };
+ 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+ /* End PBXFileReference section */
+ 
+@@ -56,13 +56,13 @@
+ /* End PBXFrameworksBuildPhase section */
+ 
+ /* Begin PBXGroup section */
+-		00E356EF1AD99517003FC87E /* TestApp64Tests */ = {
++		00E356EF1AD99517003FC87E /* NewTestAppTests */ = {
+ 			isa = PBXGroup;
+ 			children = (
+-				00E356F21AD99517003FC87E /* TestApp64Tests.m */,
++				00E356F21AD99517003FC87E /* NewTestAppTests.m */,
+ 				00E356F01AD99517003FC87E /* Supporting Files */,
+ 			);
+-			path = TestApp64Tests;
++			path = NewTestAppTests;
+ 			sourceTree = \\"<group>\\";
+ 		};
+ 		00E356F01AD99517003FC87E /* Supporting Files */ = {
+@@ -73,7 +73,7 @@
+ 			name = \\"Supporting Files\\";
+ 			sourceTree = \\"<group>\\";
+ 		};
+-		13B07FAE1A68108700A75B9A /* TestApp64 */ = {
++		13B07FAE1A68108700A75B9A /* NewTestApp */ = {
+ 			isa = PBXGroup;
+ 			children = (
+ 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
+@@ -83,7 +83,7 @@
+ 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+ 				13B07FB71A68108700A75B9A /* main.m */,
+ 			);
+-			name = TestApp64;
++			name = NewTestApp;
+ 			sourceTree = \\"<group>\\";
+ 		};
+ 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
+@@ -104,9 +104,9 @@
+ 		83CBB9F61A601CBA00E9B192 = {
+ 			isa = PBXGroup;
+ 			children = (
+-				13B07FAE1A68108700A75B9A /* TestApp64 */,
++				13B07FAE1A68108700A75B9A /* NewTestApp */,
+ 				832341AE1AAA6A7D00B99B32 /* Libraries */,
+-				00E356EF1AD99517003FC87E /* TestApp64Tests */,
++				00E356EF1AD99517003FC87E /* NewTestAppTests */,
+ 				83CBBA001A601CBA00E9B192 /* Products */,
+ 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+ 			);
+@@ -118,8 +118,8 @@
+ 		83CBBA001A601CBA00E9B192 /* Products */ = {
+ 			isa = PBXGroup;
+ 			children = (
+-				13B07F961A680F5B00A75B9A /* TestApp64.app */,
+-				00E356EE1AD99517003FC87E /* TestApp64Tests.xctest */,
++				13B07F961A680F5B00A75B9A /* NewTestApp.app */,
++				00E356EE1AD99517003FC87E /* NewTestAppTests.xctest */,
+ 			);
+ 			name = Products;
+ 			sourceTree = \\"<group>\\";
+@@ -127,9 +127,9 @@
+ /* End PBXGroup section */
+ 
+ /* Begin PBXNativeTarget section */
+-		00E356ED1AD99517003FC87E /* TestApp64Tests */ = {
++		00E356ED1AD99517003FC87E /* NewTestAppTests */ = {
+ 			isa = PBXNativeTarget;
+-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget \\"TestApp64Tests\\" */;
++			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget \\"NewTestAppTests\\" */;
+ 			buildPhases = (
+ 				00E356EA1AD99517003FC87E /* Sources */,
+ 				00E356EB1AD99517003FC87E /* Frameworks */,
+@@ -140,14 +140,14 @@
+ 			dependencies = (
+ 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
+ 			);
+-			name = TestApp64Tests;
+-			productName = TestApp64Tests;
+-			productReference = 00E356EE1AD99517003FC87E /* TestApp64Tests.xctest */;
++			name = NewTestAppTests;
++			productName = NewTestAppTests;
++			productReference = 00E356EE1AD99517003FC87E /* NewTestAppTests.xctest */;
+ 			productType = \\"com.apple.product-type.bundle.unit-test\\";
+ 		};
+-		13B07F861A680F5B00A75B9A /* TestApp64 */ = {
++		13B07F861A680F5B00A75B9A /* NewTestApp */ = {
+ 			isa = PBXNativeTarget;
+-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget \\"TestApp64\\" */;
++			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget \\"NewTestApp\\" */;
+ 			buildPhases = (
+ 				FD10A7F022414F080027D42C /* Start Packager */,
+ 				13B07F871A680F5B00A75B9A /* Sources */,
+@@ -159,9 +159,9 @@
+ 			);
+ 			dependencies = (
+ 			);
+-			name = TestApp64;
+-			productName = TestApp64;
+-			productReference = 13B07F961A680F5B00A75B9A /* TestApp64.app */;
++			name = NewTestApp;
++			productName = NewTestApp;
++			productReference = 13B07F961A680F5B00A75B9A /* NewTestApp.app */;
+ 			productType = \\"com.apple.product-type.application\\";
+ 		};
+ /* End PBXNativeTarget section */
+@@ -181,7 +181,7 @@
+ 					};
+ 				};
+ 			};
+-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject \\"TestApp64\\" */;
++			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject \\"NewTestApp\\" */;
+ 			compatibilityVersion = \\"Xcode 12.0\\";
+ 			developmentRegion = en;
+ 			hasScannedForEncodings = 0;
+@@ -194,8 +194,8 @@
+ 			projectDirPath = \\"\\";
+ 			projectRoot = \\"\\";
+ 			targets = (
+-				13B07F861A680F5B00A75B9A /* TestApp64 */,
+-				00E356ED1AD99517003FC87E /* TestApp64Tests */,
++				13B07F861A680F5B00A75B9A /* NewTestApp */,
++				00E356ED1AD99517003FC87E /* NewTestAppTests */,
+ 			);
+ 		};
+ /* End PBXProject section */
+@@ -260,7 +260,7 @@
+ 			isa = PBXSourcesBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				00E356F31AD99517003FC87E /* TestApp64Tests.m in Sources */,
++				00E356F31AD99517003FC87E /* NewTestAppTests.m in Sources */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+@@ -278,7 +278,7 @@
+ /* Begin PBXTargetDependency section */
+ 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
+ 			isa = PBXTargetDependency;
+-			target = 13B07F861A680F5B00A75B9A /* TestApp64 */;
++			target = 13B07F861A680F5B00A75B9A /* NewTestApp */;
+ 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+ 		};
+ /* End PBXTargetDependency section */
+@@ -292,7 +292,7 @@
+ 					\\"DEBUG=1\\",
+ 					\\"$(inherited)\\",
+ 				);
+-				INFOPLIST_FILE = TestApp64Tests/Info.plist;
++				INFOPLIST_FILE = NewTestAppTests/Info.plist;
+ 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					\\"$(inherited)\\",
+@@ -306,7 +306,7 @@
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = \\"org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)\\";
+ 				PRODUCT_NAME = \\"$(TARGET_NAME)\\";
+-				TEST_HOST = \\"$(BUILT_PRODUCTS_DIR)/TestApp64.app/TestApp64\\";
++				TEST_HOST = \\"$(BUILT_PRODUCTS_DIR)/NewTestApp.app/NewTestApp\\";
+ 			};
+ 			name = Debug;
+ 		};
+@@ -315,7 +315,7 @@
+ 			buildSettings = {
+ 				BUNDLE_LOADER = \\"$(TEST_HOST)\\";
+ 				COPY_PHASE_STRIP = NO;
+-				INFOPLIST_FILE = TestApp64Tests/Info.plist;
++				INFOPLIST_FILE = NewTestAppTests/Info.plist;
+ 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					\\"$(inherited)\\",
+@@ -329,7 +329,7 @@
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = \\"org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)\\";
+ 				PRODUCT_NAME = \\"$(TARGET_NAME)\\";
+-				TEST_HOST = \\"$(BUILT_PRODUCTS_DIR)/TestApp64.app/TestApp64\\";
++				TEST_HOST = \\"$(BUILT_PRODUCTS_DIR)/NewTestApp.app/NewTestApp\\";
+ 			};
+ 			name = Release;
+ 		};
+@@ -340,7 +340,7 @@
+ 				CLANG_ENABLE_MODULES = YES;
+ 				CURRENT_PROJECT_VERSION = 1;
+ 				ENABLE_BITCODE = NO;
+-				INFOPLIST_FILE = TestApp64/Info.plist;
++				INFOPLIST_FILE = NewTestApp/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					\\"$(inherited)\\",
+ 					\\"@executable_path/Frameworks\\",
+@@ -351,7 +351,7 @@
+ 					\\"-lc++\\",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = \\"org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)\\";
+-				PRODUCT_NAME = TestApp64;
++				PRODUCT_NAME = NewTestApp;
+ 				SWIFT_OPTIMIZATION_LEVEL = \\"-Onone\\";
+ 				SWIFT_VERSION = 5.0;
+ 				VERSIONING_SYSTEM = \\"apple-generic\\";
+@@ -364,7 +364,7 @@
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+ 				CLANG_ENABLE_MODULES = YES;
+ 				CURRENT_PROJECT_VERSION = 1;
+-				INFOPLIST_FILE = TestApp64/Info.plist;
++				INFOPLIST_FILE = NewTestApp/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					\\"$(inherited)\\",
+ 					\\"@executable_path/Frameworks\\",
+@@ -375,7 +375,7 @@
+ 					\\"-lc++\\",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = \\"org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)\\";
+-				PRODUCT_NAME = TestApp64;
++				PRODUCT_NAME = NewTestApp;
+ 				SWIFT_VERSION = 5.0;
+ 				VERSIONING_SYSTEM = \\"apple-generic\\";
+ 			};
+@@ -505,7 +505,7 @@
+ /* End XCBuildConfiguration section */
+ 
+ /* Begin XCConfigurationList section */
+-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget \\"TestApp64Tests\\" */ = {
++		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget \\"NewTestAppTests\\" */ = {
+ 			isa = XCConfigurationList;
+ 			buildConfigurations = (
+ 				00E356F61AD99517003FC87E /* Debug */,
+@@ -514,7 +514,7 @@
+ 			defaultConfigurationIsVisible = 0;
+ 			defaultConfigurationName = Release;
+ 		};
+-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget \\"TestApp64\\" */ = {
++		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget \\"NewTestApp\\" */ = {
+ 			isa = XCConfigurationList;
+ 			buildConfigurations = (
+ 				13B07F941A680F5B00A75B9A /* Debug */,
+@@ -523,7 +523,7 @@
+ 			defaultConfigurationIsVisible = 0;
+ 			defaultConfigurationName = Release;
+ 		};
+-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject \\"TestApp64\\" */ = {
++		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject \\"NewTestApp\\" */ = {
+ 			isa = XCConfigurationList;
+ 			buildConfigurations = (
+ 				83CBBA201A601CBA00E9B192 /* Debug */,
+diff --git a/tests/rn-versions/0.64/ios/TestApp64.xcodeproj/xcshareddata/xcschemes/TestApp64.xcscheme b/tests/rn-versions/0.64/ios/NewTestApp.xcodeproj/xcshareddata/xcschemes/NewTestApp.xcscheme
+similarity index 80%
+rename from tests/rn-versions/0.64/ios/TestApp64.xcodeproj/xcshareddata/xcschemes/TestApp64.xcscheme
+rename to tests/rn-versions/0.64/ios/NewTestApp.xcodeproj/xcshareddata/xcschemes/NewTestApp.xcscheme
+index 21ab325..92425cf 100644
+--- a/tests/rn-versions/0.64/ios/TestApp64.xcodeproj/xcshareddata/xcschemes/TestApp64.xcscheme
++++ b/tests/rn-versions/0.64/ios/NewTestApp.xcodeproj/xcshareddata/xcschemes/NewTestApp.xcscheme
+@@ -15,9 +15,9 @@
+             <BuildableReference
+                BuildableIdentifier = \\"primary\\"
+                BlueprintIdentifier = \\"13B07F861A680F5B00A75B9A\\"
+-               BuildableName = \\"TestApp64.app\\"
+-               BlueprintName = \\"TestApp64\\"
+-               ReferencedContainer = \\"container:TestApp64.xcodeproj\\">
++               BuildableName = \\"NewTestApp.app\\"
++               BlueprintName = \\"NewTestApp\\"
++               ReferencedContainer = \\"container:NewTestApp.xcodeproj\\">
+             </BuildableReference>
+          </BuildActionEntry>
+       </BuildActionEntries>
+@@ -33,9 +33,9 @@
+             <BuildableReference
+                BuildableIdentifier = \\"primary\\"
+                BlueprintIdentifier = \\"00E356ED1AD99517003FC87E\\"
+-               BuildableName = \\"TestApp64Tests.xctest\\"
+-               BlueprintName = \\"TestApp64Tests\\"
+-               ReferencedContainer = \\"container:TestApp64.xcodeproj\\">
++               BuildableName = \\"NewTestAppTests.xctest\\"
++               BlueprintName = \\"NewTestAppTests\\"
++               ReferencedContainer = \\"container:NewTestApp.xcodeproj\\">
+             </BuildableReference>
+          </TestableReference>
+       </Testables>
+@@ -55,9 +55,9 @@
+          <BuildableReference
+             BuildableIdentifier = \\"primary\\"
+             BlueprintIdentifier = \\"13B07F861A680F5B00A75B9A\\"
+-            BuildableName = \\"TestApp64.app\\"
+-            BlueprintName = \\"TestApp64\\"
+-            ReferencedContainer = \\"container:TestApp64.xcodeproj\\">
++            BuildableName = \\"NewTestApp.app\\"
++            BlueprintName = \\"NewTestApp\\"
++            ReferencedContainer = \\"container:NewTestApp.xcodeproj\\">
+          </BuildableReference>
+       </BuildableProductRunnable>
+    </LaunchAction>
+@@ -72,9 +72,9 @@
+          <BuildableReference
+             BuildableIdentifier = \\"primary\\"
+             BlueprintIdentifier = \\"13B07F861A680F5B00A75B9A\\"
+-            BuildableName = \\"TestApp64.app\\"
+-            BlueprintName = \\"TestApp64\\"
+-            ReferencedContainer = \\"container:TestApp64.xcodeproj\\">
++            BuildableName = \\"NewTestApp.app\\"
++            BlueprintName = \\"NewTestApp\\"
++            ReferencedContainer = \\"container:NewTestApp.xcodeproj\\">
+          </BuildableReference>
+       </BuildableProductRunnable>
+    </ProfileAction>
+diff --git a/tests/rn-versions/0.64/ios/TestApp64/AppDelegate.h b/tests/rn-versions/0.64/ios/NewTestApp/AppDelegate.h
+similarity index 100%
+rename from tests/rn-versions/0.64/ios/TestApp64/AppDelegate.h
+rename to tests/rn-versions/0.64/ios/NewTestApp/AppDelegate.h
+diff --git a/tests/rn-versions/0.64/ios/TestApp64/AppDelegate.m b/tests/rn-versions/0.64/ios/NewTestApp/AppDelegate.m
+similarity index 99%
+rename from tests/rn-versions/0.64/ios/TestApp64/AppDelegate.m
+rename to tests/rn-versions/0.64/ios/NewTestApp/AppDelegate.m
+index f0bd868..bbb6591 100644
+--- a/tests/rn-versions/0.64/ios/TestApp64/AppDelegate.m
++++ b/tests/rn-versions/0.64/ios/NewTestApp/AppDelegate.m
+@@ -33,7 +33,7 @@ static void InitializeFlipper(UIApplication *application) {
+ 
+   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+-                                                   moduleName:@\\"TestApp64\\"
++                                                   moduleName:@\\"NewTestApp\\"
+                                             initialProperties:nil];
+ 
+   if (@available(iOS 13.0, *)) {
+diff --git a/tests/rn-versions/0.64/ios/TestApp64/Images.xcassets/AppIcon.appiconset/Contents.json b/tests/rn-versions/0.64/ios/NewTestApp/Images.xcassets/AppIcon.appiconset/Contents.json
+similarity index 100%
+rename from tests/rn-versions/0.64/ios/TestApp64/Images.xcassets/AppIcon.appiconset/Contents.json
+rename to tests/rn-versions/0.64/ios/NewTestApp/Images.xcassets/AppIcon.appiconset/Contents.json
+diff --git a/tests/rn-versions/0.64/ios/TestApp64/Images.xcassets/Contents.json b/tests/rn-versions/0.64/ios/NewTestApp/Images.xcassets/Contents.json
+similarity index 100%
+rename from tests/rn-versions/0.64/ios/TestApp64/Images.xcassets/Contents.json
+rename to tests/rn-versions/0.64/ios/NewTestApp/Images.xcassets/Contents.json
+diff --git a/tests/rn-versions/0.64/ios/TestApp64/Info.plist b/tests/rn-versions/0.64/ios/NewTestApp/Info.plist
+similarity index 98%
+rename from tests/rn-versions/0.64/ios/TestApp64/Info.plist
+rename to tests/rn-versions/0.64/ios/NewTestApp/Info.plist
+index 16f2e56..d0fec53 100644
+--- a/tests/rn-versions/0.64/ios/TestApp64/Info.plist
++++ b/tests/rn-versions/0.64/ios/NewTestApp/Info.plist
+@@ -5,7 +5,7 @@
+ 	<key>CFBundleDevelopmentRegion</key>
+ 	<string>en</string>
+ 	<key>CFBundleDisplayName</key>
+-	<string>TestApp64</string>
++	<string>New Test App</string>
+ 	<key>CFBundleExecutable</key>
+ 	<string>$(EXECUTABLE_NAME)</string>
+ 	<key>CFBundleIdentifier</key>
+diff --git a/tests/rn-versions/0.64/ios/TestApp64/LaunchScreen.storyboard b/tests/rn-versions/0.64/ios/NewTestApp/LaunchScreen.storyboard
+similarity index 100%
+rename from tests/rn-versions/0.64/ios/TestApp64/LaunchScreen.storyboard
+rename to tests/rn-versions/0.64/ios/NewTestApp/LaunchScreen.storyboard
+diff --git a/tests/rn-versions/0.64/ios/TestApp64/main.m b/tests/rn-versions/0.64/ios/NewTestApp/main.m
+similarity index 100%
+rename from tests/rn-versions/0.64/ios/TestApp64/main.m
+rename to tests/rn-versions/0.64/ios/NewTestApp/main.m
+diff --git a/tests/rn-versions/0.64/ios/TestApp64Tests/Info.plist b/tests/rn-versions/0.64/ios/NewTestAppTests/Info.plist
+similarity index 100%
+rename from tests/rn-versions/0.64/ios/TestApp64Tests/Info.plist
+rename to tests/rn-versions/0.64/ios/NewTestAppTests/Info.plist
+diff --git a/tests/rn-versions/0.64/ios/TestApp64Tests/TestApp64Tests.m b/tests/rn-versions/0.64/ios/NewTestAppTests/NewTestAppTests.m
+similarity index 95%
+rename from tests/rn-versions/0.64/ios/TestApp64Tests/TestApp64Tests.m
+rename to tests/rn-versions/0.64/ios/NewTestAppTests/NewTestAppTests.m
+index 7ae393d..8873c92 100644
+--- a/tests/rn-versions/0.64/ios/TestApp64Tests/TestApp64Tests.m
++++ b/tests/rn-versions/0.64/ios/NewTestAppTests/NewTestAppTests.m
+@@ -7,11 +7,11 @@
+ #define TIMEOUT_SECONDS 600
+ #define TEXT_TO_LOOK_FOR @\\"Welcome to React\\"
+ 
+-@interface TestApp64Tests : XCTestCase
++@interface NewTestAppTests : XCTestCase
+ 
+ @end
+ 
+-@implementation TestApp64Tests
++@implementation NewTestAppTests
+ 
+ - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
+ {
+diff --git a/tests/rn-versions/0.64/ios/Podfile b/tests/rn-versions/0.64/ios/Podfile
+index 3d64d82..75945a2 100644
+--- a/tests/rn-versions/0.64/ios/Podfile
++++ b/tests/rn-versions/0.64/ios/Podfile
+@@ -3,7 +3,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
+ 
+ platform :ios, '10.0'
+ 
+-target 'TestApp64' do
++target 'NewTestApp' do
+   config = use_native_modules!
+ 
+   use_react_native!(
+@@ -12,7 +12,7 @@ target 'TestApp64' do
+     :hermes_enabled => false
+   )
+ 
+-  target 'TestApp64Tests' do
++  target 'NewTestAppTests' do
+     inherit! :complete
+     # Pods for testing
+   end
+"
+`;
+
+exports[`rn-versions/0.64 change app name and bundle id 1`] = `
+"diff --git a/tests/rn-versions/0.64/android/app/_BUCK b/tests/rn-versions/0.64/android/app/_BUCK
+index 80c7e70..040a576 100644
+--- a/tests/rn-versions/0.64/android/app/_BUCK
++++ b/tests/rn-versions/0.64/android/app/_BUCK
+@@ -35,12 +35,12 @@ android_library(
+ 
+ android_build_config(
+     name = \\"build_config\\",
+-    package = \\"com.testapp64\\",
++    package = \\"com.test64.app\\",
+ )
+ 
+ android_resource(
+     name = \\"res\\",
+-    package = \\"com.testapp64\\",
++    package = \\"com.test64.app\\",
+     res = \\"src/main/res\\",
+ )
+ 
+diff --git a/tests/rn-versions/0.64/android/app/build.gradle b/tests/rn-versions/0.64/android/app/build.gradle
+index 79e84a7..9701ed8 100644
+--- a/tests/rn-versions/0.64/android/app/build.gradle
++++ b/tests/rn-versions/0.64/android/app/build.gradle
+@@ -131,7 +131,7 @@ android {
+     }
+ 
+     defaultConfig {
+-        applicationId \\"com.testapp64\\"
++        applicationId \\"com.test64.app\\"
+         minSdkVersion rootProject.ext.minSdkVersion
+         targetSdkVersion rootProject.ext.targetSdkVersion
+         versionCode 1
+diff --git a/tests/rn-versions/0.64/android/app/src/debug/java/com/testapp64/ReactNativeFlipper.java b/tests/rn-versions/0.64/android/app/src/debug/java/com/test64/app/ReactNativeFlipper.java
+similarity index 99%
+rename from tests/rn-versions/0.64/android/app/src/debug/java/com/testapp64/ReactNativeFlipper.java
+rename to tests/rn-versions/0.64/android/app/src/debug/java/com/test64/app/ReactNativeFlipper.java
+index 6ee532d..60d5b55 100644
+--- a/tests/rn-versions/0.64/android/app/src/debug/java/com/testapp64/ReactNativeFlipper.java
++++ b/tests/rn-versions/0.64/android/app/src/debug/java/com/test64/app/ReactNativeFlipper.java
+@@ -4,7 +4,7 @@
+  * <p>This source code is licensed under the MIT license found in the LICENSE file in the root
+  * directory of this source tree.
+  */
+-package com.testapp64;
++package com.test64.app;
+ 
+ import android.content.Context;
+ import com.facebook.flipper.android.AndroidFlipperClient;
+diff --git a/tests/rn-versions/0.64/android/app/src/main/AndroidManifest.xml b/tests/rn-versions/0.64/android/app/src/main/AndroidManifest.xml
+index 4745069..26afdde 100644
+--- a/tests/rn-versions/0.64/android/app/src/main/AndroidManifest.xml
++++ b/tests/rn-versions/0.64/android/app/src/main/AndroidManifest.xml
+@@ -1,5 +1,5 @@
+ <manifest xmlns:android=\\"http://schemas.android.com/apk/res/android\\"
+-  package=\\"com.testapp64\\">
++  package=\\"com.test64.app\\">
+ 
+     <uses-permission android:name=\\"android.permission.INTERNET\\" />
+ 
+diff --git a/tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainActivity.java b/tests/rn-versions/0.64/android/app/src/main/java/com/test64/app/MainActivity.java
+similarity index 85%
+rename from tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainActivity.java
+rename to tests/rn-versions/0.64/android/app/src/main/java/com/test64/app/MainActivity.java
+index a2f226f..75f5678 100644
+--- a/tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainActivity.java
++++ b/tests/rn-versions/0.64/android/app/src/main/java/com/test64/app/MainActivity.java
+@@ -1,4 +1,4 @@
+-package com.testapp64;
++package com.test64.app;
+ 
+ import com.facebook.react.ReactActivity;
+ 
+@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
+    */
+   @Override
+   protected String getMainComponentName() {
+-    return \\"TestApp64\\";
++    return \\"NewTestApp\\";
+   }
+ }
+diff --git a/tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainApplication.java b/tests/rn-versions/0.64/android/app/src/main/java/com/test64/app/MainApplication.java
+similarity index 96%
+rename from tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainApplication.java
+rename to tests/rn-versions/0.64/android/app/src/main/java/com/test64/app/MainApplication.java
+index 7ffdb00..7ce6787 100644
+--- a/tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainApplication.java
++++ b/tests/rn-versions/0.64/android/app/src/main/java/com/test64/app/MainApplication.java
+@@ -1,4 +1,4 @@
+-package com.testapp64;
++package com.test64.app;
+ 
+ import android.app.Application;
+ import android.content.Context;
+@@ -62,7 +62,7 @@ public class MainApplication extends Application implements ReactApplication {
+          We use reflection here to pick up the class that initializes Flipper,
+         since Flipper library is not available in release mode
+         */
+-        Class<?> aClass = Class.forName(\\"com.testapp64.ReactNativeFlipper\\");
++        Class<?> aClass = Class.forName(\\"com.test64.app.ReactNativeFlipper\\");
+         aClass
+             .getMethod(\\"initializeFlipper\\", Context.class, ReactInstanceManager.class)
+             .invoke(null, context, reactInstanceManager);
+diff --git a/tests/rn-versions/0.64/android/app/src/main/res/values/strings.xml b/tests/rn-versions/0.64/android/app/src/main/res/values/strings.xml
+index cd83eb8..74f6d3f 100644
+--- a/tests/rn-versions/0.64/android/app/src/main/res/values/strings.xml
++++ b/tests/rn-versions/0.64/android/app/src/main/res/values/strings.xml
+@@ -1,3 +1,3 @@
+ <resources>
+-    <string name=\\"app_name\\">TestApp64</string>
++    <string name=\\"app_name\\">New Test App</string>
+ </resources>
+diff --git a/tests/rn-versions/0.64/android/settings.gradle b/tests/rn-versions/0.64/android/settings.gradle
+index 9bd6294..07c3ec2 100644
+--- a/tests/rn-versions/0.64/android/settings.gradle
++++ b/tests/rn-versions/0.64/android/settings.gradle
+@@ -1,3 +1,3 @@
+-rootProject.name = 'TestApp64'
++rootProject.name = 'NewTestApp'
+ apply from: file(\\"../node_modules/@react-native-community/cli-platform-android/native_modules.gradle\\"); applyNativeModulesSettingsGradle(settings)
+ include ':app'
+diff --git a/tests/rn-versions/0.64/app.json b/tests/rn-versions/0.64/app.json
+index d5a56c7..ad50215 100644
+--- a/tests/rn-versions/0.64/app.json
++++ b/tests/rn-versions/0.64/app.json
+@@ -1,4 +1,4 @@
+ {
+-  \\"name\\": \\"TestApp64\\",
+-  \\"displayName\\": \\"TestApp64\\"
++  \\"name\\": \\"NewTestApp\\",
++  \\"displayName\\": \\"New Test App\\"
+ }
+\\\\ No newline at end of file
+diff --git a/tests/rn-versions/0.64/ios/TestApp64.xcodeproj/project.pbxproj b/tests/rn-versions/0.64/ios/NewTestApp.xcodeproj/project.pbxproj
+similarity index 85%
+rename from tests/rn-versions/0.64/ios/TestApp64.xcodeproj/project.pbxproj
+rename to tests/rn-versions/0.64/ios/NewTestApp.xcodeproj/project.pbxproj
+index fe62c0f..a2bac30 100644
+--- a/tests/rn-versions/0.64/ios/TestApp64.xcodeproj/project.pbxproj
++++ b/tests/rn-versions/0.64/ios/NewTestApp.xcodeproj/project.pbxproj
+@@ -7,7 +7,7 @@
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
+-		00E356F31AD99517003FC87E /* TestApp64Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TestApp64Tests.m */; };
++		00E356F31AD99517003FC87E /* NewTestAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* NewTestAppTests.m */; };
+ 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+ 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+ 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+@@ -20,21 +20,21 @@
+ 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+ 			proxyType = 1;
+ 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
+-			remoteInfo = TestApp64;
++			remoteInfo = NewTestApp;
+ 		};
+ /* End PBXContainerItemProxy section */
+ 
+ /* Begin PBXFileReference section */
+-		00E356EE1AD99517003FC87E /* TestApp64Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestApp64Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
++		00E356EE1AD99517003FC87E /* NewTestAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewTestAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+ 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = \\"<group>\\"; };
+-		00E356F21AD99517003FC87E /* TestApp64Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestApp64Tests.m; sourceTree = \\"<group>\\"; };
+-		13B07F961A680F5B00A75B9A /* TestApp64.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestApp64.app; sourceTree = BUILT_PRODUCTS_DIR; };
+-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = TestApp64/AppDelegate.h; sourceTree = \\"<group>\\"; };
+-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = TestApp64/AppDelegate.m; sourceTree = \\"<group>\\"; };
+-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = TestApp64/Images.xcassets; sourceTree = \\"<group>\\"; };
+-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = TestApp64/Info.plist; sourceTree = \\"<group>\\"; };
+-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = TestApp64/main.m; sourceTree = \\"<group>\\"; };
+-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = TestApp64/LaunchScreen.storyboard; sourceTree = \\"<group>\\"; };
++		00E356F21AD99517003FC87E /* NewTestAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewTestAppTests.m; sourceTree = \\"<group>\\"; };
++		13B07F961A680F5B00A75B9A /* NewTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
++		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = NewTestApp/AppDelegate.h; sourceTree = \\"<group>\\"; };
++		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = NewTestApp/AppDelegate.m; sourceTree = \\"<group>\\"; };
++		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = NewTestApp/Images.xcassets; sourceTree = \\"<group>\\"; };
++		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NewTestApp/Info.plist; sourceTree = \\"<group>\\"; };
++		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = NewTestApp/main.m; sourceTree = \\"<group>\\"; };
++		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NewTestApp/LaunchScreen.storyboard; sourceTree = \\"<group>\\"; };
+ 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+ /* End PBXFileReference section */
+ 
+@@ -56,13 +56,13 @@
+ /* End PBXFrameworksBuildPhase section */
+ 
+ /* Begin PBXGroup section */
+-		00E356EF1AD99517003FC87E /* TestApp64Tests */ = {
++		00E356EF1AD99517003FC87E /* NewTestAppTests */ = {
+ 			isa = PBXGroup;
+ 			children = (
+-				00E356F21AD99517003FC87E /* TestApp64Tests.m */,
++				00E356F21AD99517003FC87E /* NewTestAppTests.m */,
+ 				00E356F01AD99517003FC87E /* Supporting Files */,
+ 			);
+-			path = TestApp64Tests;
++			path = NewTestAppTests;
+ 			sourceTree = \\"<group>\\";
+ 		};
+ 		00E356F01AD99517003FC87E /* Supporting Files */ = {
+@@ -73,7 +73,7 @@
+ 			name = \\"Supporting Files\\";
+ 			sourceTree = \\"<group>\\";
+ 		};
+-		13B07FAE1A68108700A75B9A /* TestApp64 */ = {
++		13B07FAE1A68108700A75B9A /* NewTestApp */ = {
+ 			isa = PBXGroup;
+ 			children = (
+ 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
+@@ -83,7 +83,7 @@
+ 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+ 				13B07FB71A68108700A75B9A /* main.m */,
+ 			);
+-			name = TestApp64;
++			name = NewTestApp;
+ 			sourceTree = \\"<group>\\";
+ 		};
+ 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
+@@ -104,9 +104,9 @@
+ 		83CBB9F61A601CBA00E9B192 = {
+ 			isa = PBXGroup;
+ 			children = (
+-				13B07FAE1A68108700A75B9A /* TestApp64 */,
++				13B07FAE1A68108700A75B9A /* NewTestApp */,
+ 				832341AE1AAA6A7D00B99B32 /* Libraries */,
+-				00E356EF1AD99517003FC87E /* TestApp64Tests */,
++				00E356EF1AD99517003FC87E /* NewTestAppTests */,
+ 				83CBBA001A601CBA00E9B192 /* Products */,
+ 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+ 			);
+@@ -118,8 +118,8 @@
+ 		83CBBA001A601CBA00E9B192 /* Products */ = {
+ 			isa = PBXGroup;
+ 			children = (
+-				13B07F961A680F5B00A75B9A /* TestApp64.app */,
+-				00E356EE1AD99517003FC87E /* TestApp64Tests.xctest */,
++				13B07F961A680F5B00A75B9A /* NewTestApp.app */,
++				00E356EE1AD99517003FC87E /* NewTestAppTests.xctest */,
+ 			);
+ 			name = Products;
+ 			sourceTree = \\"<group>\\";
+@@ -127,9 +127,9 @@
+ /* End PBXGroup section */
+ 
+ /* Begin PBXNativeTarget section */
+-		00E356ED1AD99517003FC87E /* TestApp64Tests */ = {
++		00E356ED1AD99517003FC87E /* NewTestAppTests */ = {
+ 			isa = PBXNativeTarget;
+-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget \\"TestApp64Tests\\" */;
++			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget \\"NewTestAppTests\\" */;
+ 			buildPhases = (
+ 				00E356EA1AD99517003FC87E /* Sources */,
+ 				00E356EB1AD99517003FC87E /* Frameworks */,
+@@ -140,14 +140,14 @@
+ 			dependencies = (
+ 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
+ 			);
+-			name = TestApp64Tests;
+-			productName = TestApp64Tests;
+-			productReference = 00E356EE1AD99517003FC87E /* TestApp64Tests.xctest */;
++			name = NewTestAppTests;
++			productName = NewTestAppTests;
++			productReference = 00E356EE1AD99517003FC87E /* NewTestAppTests.xctest */;
+ 			productType = \\"com.apple.product-type.bundle.unit-test\\";
+ 		};
+-		13B07F861A680F5B00A75B9A /* TestApp64 */ = {
++		13B07F861A680F5B00A75B9A /* NewTestApp */ = {
+ 			isa = PBXNativeTarget;
+-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget \\"TestApp64\\" */;
++			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget \\"NewTestApp\\" */;
+ 			buildPhases = (
+ 				FD10A7F022414F080027D42C /* Start Packager */,
+ 				13B07F871A680F5B00A75B9A /* Sources */,
+@@ -159,9 +159,9 @@
+ 			);
+ 			dependencies = (
+ 			);
+-			name = TestApp64;
+-			productName = TestApp64;
+-			productReference = 13B07F961A680F5B00A75B9A /* TestApp64.app */;
++			name = NewTestApp;
++			productName = NewTestApp;
++			productReference = 13B07F961A680F5B00A75B9A /* NewTestApp.app */;
+ 			productType = \\"com.apple.product-type.application\\";
+ 		};
+ /* End PBXNativeTarget section */
+@@ -181,7 +181,7 @@
+ 					};
+ 				};
+ 			};
+-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject \\"TestApp64\\" */;
++			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject \\"NewTestApp\\" */;
+ 			compatibilityVersion = \\"Xcode 12.0\\";
+ 			developmentRegion = en;
+ 			hasScannedForEncodings = 0;
+@@ -194,8 +194,8 @@
+ 			projectDirPath = \\"\\";
+ 			projectRoot = \\"\\";
+ 			targets = (
+-				13B07F861A680F5B00A75B9A /* TestApp64 */,
+-				00E356ED1AD99517003FC87E /* TestApp64Tests */,
++				13B07F861A680F5B00A75B9A /* NewTestApp */,
++				00E356ED1AD99517003FC87E /* NewTestAppTests */,
+ 			);
+ 		};
+ /* End PBXProject section */
+@@ -260,7 +260,7 @@
+ 			isa = PBXSourcesBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				00E356F31AD99517003FC87E /* TestApp64Tests.m in Sources */,
++				00E356F31AD99517003FC87E /* NewTestAppTests.m in Sources */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+@@ -278,7 +278,7 @@
+ /* Begin PBXTargetDependency section */
+ 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
+ 			isa = PBXTargetDependency;
+-			target = 13B07F861A680F5B00A75B9A /* TestApp64 */;
++			target = 13B07F861A680F5B00A75B9A /* NewTestApp */;
+ 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+ 		};
+ /* End PBXTargetDependency section */
+@@ -292,7 +292,7 @@
+ 					\\"DEBUG=1\\",
+ 					\\"$(inherited)\\",
+ 				);
+-				INFOPLIST_FILE = TestApp64Tests/Info.plist;
++				INFOPLIST_FILE = NewTestAppTests/Info.plist;
+ 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					\\"$(inherited)\\",
+@@ -306,7 +306,7 @@
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = \\"org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)\\";
+ 				PRODUCT_NAME = \\"$(TARGET_NAME)\\";
+-				TEST_HOST = \\"$(BUILT_PRODUCTS_DIR)/TestApp64.app/TestApp64\\";
++				TEST_HOST = \\"$(BUILT_PRODUCTS_DIR)/NewTestApp.app/NewTestApp\\";
+ 			};
+ 			name = Debug;
+ 		};
+@@ -315,7 +315,7 @@
+ 			buildSettings = {
+ 				BUNDLE_LOADER = \\"$(TEST_HOST)\\";
+ 				COPY_PHASE_STRIP = NO;
+-				INFOPLIST_FILE = TestApp64Tests/Info.plist;
++				INFOPLIST_FILE = NewTestAppTests/Info.plist;
+ 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					\\"$(inherited)\\",
+@@ -329,7 +329,7 @@
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = \\"org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)\\";
+ 				PRODUCT_NAME = \\"$(TARGET_NAME)\\";
+-				TEST_HOST = \\"$(BUILT_PRODUCTS_DIR)/TestApp64.app/TestApp64\\";
++				TEST_HOST = \\"$(BUILT_PRODUCTS_DIR)/NewTestApp.app/NewTestApp\\";
+ 			};
+ 			name = Release;
+ 		};
+@@ -340,7 +340,7 @@
+ 				CLANG_ENABLE_MODULES = YES;
+ 				CURRENT_PROJECT_VERSION = 1;
+ 				ENABLE_BITCODE = NO;
+-				INFOPLIST_FILE = TestApp64/Info.plist;
++				INFOPLIST_FILE = NewTestApp/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					\\"$(inherited)\\",
+ 					\\"@executable_path/Frameworks\\",
+@@ -351,7 +351,7 @@
+ 					\\"-lc++\\",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = \\"org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)\\";
+-				PRODUCT_NAME = TestApp64;
++				PRODUCT_NAME = NewTestApp;
+ 				SWIFT_OPTIMIZATION_LEVEL = \\"-Onone\\";
+ 				SWIFT_VERSION = 5.0;
+ 				VERSIONING_SYSTEM = \\"apple-generic\\";
+@@ -364,7 +364,7 @@
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+ 				CLANG_ENABLE_MODULES = YES;
+ 				CURRENT_PROJECT_VERSION = 1;
+-				INFOPLIST_FILE = TestApp64/Info.plist;
++				INFOPLIST_FILE = NewTestApp/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					\\"$(inherited)\\",
+ 					\\"@executable_path/Frameworks\\",
+@@ -375,7 +375,7 @@
+ 					\\"-lc++\\",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = \\"org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)\\";
+-				PRODUCT_NAME = TestApp64;
++				PRODUCT_NAME = NewTestApp;
+ 				SWIFT_VERSION = 5.0;
+ 				VERSIONING_SYSTEM = \\"apple-generic\\";
+ 			};
+@@ -505,7 +505,7 @@
+ /* End XCBuildConfiguration section */
+ 
+ /* Begin XCConfigurationList section */
+-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget \\"TestApp64Tests\\" */ = {
++		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget \\"NewTestAppTests\\" */ = {
+ 			isa = XCConfigurationList;
+ 			buildConfigurations = (
+ 				00E356F61AD99517003FC87E /* Debug */,
+@@ -514,7 +514,7 @@
+ 			defaultConfigurationIsVisible = 0;
+ 			defaultConfigurationName = Release;
+ 		};
+-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget \\"TestApp64\\" */ = {
++		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget \\"NewTestApp\\" */ = {
+ 			isa = XCConfigurationList;
+ 			buildConfigurations = (
+ 				13B07F941A680F5B00A75B9A /* Debug */,
+@@ -523,7 +523,7 @@
+ 			defaultConfigurationIsVisible = 0;
+ 			defaultConfigurationName = Release;
+ 		};
+-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject \\"TestApp64\\" */ = {
++		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject \\"NewTestApp\\" */ = {
+ 			isa = XCConfigurationList;
+ 			buildConfigurations = (
+ 				83CBBA201A601CBA00E9B192 /* Debug */,
+diff --git a/tests/rn-versions/0.64/ios/TestApp64.xcodeproj/xcshareddata/xcschemes/TestApp64.xcscheme b/tests/rn-versions/0.64/ios/NewTestApp.xcodeproj/xcshareddata/xcschemes/NewTestApp.xcscheme
+similarity index 80%
+rename from tests/rn-versions/0.64/ios/TestApp64.xcodeproj/xcshareddata/xcschemes/TestApp64.xcscheme
+rename to tests/rn-versions/0.64/ios/NewTestApp.xcodeproj/xcshareddata/xcschemes/NewTestApp.xcscheme
+index 21ab325..92425cf 100644
+--- a/tests/rn-versions/0.64/ios/TestApp64.xcodeproj/xcshareddata/xcschemes/TestApp64.xcscheme
++++ b/tests/rn-versions/0.64/ios/NewTestApp.xcodeproj/xcshareddata/xcschemes/NewTestApp.xcscheme
+@@ -15,9 +15,9 @@
+             <BuildableReference
+                BuildableIdentifier = \\"primary\\"
+                BlueprintIdentifier = \\"13B07F861A680F5B00A75B9A\\"
+-               BuildableName = \\"TestApp64.app\\"
+-               BlueprintName = \\"TestApp64\\"
+-               ReferencedContainer = \\"container:TestApp64.xcodeproj\\">
++               BuildableName = \\"NewTestApp.app\\"
++               BlueprintName = \\"NewTestApp\\"
++               ReferencedContainer = \\"container:NewTestApp.xcodeproj\\">
+             </BuildableReference>
+          </BuildActionEntry>
+       </BuildActionEntries>
+@@ -33,9 +33,9 @@
+             <BuildableReference
+                BuildableIdentifier = \\"primary\\"
+                BlueprintIdentifier = \\"00E356ED1AD99517003FC87E\\"
+-               BuildableName = \\"TestApp64Tests.xctest\\"
+-               BlueprintName = \\"TestApp64Tests\\"
+-               ReferencedContainer = \\"container:TestApp64.xcodeproj\\">
++               BuildableName = \\"NewTestAppTests.xctest\\"
++               BlueprintName = \\"NewTestAppTests\\"
++               ReferencedContainer = \\"container:NewTestApp.xcodeproj\\">
+             </BuildableReference>
+          </TestableReference>
+       </Testables>
+@@ -55,9 +55,9 @@
+          <BuildableReference
+             BuildableIdentifier = \\"primary\\"
+             BlueprintIdentifier = \\"13B07F861A680F5B00A75B9A\\"
+-            BuildableName = \\"TestApp64.app\\"
+-            BlueprintName = \\"TestApp64\\"
+-            ReferencedContainer = \\"container:TestApp64.xcodeproj\\">
++            BuildableName = \\"NewTestApp.app\\"
++            BlueprintName = \\"NewTestApp\\"
++            ReferencedContainer = \\"container:NewTestApp.xcodeproj\\">
+          </BuildableReference>
+       </BuildableProductRunnable>
+    </LaunchAction>
+@@ -72,9 +72,9 @@
+          <BuildableReference
+             BuildableIdentifier = \\"primary\\"
+             BlueprintIdentifier = \\"13B07F861A680F5B00A75B9A\\"
+-            BuildableName = \\"TestApp64.app\\"
+-            BlueprintName = \\"TestApp64\\"
+-            ReferencedContainer = \\"container:TestApp64.xcodeproj\\">
++            BuildableName = \\"NewTestApp.app\\"
++            BlueprintName = \\"NewTestApp\\"
++            ReferencedContainer = \\"container:NewTestApp.xcodeproj\\">
+          </BuildableReference>
+       </BuildableProductRunnable>
+    </ProfileAction>
+diff --git a/tests/rn-versions/0.64/ios/TestApp64/AppDelegate.h b/tests/rn-versions/0.64/ios/NewTestApp/AppDelegate.h
+similarity index 100%
+rename from tests/rn-versions/0.64/ios/TestApp64/AppDelegate.h
+rename to tests/rn-versions/0.64/ios/NewTestApp/AppDelegate.h
+diff --git a/tests/rn-versions/0.64/ios/TestApp64/AppDelegate.m b/tests/rn-versions/0.64/ios/NewTestApp/AppDelegate.m
+similarity index 99%
+rename from tests/rn-versions/0.64/ios/TestApp64/AppDelegate.m
+rename to tests/rn-versions/0.64/ios/NewTestApp/AppDelegate.m
+index f0bd868..bbb6591 100644
+--- a/tests/rn-versions/0.64/ios/TestApp64/AppDelegate.m
++++ b/tests/rn-versions/0.64/ios/NewTestApp/AppDelegate.m
+@@ -33,7 +33,7 @@ static void InitializeFlipper(UIApplication *application) {
+ 
+   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+-                                                   moduleName:@\\"TestApp64\\"
++                                                   moduleName:@\\"NewTestApp\\"
+                                             initialProperties:nil];
+ 
+   if (@available(iOS 13.0, *)) {
+diff --git a/tests/rn-versions/0.64/ios/TestApp64/Images.xcassets/AppIcon.appiconset/Contents.json b/tests/rn-versions/0.64/ios/NewTestApp/Images.xcassets/AppIcon.appiconset/Contents.json
+similarity index 100%
+rename from tests/rn-versions/0.64/ios/TestApp64/Images.xcassets/AppIcon.appiconset/Contents.json
+rename to tests/rn-versions/0.64/ios/NewTestApp/Images.xcassets/AppIcon.appiconset/Contents.json
+diff --git a/tests/rn-versions/0.64/ios/TestApp64/Images.xcassets/Contents.json b/tests/rn-versions/0.64/ios/NewTestApp/Images.xcassets/Contents.json
+similarity index 100%
+rename from tests/rn-versions/0.64/ios/TestApp64/Images.xcassets/Contents.json
+rename to tests/rn-versions/0.64/ios/NewTestApp/Images.xcassets/Contents.json
+diff --git a/tests/rn-versions/0.64/ios/TestApp64/Info.plist b/tests/rn-versions/0.64/ios/NewTestApp/Info.plist
+similarity index 98%
+rename from tests/rn-versions/0.64/ios/TestApp64/Info.plist
+rename to tests/rn-versions/0.64/ios/NewTestApp/Info.plist
+index 16f2e56..d0fec53 100644
+--- a/tests/rn-versions/0.64/ios/TestApp64/Info.plist
++++ b/tests/rn-versions/0.64/ios/NewTestApp/Info.plist
+@@ -5,7 +5,7 @@
+ 	<key>CFBundleDevelopmentRegion</key>
+ 	<string>en</string>
+ 	<key>CFBundleDisplayName</key>
+-	<string>TestApp64</string>
++	<string>New Test App</string>
+ 	<key>CFBundleExecutable</key>
+ 	<string>$(EXECUTABLE_NAME)</string>
+ 	<key>CFBundleIdentifier</key>
+diff --git a/tests/rn-versions/0.64/ios/TestApp64/LaunchScreen.storyboard b/tests/rn-versions/0.64/ios/NewTestApp/LaunchScreen.storyboard
+similarity index 100%
+rename from tests/rn-versions/0.64/ios/TestApp64/LaunchScreen.storyboard
+rename to tests/rn-versions/0.64/ios/NewTestApp/LaunchScreen.storyboard
+diff --git a/tests/rn-versions/0.64/ios/TestApp64/main.m b/tests/rn-versions/0.64/ios/NewTestApp/main.m
+similarity index 100%
+rename from tests/rn-versions/0.64/ios/TestApp64/main.m
+rename to tests/rn-versions/0.64/ios/NewTestApp/main.m
+diff --git a/tests/rn-versions/0.64/ios/TestApp64Tests/Info.plist b/tests/rn-versions/0.64/ios/NewTestAppTests/Info.plist
+similarity index 100%
+rename from tests/rn-versions/0.64/ios/TestApp64Tests/Info.plist
+rename to tests/rn-versions/0.64/ios/NewTestAppTests/Info.plist
+diff --git a/tests/rn-versions/0.64/ios/TestApp64Tests/TestApp64Tests.m b/tests/rn-versions/0.64/ios/NewTestAppTests/NewTestAppTests.m
+similarity index 95%
+rename from tests/rn-versions/0.64/ios/TestApp64Tests/TestApp64Tests.m
+rename to tests/rn-versions/0.64/ios/NewTestAppTests/NewTestAppTests.m
+index 7ae393d..8873c92 100644
+--- a/tests/rn-versions/0.64/ios/TestApp64Tests/TestApp64Tests.m
++++ b/tests/rn-versions/0.64/ios/NewTestAppTests/NewTestAppTests.m
+@@ -7,11 +7,11 @@
+ #define TIMEOUT_SECONDS 600
+ #define TEXT_TO_LOOK_FOR @\\"Welcome to React\\"
+ 
+-@interface TestApp64Tests : XCTestCase
++@interface NewTestAppTests : XCTestCase
+ 
+ @end
+ 
+-@implementation TestApp64Tests
++@implementation NewTestAppTests
+ 
+ - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
+ {
+diff --git a/tests/rn-versions/0.64/ios/Podfile b/tests/rn-versions/0.64/ios/Podfile
+index 3d64d82..75945a2 100644
+--- a/tests/rn-versions/0.64/ios/Podfile
++++ b/tests/rn-versions/0.64/ios/Podfile
+@@ -3,7 +3,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
+ 
+ platform :ios, '10.0'
+ 
+-target 'TestApp64' do
++target 'NewTestApp' do
+   config = use_native_modules!
+ 
+   use_react_native!(
+@@ -12,7 +12,7 @@ target 'TestApp64' do
+     :hermes_enabled => false
+   )
+ 
+-  target 'TestApp64Tests' do
++  target 'NewTestAppTests' do
+     inherit! :complete
+     # Pods for testing
+   end
+"
+`;
+
+exports[`rn-versions/0.64 change bundle id 1`] = `
+"diff --git a/tests/rn-versions/0.64/android/app/_BUCK b/tests/rn-versions/0.64/android/app/_BUCK
+index 80c7e70..040a576 100644
+--- a/tests/rn-versions/0.64/android/app/_BUCK
++++ b/tests/rn-versions/0.64/android/app/_BUCK
+@@ -35,12 +35,12 @@ android_library(
+ 
+ android_build_config(
+     name = \\"build_config\\",
+-    package = \\"com.testapp64\\",
++    package = \\"com.test64.app\\",
+ )
+ 
+ android_resource(
+     name = \\"res\\",
+-    package = \\"com.testapp64\\",
++    package = \\"com.test64.app\\",
+     res = \\"src/main/res\\",
+ )
+ 
+diff --git a/tests/rn-versions/0.64/android/app/build.gradle b/tests/rn-versions/0.64/android/app/build.gradle
+index 79e84a7..9701ed8 100644
+--- a/tests/rn-versions/0.64/android/app/build.gradle
++++ b/tests/rn-versions/0.64/android/app/build.gradle
+@@ -131,7 +131,7 @@ android {
+     }
+ 
+     defaultConfig {
+-        applicationId \\"com.testapp64\\"
++        applicationId \\"com.test64.app\\"
+         minSdkVersion rootProject.ext.minSdkVersion
+         targetSdkVersion rootProject.ext.targetSdkVersion
+         versionCode 1
+diff --git a/tests/rn-versions/0.64/android/app/src/debug/java/com/testapp64/ReactNativeFlipper.java b/tests/rn-versions/0.64/android/app/src/debug/java/com/test64/app/ReactNativeFlipper.java
+similarity index 99%
+rename from tests/rn-versions/0.64/android/app/src/debug/java/com/testapp64/ReactNativeFlipper.java
+rename to tests/rn-versions/0.64/android/app/src/debug/java/com/test64/app/ReactNativeFlipper.java
+index 6ee532d..60d5b55 100644
+--- a/tests/rn-versions/0.64/android/app/src/debug/java/com/testapp64/ReactNativeFlipper.java
++++ b/tests/rn-versions/0.64/android/app/src/debug/java/com/test64/app/ReactNativeFlipper.java
+@@ -4,7 +4,7 @@
+  * <p>This source code is licensed under the MIT license found in the LICENSE file in the root
+  * directory of this source tree.
+  */
+-package com.testapp64;
++package com.test64.app;
+ 
+ import android.content.Context;
+ import com.facebook.flipper.android.AndroidFlipperClient;
+diff --git a/tests/rn-versions/0.64/android/app/src/main/AndroidManifest.xml b/tests/rn-versions/0.64/android/app/src/main/AndroidManifest.xml
+index 4745069..26afdde 100644
+--- a/tests/rn-versions/0.64/android/app/src/main/AndroidManifest.xml
++++ b/tests/rn-versions/0.64/android/app/src/main/AndroidManifest.xml
+@@ -1,5 +1,5 @@
+ <manifest xmlns:android=\\"http://schemas.android.com/apk/res/android\\"
+-  package=\\"com.testapp64\\">
++  package=\\"com.test64.app\\">
+ 
+     <uses-permission android:name=\\"android.permission.INTERNET\\" />
+ 
+diff --git a/tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainActivity.java b/tests/rn-versions/0.64/android/app/src/main/java/com/test64/app/MainActivity.java
+similarity index 93%
+rename from tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainActivity.java
+rename to tests/rn-versions/0.64/android/app/src/main/java/com/test64/app/MainActivity.java
+index a2f226f..003db2a 100644
+--- a/tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainActivity.java
++++ b/tests/rn-versions/0.64/android/app/src/main/java/com/test64/app/MainActivity.java
+@@ -1,4 +1,4 @@
+-package com.testapp64;
++package com.test64.app;
+ 
+ import com.facebook.react.ReactActivity;
+ 
+diff --git a/tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainApplication.java b/tests/rn-versions/0.64/android/app/src/main/java/com/test64/app/MainApplication.java
+similarity index 96%
+rename from tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainApplication.java
+rename to tests/rn-versions/0.64/android/app/src/main/java/com/test64/app/MainApplication.java
+index 7ffdb00..7ce6787 100644
+--- a/tests/rn-versions/0.64/android/app/src/main/java/com/testapp64/MainApplication.java
++++ b/tests/rn-versions/0.64/android/app/src/main/java/com/test64/app/MainApplication.java
+@@ -1,4 +1,4 @@
+-package com.testapp64;
++package com.test64.app;
+ 
+ import android.app.Application;
+ import android.content.Context;
+@@ -62,7 +62,7 @@ public class MainApplication extends Application implements ReactApplication {
+          We use reflection here to pick up the class that initializes Flipper,
+         since Flipper library is not available in release mode
+         */
+-        Class<?> aClass = Class.forName(\\"com.testapp64.ReactNativeFlipper\\");
++        Class<?> aClass = Class.forName(\\"com.test64.app.ReactNativeFlipper\\");
+         aClass
+             .getMethod(\\"initializeFlipper\\", Context.class, ReactInstanceManager.class)
+             .invoke(null, context, reactInstanceManager);
+"
+`;
