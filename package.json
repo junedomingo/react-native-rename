@@ -44,7 +44,7 @@
   "homepage": "https://github.com/junedomingo/react-native-rename#readme",
   "dependencies": {
     "cheerio": "^0.22.0",
-    "colors": "^1.1.2",
+    "colors": "1.4.0",
     "commander": "^2.9.0",
     "globby": "^11.0.1",
     "node-replace": "^0.3.3",
