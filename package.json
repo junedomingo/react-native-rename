@@ -1,6 +1,6 @@
 {
   "name": "react-native-rename",
-  "version": "2.9.0-alpha",
+  "version": "2.0.99-alpha",
   "description": "Rename react-native app with just one command",
   "main": "lib/index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/escolarea/react-native-rename.git"
+    "url": "git+https://github.com/escolarea/react-native-rename.git#v2.0.99-alpha"
   },
   "keywords": [
     "react-native",
