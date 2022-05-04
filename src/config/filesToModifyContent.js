@@ -4,7 +4,7 @@
 export function filesToModifyContent(currentAppName, newName) {
   const nS_CurrentAppName = currentAppName.replace(/\s/g, '');
   const nS_NewName = newName.replace(/\s/g, '');
-  console.log("[filesToModifyContent][test] ...");
+  console.log(`[filesToModifyContent][test] ...nsCAN: ${nS_CurrentAppName} ... nsNN: ${nS_NewName}  ...  CAN: ${currentAppName}... NN: ${newName}`);
   return [
     {
       regex: `<string name="app_name">${currentAppName}</string>`,
