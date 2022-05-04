@@ -41,8 +41,8 @@ export function filesToModifyContent(currentAppName, newName) {
       paths: [`ios/${nS_NewName}/Info.plist`],
     },
     {
-      regex: `"name": "${nS_CurrentAppName}"`,
-      replacement: `"name": "${nS_NewName}"`,
+      regex: `"name": "${currentAppName}"`,
+      replacement: `"name": "${newName}"`,
       paths: ['package.json'],
     },
     {
