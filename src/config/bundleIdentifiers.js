@@ -4,6 +4,8 @@ import globby from 'globby';
 
 export function bundleIdentifiers({ currentAppName, newName, currentBundleID, newBundleID, newBundlePath }) {
   const nS_CurrentAppName = currentAppName.replace(/\s/g, '');
+  const ns_CurrentBundleIDAsPath = currentBundleID.replace(/\./g, '/');
+  const ns_NewBundleIDAsPath = newBundleID.replace(/\./g, '/');
   const nS_NewName = newName.replace(/\s/g, '');
 
   return [
@@ -30,6 +32,14 @@ export function bundleIdentifiers({ currentAppName, newName, currentBundleID, ne
       regex: new RegExp(`(?!\\.)(.|^)${nS_CurrentAppName}`, 'g'),
       replacement: `$1${nS_NewName}`,
       paths: [`${newBundlePath}/MainActivity.java`],
+    },
+    {
+      regex: `L${ns_CurrentBundleIDAsPath}/newarchitecture`,
+      replacement: `L${ns_NewBundleIDAsPath}/newarchitecture`,
+      paths: [
+        'android/app/src/main/jni/MainApplicationTurboModuleManagerDelegate.h',
+        'android/app/src/main/jni/MainComponentsRegistry.h',
+      ],
     },
   ];
 }
