@@ -1,0 +1,25 @@
+{
+  "name": "react-native-rename3",
+  "version": "3.0.0",
+  "description": "Rename react-native app with just one command",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "esbuild src/index.js --platform=node --bundle --outdir=lib --watch --external:shelljs",
+    "build": "esbuild src/index.js --platform=node --bundle --outdir=lib --external:shelljs"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "^0.16.4",
+    "prettier": "^2.8.1"
+  },
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "commander": "^9.4.1",
+    "dotenv": "^16.0.3",
+    "globby": "^13.1.2",
+    "replace-in-file": "^6.3.5",
+    "shelljs": "^0.8.5"
+  }
+}
