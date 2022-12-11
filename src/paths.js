@@ -48,6 +48,7 @@ export const getReplaceInFileOptions = (currentName, newName) => {
         `ios/*.xcodeproj/xcshareddata/xcschemes/*-tvOS.xcscheme`,
         `ios/*.xcodeproj/xcshareddata/xcschemes/*.xcscheme`,
         `ios/*/AppDelegate.m`,
+        'ios/*/AppDelegate.mm',
         'android/settings.gradle',
         `ios/*Tests/*Tests.m`,
         'ios/build/info.plist',
@@ -67,7 +68,7 @@ export const getReplaceInFileOptions = (currentName, newName) => {
       to: `${clearedNewName}Tests`,
     },
     {
-      files: [`ios/*/Base.lproj/LaunchScreen.xib`],
+      files: [`ios/*/Base.lproj/LaunchScreen.xib`, 'ios/*/LaunchScreen.storyboard'],
       from: new RegExp(`\\b${currentName}\\b`, 'gi'),
       to: newName,
     },
@@ -80,6 +81,14 @@ export const getReplaceInFileOptions = (currentName, newName) => {
       files: [`android/app/src/main/java/*/*/MainActivity.java`],
       from: new RegExp(`return "${currentName}";`, 'gi'),
       to: `return "${newName}";`,
+    },
+    {
+      files: [
+        'android/app/src/main/jni/CMakeLists.txt',
+        'android/app/src/main/java/*/*/newarchitecture/modules/MainApplicationTurboModuleManagerDelegate.java',
+      ],
+      from: new RegExp(`\\b${clearedCurrentName.toLowerCase()}_appmodules\\b`, 'gi'),
+      to: `${clearedNewName.toLowerCase()}_appmodules`,
     },
     {
       files: ['package.json'],
