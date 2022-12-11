@@ -76,8 +76,8 @@ export const renameFoldersAndFiles = async (currentName, newName) => {
       await fs.promises.rename(old_path, new_path);
       console.log(`.${new_path}`, chalk.green('RENAMED'));
     } catch (error) {
-      if (error.code === 'ENOENT') {
-        console.log(`.${old_path}`, chalk.yellow('NOT FOUND'));
+      if (error.code !== 'ENOENT') {
+        console.log(`.${old_path}`, chalk.yellow('Something went wrong'));
       }
     }
   });
