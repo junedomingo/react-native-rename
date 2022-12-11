@@ -32,7 +32,7 @@ export const getReplaceInFileOptions = (currentName, newName) => {
   return [
     {
       files: ['android/app/src/main/res/values/strings.xml'],
-      from: new RegExp(`/\b${currentName}\b/`, 'g'),
+      from: new RegExp(currentName, 'g'),
       to: newName,
     },
     {
@@ -50,17 +50,17 @@ export const getReplaceInFileOptions = (currentName, newName) => {
         'ios/build/info.plist',
         'ios/Podfile',
       ],
-      from: new RegExp(`/\b${clearedCurrentName}\b/`, 'g'),
+      from: new RegExp(clearedCurrentName, 'g'),
       to: clearedNewName,
     },
     {
       files: [`ios/*/Base.lproj/LaunchScreen.xib`],
-      from: new RegExp(`/\b${currentName}\b/`, 'g'),
+      from: new RegExp(currentName, 'g'),
       to: newName,
     },
     {
       files: [`ios/*/Info.plist`],
-      from: new RegExp(`/\b${currentName}\b/`, 'g'),
+      from: new RegExp(currentName, 'g'),
       to: newName,
     },
     {
@@ -76,7 +76,7 @@ export const getReplaceInFileOptions = (currentName, newName) => {
     },
     {
       files: ['app.json'],
-      from: new RegExp(`/\b${currentName}\b/`, 'g'),
+      from: new RegExp(currentName, 'g'),
       to: newName,
     },
   ];
