@@ -83,8 +83,8 @@ export const renameFoldersAndFiles = async (currentName, newName) => {
 export const modifyFilesContent = async (currentName, newName) => {
   const replaceInFileOptions = getReplaceInFileOptions(currentName, newName);
   const filteredReplaceInFileOptions = replaceInFileOptions.map(option => {
-    const files = globbySync(option.files.map(file => path.join(APP_PATH, file)));
-    return { ...option, countMatches: true, files };
+    const files = option.files.map(file => path.join(APP_PATH, file));
+    return { ...option, countMatches: true, allowEmptyPaths: true, files };
   });
 
   const promises = filteredReplaceInFileOptions.map(async (option, index) => {
