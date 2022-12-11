@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import fs from 'fs';
-import { globbySync } from 'globby';
 import path from 'path';
 import replace from 'replace-in-file';
 import shell from 'shelljs';
@@ -9,16 +8,18 @@ import {
   APP_PATH,
   NON_ALPHANUMERIC_REGEX,
   PROMISE_DELAY,
-  SPACE_REGEX,
   VALID_APP_STORE_NAME_REGEX,
+  XML_ENTITIES,
+  XML_ENTITIES_REGEX,
 } from './constants';
 import { androidManifestXml, getFoldersAndFilesPaths, getReplaceInFileOptions } from './paths';
 
 const androidManifestPath = path.join(APP_PATH, androidManifestXml);
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-export const removeSpaces = str => str.replaceAll(SPACE_REGEX, '');
-export const clearName = name => name.replaceAll(NON_ALPHANUMERIC_REGEX, '');
+export const removeSpaces = str => str.replaceAll(' ', '');
+export const clearName = name => name.replace(NON_ALPHANUMERIC_REGEX, '');
+export const escapeXmlEntities = name => name.replace(XML_ENTITIES_REGEX, tag => XML_ENTITIES[tag]);
 const pluralize = (count, noun, suffix = 'es') => `${count} ${noun}${count !== 1 ? suffix : ''}`;
 
 export const validateCreation = async () => {
@@ -68,6 +69,9 @@ export const renameFoldersAndFiles = async (currentName, newName) => {
       APP_PATH,
       filePath.replace(clearName(currentName), clearName(newName))
     );
+    if (old_path === new_path) {
+      return console.log(`.${old_path}`, chalk.yellow('NOT RENAMED'));
+    }
     try {
       await fs.promises.rename(old_path, new_path);
       console.log(`.${new_path}`, chalk.green('RENAMED'));

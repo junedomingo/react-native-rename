@@ -1,4 +1,4 @@
-import { clearName } from './utils';
+import { clearName, escapeXmlEntities } from './utils';
 
 export const androidManifestXml = '/android/app/src/main/AndroidManifest.xml';
 
@@ -24,6 +24,7 @@ export const getFoldersAndFilesPaths = (currentName, newName) => {
 export const getReplaceInFileOptions = (currentName, newName) => {
   const clearedCurrentName = clearName(currentName);
   const clearedNewName = clearName(newName);
+  const escapedNewName = escapeXmlEntities(newName);
 
   // IMPORTANT: app.json file should be last in the array
   // because it contains the name of the app
@@ -32,14 +33,16 @@ export const getReplaceInFileOptions = (currentName, newName) => {
   return [
     {
       files: ['android/app/src/main/res/values/strings.xml'],
-      from: new RegExp(currentName, 'g'),
+      from: new RegExp(`\\b${currentName}\\b`, 'gi'),
+      to: escapedNewName,
+    },
+    {
+      files: ['index.js', 'index.android.js', 'index.ios.js'],
+      from: [new RegExp(`\\b${currentName}\\b`, 'g'), new RegExp(`\\b'${currentName}'\\b`, 'g')],
       to: newName,
     },
     {
       files: [
-        'index.js',
-        'index.android.js',
-        'index.ios.js',
         `ios/*.xcodeproj/project.pbxproj`,
         `ios/*.xcworkspace/contents.xcworkspacedata`,
         `ios/*.xcodeproj/xcshareddata/xcschemes/*-tvOS.xcscheme`,
@@ -50,24 +53,33 @@ export const getReplaceInFileOptions = (currentName, newName) => {
         'ios/build/info.plist',
         'ios/Podfile',
       ],
-      from: new RegExp(clearedCurrentName, 'g'),
+      from: new RegExp(`\\b${clearedCurrentName}\\b`, 'gi'),
       to: clearedNewName,
     },
     {
+      files: [
+        `ios/*.xcodeproj/project.pbxproj`,
+        `ios/*.xcodeproj/xcshareddata/xcschemes/*.xcscheme`,
+        `ios/*Tests/*Tests.m`,
+        'ios/Podfile',
+      ],
+      from: new RegExp(`\\b${clearedCurrentName}Tests\\b`, 'gi'),
+      to: `${clearedNewName}Tests`,
+    },
+    {
       files: [`ios/*/Base.lproj/LaunchScreen.xib`],
-      from: new RegExp(currentName, 'g'),
+      from: new RegExp(`\\b${currentName}\\b`, 'gi'),
       to: newName,
     },
     {
       files: [`ios/*/Info.plist`],
-      from: new RegExp(currentName, 'g'),
-      to: newName,
+      from: new RegExp(`\\b${currentName}\\b`, 'gi'),
+      to: escapedNewName,
     },
     {
       files: [`android/app/src/main/java/*/*/MainActivity.java`],
-      from: new RegExp(`return "${currentName}";`, 'g'),
+      from: new RegExp(`return "${currentName}";`, 'gi'),
       to: `return "${newName}";`,
-      _useGlobMatching: true,
     },
     {
       files: ['package.json'],
@@ -76,7 +88,7 @@ export const getReplaceInFileOptions = (currentName, newName) => {
     },
     {
       files: ['app.json'],
-      from: new RegExp(currentName, 'g'),
+      from: new RegExp(`\\b${currentName}\\b`, 'gi'),
       to: newName,
     },
   ];
