@@ -52,7 +52,8 @@ export const validateNewName = name => {
 
   if (!VALID_APP_STORE_NAME_REGEX.test(name)) {
     console.log(
-      `New app name "${name}" is invalid. Name can only contain alphanumeric characters, spaces, and the following special characters: \n. _ + ' & -`
+      `New app name "${name}" is invalid.
+Name can only contain alphanumeric characters, spaces, and the following special characters: . _ + ' & -`
     );
     process.exit();
   }
