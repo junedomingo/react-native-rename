@@ -17,6 +17,7 @@ import {
   getOtherModifyFilesContentOptions,
   iosPlist,
   iosXcodeproj,
+  packageJson,
 } from './paths';
 
 dotenv.config();
@@ -26,7 +27,7 @@ const NON_ALPHANUMERIC_REGEX = /[^A-Za-z0-9]/g;
 const PROMISE_DELAY = 200;
 const MAX_NAME_LENGTH = 30;
 const MIN_NAME_LENGTH = 1;
-const MIN_ALPHANUMERIC_NAME_LENGTH = 2;
+const MIN_ALPHANUMERIC_NAME_LENGTH = 4;
 const NON_LANGUAGE_ALPHANUMERIC_REGEX = /[^\p{L}\p{N}]+/gu;
 
 export const removeSpaces = str => str.replaceAll(' ', '');
@@ -37,12 +38,36 @@ const pluralize = (count, noun, suffix = 'es') => `${count} ${noun}${count !== 1
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 export const cleanString = str => str.replace(NON_LANGUAGE_ALPHANUMERIC_REGEX, '');
 
-const androidManifestPath = path.join(APP_PATH, androidManifestXml);
+export const checkRepositoryGitStatus = () => {
+  shell.cd(APP_PATH);
+  const output = shell.exec('git status', { silent: true }).stdout;
+  const isClean = output.includes('nothing to commit, working tree clean');
+
+  if (!isClean) {
+    console.log(
+      `The directory is not clean. There are changes that have not been committed to the Git repository.
+Or you can use the 'git stash' command to save your changes and return the directory to a clean state.`
+    );
+    process.exit();
+  }
+};
+
+export const validateGitRepository = () => {
+  shell.cd(APP_PATH);
+  const isGitRepository =
+    shell.exec('git rev-parse --is-inside-work-tree', { silent: true }).code === 0;
+
+  if (!isGitRepository) {
+    console.log('This is not a git repository');
+    process.exit();
+  }
+};
 
 export const validateCreation = () => {
   const fileExists =
     fs.existsSync(globbySync(path.join(APP_PATH, iosPlist))[0]) &&
     fs.existsSync(path.join(APP_PATH, androidValuesStrings));
+
   if (!fileExists) {
     console.log('Directory should be created using "react-native init"');
     process.exit();
@@ -51,10 +76,21 @@ export const validateCreation = () => {
 
 export const validateNewName = name => {
   const isLengthValid = name.length <= MAX_NAME_LENGTH;
+
   if (!isLengthValid) {
     console.log(`New app name "${name}" is too long`);
     process.exit();
   }
+
+  // const cleanNameLength = cleanString(name).length;
+  // const isAlphanumericLengthValid = cleanNameLength >= MIN_ALPHANUMERIC_NAME_LENGTH;
+
+  // if (!isAlphanumericLengthValid) {
+  //   console.log(
+  //     `New app name "${name}" is too short, it should be at least ${MIN_ALPHANUMERIC_NAME_LENGTH} characters long`
+  //   );
+  //   process.exit();
+  // }
 };
 
 const getCurrentNameFromXml = ({ filepath, selector }) => {
@@ -102,24 +138,24 @@ const getIosXcodeProjectPathName = () => {
 const renameFoldersAndFiles = async ({ foldersAndFilesPaths, currentPathName, newName }) => {
   const promises = foldersAndFilesPaths.map(async (filePath, index) => {
     await delay(index * PROMISE_DELAY);
-    const old_path = path.join(APP_PATH, filePath);
-    const new_path = path.join(
+    const oldPath = path.join(APP_PATH, filePath);
+    const newPath = path.join(
       APP_PATH,
       filePath.replace(cleanString(currentPathName), cleanString(newName))
     );
-    if (old_path === new_path) {
-      return console.log(`.${old_path}`, chalk.yellow('NOT RENAMED'));
+    if (oldPath === newPath) {
+      return console.log(`.${oldPath}`, chalk.yellow('NOT RENAMED'));
     }
     new Promise(resolve => {
-      if (!fs.existsSync(old_path)) {
+      if (!fs.existsSync(oldPath)) {
         return resolve();
       }
-      const shellMove = shell.mv('-f', old_path, new_path);
+      const shellMove = shell.mv('-f', oldPath, newPath);
       if (shellMove.code !== 0) {
         console.log(chalk.red(shellMove.stderr));
       }
       resolve();
-      console.log(`.${new_path}`, chalk.green('RENAMED'));
+      console.log(`.${newPath}`, chalk.green('RENAMED'));
     });
   });
   await Promise.all(promises);
@@ -131,48 +167,50 @@ export const renameIosFoldersAndFiles = async newName => {
   await renameFoldersAndFiles({ foldersAndFilesPaths, currentPathName, newName });
 };
 
-export const modifyFilesContent = async ({ modifyFilesContentOptions, currentName, newName }) => {
-  const promises = modifyFilesContentOptions
-    .map(option => {
-      return {
-        ...option,
-        countMatches: true,
-        allowEmptyPaths: true,
-        files: option.files.map(file => path.join(APP_PATH, file)),
-      };
-    })
-    .map(async (option, index) => {
-      await delay(index * PROMISE_DELAY);
-      try {
-        const results = await replace(option);
-        results.map(result => {
-          const hasChanged = result.hasChanged;
-          const message = `${hasChanged ? 'MODIFIED' : 'NOT MODIFIED'} (${pluralize(
-            result.numMatches,
-            'match'
-          )})`;
-          console.log(`.${result.file}`, hasChanged ? chalk.green(message) : chalk.yellow(message));
-        });
-      } catch (error) {
-        const filePath = error.message.replace('No files match the pattern:', '').trim();
-        console.log(`.${filePath}`, chalk.yellow('NOT FOUND'));
-      }
-    });
+export const modifyFilesContent = async modifyFilesContentOptions => {
+  const promises = modifyFilesContentOptions.map(async (option, index) => {
+    await delay(index * PROMISE_DELAY);
+    const updatedOption = {
+      ...option,
+      countMatches: true,
+      allowEmptyPaths: true,
+      files: option.files.map(file => path.join(APP_PATH, file)),
+    };
+    try {
+      const results = await replace(updatedOption);
+      results.map(result => {
+        const hasChanged = result.hasChanged;
+        const message = `${hasChanged ? 'MODIFIED' : 'NOT MODIFIED'} (${pluralize(
+          result.numMatches,
+          'match'
+        )})`;
+        console.log(`.${result.file}`, hasChanged ? chalk.green(message) : chalk.yellow(message));
+      });
+    } catch (error) {
+      const filePath = error.message.replace('No files match the pattern:', '').trim();
+      console.log(`.${filePath}`, chalk.yellow('NOT FOUND'));
+    }
+  });
   await Promise.all(promises);
 };
 
 export const modifyIosFilesContent = async (currentName, newName) => {
   const modifyFilesContentOptions = getIosModifyFilesContentOptions(currentName, newName);
-  await modifyFilesContent({ modifyFilesContentOptions, currentName, newName });
+  await modifyFilesContent(modifyFilesContentOptions);
 };
 
-export const modifyOtherFilesContent = async (currentName, newName) => {
-  const modifyFilesContentOptions = getOtherModifyFilesContentOptions(currentName, newName);
-  await modifyFilesContent({ modifyFilesContentOptions, currentName, newName });
+const getPackageJsonName = async () => {
+  const packageJsonContent = JSON.parse(fs.readFileSync(path.join(APP_PATH, packageJson), 'utf8'));
+  return packageJsonContent.name;
+};
+
+export const modifyOtherFilesContent = async newName => {
+  const modifyFilesContentOptions = getOtherModifyFilesContentOptions(newName);
+  await modifyFilesContent(modifyFilesContentOptions);
 };
 
 export const getAndroidBundleID = async () => {
-  const data = await fs.promises.readFile(androidManifestPath, 'utf8');
+  const data = await fs.promises.readFile(path.join(APP_PATH, androidManifestXml), 'utf8');
   return data.match(/package="(.*)"/)[1];
 };
 

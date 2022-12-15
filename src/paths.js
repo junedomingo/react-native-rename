@@ -6,6 +6,7 @@ export const iosPbxProject = 'ios/*.xcodeproj/project.pbxproj';
 export const iosPlist = 'ios/*/Info.plist';
 export const androidValuesStrings = 'android/app/src/main/res/values/strings.xml';
 export const appJson = 'app.json';
+export const packageJson = 'package.json';
 
 export const getIosFoldersAndFilesPaths = (currentName, newName) => {
   const cleanCurrentName = cleanString(currentName);
@@ -82,10 +83,10 @@ export const getIosModifyFilesContentOptions = (currentName, newName) => {
         new RegExp(`\\bpath = ${cleanNewName}/main.m\\b`, 'gi'),
         new RegExp(`\\bpath = ${cleanNewName}/LaunchScreen.storyboard\\b`, 'gi'),
         new RegExp(`\\bpath = ${cleanNewName}Tests\\b`, 'gi'),
-        new RegExp(`name = ${cleanNewName}Tests;`, 'gi'),
+        new RegExp(`name = ${newName}Tests;`, 'gi'),
         new RegExp(`name = ${cleanNewName};`, 'g'),
         new RegExp(`productName = ${cleanNewName};`, 'g'),
-        new RegExp(`productName = ${cleanNewName}Tests;`, 'g'),
+        new RegExp(`productName = ${newName}Tests;`, 'g'),
         new RegExp(`INFOPLIST_FILE = ${cleanNewName}Tests/Info.plist;`, 'g'),
         new RegExp(`INFOPLIST_FILE = ${cleanNewName}/Info.plist;`, 'g'),
         new RegExp(`PRODUCT_NAME = ${cleanNewName};`, 'gi'),
@@ -105,8 +106,8 @@ export const getIosModifyFilesContentOptions = (currentName, newName) => {
         `path = "${cleanNewName}Tests"`,
         `name = "${newName}Tests";`,
         `name = "${newName}";`,
-        `productName = "${cleanNewName}";`,
-        `productName = "${cleanNewName}Tests;"`,
+        `productName = "${newName}";`,
+        `productName = "${newName}Tests;"`,
         `INFOPLIST_FILE = "${cleanNewName}Tests/Info.plist";`,
         `INFOPLIST_FILE = "${cleanNewName}/Info.plist";`,
         `PRODUCT_NAME = "${newName}";`,
@@ -127,18 +128,12 @@ export const getIosModifyFilesContentOptions = (currentName, newName) => {
   ];
 };
 
-export const getOtherModifyFilesContentOptions = (currentName, newName) => {
-  const encodedNewName = encodeXmlEntities(newName);
-  const cleanCurrentName = cleanString(currentName);
-  const cleanNewName = cleanString(newName);
+export const getOtherModifyFilesContentOptions = newName => {
   return [
     {
       files: ['package.json'],
-      from: [
-        `"name": "${currentName.toLowerCase()}"`,
-        `"name": "${cleanCurrentName.toLowerCase()}"`,
-      ],
-      to: `"name": "${cleanNewName.toLowerCase()}"`,
+      from: [new RegExp(/"name":(.*)/, 'g')],
+      to: `"name": "${cleanString(newName).toLowerCase()}",`,
     },
     {
       files: ['app.json'],

@@ -3,6 +3,7 @@ import { program } from 'commander';
 
 import pjson from '../package.json';
 import {
+  checkRepositoryGitStatus,
   getAndroidCurrentName,
   getIosCurrentName,
   gitStageChanges,
@@ -11,6 +12,7 @@ import {
   renameIosFoldersAndFiles,
   showSuccessMessages,
   validateCreation,
+  validateGitRepository,
   validateNewName,
 } from './utils';
 
@@ -24,11 +26,9 @@ program
     validateNewName(newName);
     const currentAndroidName = getAndroidCurrentName();
     const currentIosName = getIosCurrentName();
-
     await renameIosFoldersAndFiles(newName);
     await modifyIosFilesContent(currentIosName, newName);
-    await modifyOtherFilesContent(currentIosName, newName);
-
+    await modifyOtherFilesContent(newName);
     showSuccessMessages();
     gitStageChanges();
   });
@@ -39,10 +39,10 @@ if (!process.argv.slice(2).length) {
   process.exit();
 }
 
-(async () => {
-  validateCreation();
-  program.parseAsync(process.argv);
-})();
+validateGitRepository();
+checkRepositoryGitStatus();
+validateCreation();
+program.parseAsync(process.argv);
 
 // TODO
 // - [ ] Add support for Android
@@ -55,3 +55,6 @@ if (!process.argv.slice(2).length) {
 // - [ x ] Test pbxproj for other languages
 // - [  ] Change bundle identifier on ios
 // - [  ] Change bundle identifier on android
+// - [  ] Add option to add iosNewName
+// - [  ] Add option to add androidNewName
+// - [  ] Add option to add custom file and folder name e.g "AwesomeApp"
