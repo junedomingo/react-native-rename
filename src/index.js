@@ -3,10 +3,13 @@ import { program } from 'commander';
 
 import pjson from '../package.json';
 import {
-  getCurrentName,
+  getAndroidCurrentName,
+  getIosCurrentName,
   gitStageChanges,
-  modifyFilesContent,
-  renameFoldersAndFiles,
+  modifyIosFilesContent,
+  modifyOtherFilesContent,
+  renameIosFoldersAndFiles,
+  showSuccessMessages,
   validateCreation,
   validateNewName,
 } from './utils';
@@ -16,13 +19,17 @@ program
   .description(pjson.description)
   .version(pjson.version)
   .arguments('[newName]')
-  .option('-b, --bundleID [value]', 'Set custom bundle identifier eg. "com.junedomingo.travelapp"')
-  .action(async argName => {
-    const currentName = await getCurrentName();
-    const newName = argName || currentName;
+  .option('-b, --bundleID [value]', 'set custom bundle identifier eg. "com.junedomingo.travelapp"')
+  .action(async newName => {
     validateNewName(newName);
-    await renameFoldersAndFiles(currentName, newName);
-    await modifyFilesContent(currentName, newName);
+    const currentAndroidName = getAndroidCurrentName();
+    const currentIosName = getIosCurrentName();
+
+    await renameIosFoldersAndFiles(newName);
+    await modifyIosFilesContent(currentIosName, newName);
+    await modifyOtherFilesContent(currentIosName, newName);
+
+    showSuccessMessages();
     gitStageChanges();
   });
 
@@ -33,6 +40,18 @@ if (!process.argv.slice(2).length) {
 }
 
 (async () => {
-  await validateCreation();
-  await program.parseAsync(process.argv);
+  validateCreation();
+  program.parseAsync(process.argv);
 })();
+
+// TODO
+// - [ ] Add support for Android
+// - [ ] Add support for Windows
+// - [ ] Add support for macOS
+// - [ ] Check if the new name is too short
+// - [ x ] Check if the new name is too long
+// - [ x ] Check if the new name for modifying files is too short
+// - [] Check package.json, should not contain special characters
+// - [ x ] Test pbxproj for other languages
+// - [  ] Change bundle identifier on ios
+// - [  ] Change bundle identifier on android

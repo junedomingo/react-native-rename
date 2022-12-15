@@ -16,9 +16,11 @@
   },
   "dependencies": {
     "chalk": "^5.2.0",
+    "cheerio": "^1.0.0-rc.12",
     "commander": "^9.4.1",
     "dotenv": "^16.0.3",
     "globby": "^13.1.2",
+    "html-entities": "^2.3.3",
     "replace-in-file": "^6.3.5",
     "shelljs": "^0.8.5"
   }
