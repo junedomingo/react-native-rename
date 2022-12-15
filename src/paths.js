@@ -11,6 +11,7 @@ export const packageJson = 'package.json';
 export const getIosFoldersAndFilesPaths = (currentName, newName) => {
   const cleanCurrentName = cleanString(currentName);
   const cleanNewName = cleanString(newName);
+
   return [
     `ios/${currentName}`,
     `ios/${cleanNewName}/${currentName}.entitlements`,
@@ -32,6 +33,7 @@ export const getIosModifyFilesContentOptions = (currentName, newName) => {
   const encodedCurrentName = encodeXmlEntities(currentName);
   const cleanCurrentName = cleanString(currentName);
   const cleanNewName = cleanString(newName);
+
   return [
     {
       files: ['index.ios.js'],

@@ -97,33 +97,40 @@ const getCurrentNameFromXml = ({ filepath, selector }) => {
   const xml = fs.readFileSync(filepath, 'utf8');
   const $ = cheerio.load(xml, { xmlMode: true, decodeEntities: false });
   const element = $(selector);
+
   return decodeXmlEntities(element.text());
 };
 
 export const getIosCurrentName = () => {
   const filepath = globbySync(path.join(APP_PATH, iosPlist))[0];
   const selector = 'dict > key:contains("CFBundleDisplayName") + string';
+
   return getCurrentNameFromXml({ filepath, selector });
 };
 
 export const getAndroidCurrentName = () => {
   const filepath = path.join(APP_PATH, androidValuesStrings);
   const selector = 'resources > string[name="app_name"]';
+
   return getCurrentNameFromXml({ filepath, selector });
 };
 
 export const storeNamesInAppJson = async ({ currentIosName, currentAndroidName, newName }) => {
   const appJsonPath = path.join(APP_PATH, appJson);
+
   if (!fs.existsSync(appJsonPath)) {
     console.log('app.json not found');
     process.exit();
   }
+
   const appJsonContent = JSON.parse(fs.readFileSync(appJsonPath, 'utf8'));
+
   appJsonContent['react-native-rename'] = {
     currentIosName,
     currentAndroidName,
     newName,
   };
+
   await fs.promises.writeFile(appJsonPath, JSON.stringify(appJsonContent, null, 2));
   console.log('Stored names in app.json');
 };
@@ -132,6 +139,7 @@ const getIosXcodeProjectPathName = () => {
   const xcodeProjectPath = globbySync(path.join(APP_PATH, iosXcodeproj), {
     onlyDirectories: true,
   });
+
   return xcodeProjectPath[0].split('/').pop().replace('.xcodeproj', '');
 };
 
@@ -143,21 +151,27 @@ const renameFoldersAndFiles = async ({ foldersAndFilesPaths, currentPathName, ne
       APP_PATH,
       filePath.replace(cleanString(currentPathName), cleanString(newName))
     );
+
     if (oldPath === newPath) {
       return console.log(`.${oldPath}`, chalk.yellow('NOT RENAMED'));
     }
+
     new Promise(resolve => {
       if (!fs.existsSync(oldPath)) {
         return resolve();
       }
+
       const shellMove = shell.mv('-f', oldPath, newPath);
+
       if (shellMove.code !== 0) {
         console.log(chalk.red(shellMove.stderr));
       }
+
       resolve();
       console.log(`.${newPath}`, chalk.green('RENAMED'));
     });
   });
+
   await Promise.all(promises);
 };
 
@@ -176,8 +190,10 @@ export const modifyFilesContent = async modifyFilesContentOptions => {
       allowEmptyPaths: true,
       files: option.files.map(file => path.join(APP_PATH, file)),
     };
+
     try {
       const results = await replace(updatedOption);
+
       results.map(result => {
         const hasChanged = result.hasChanged;
         const message = `${hasChanged ? 'MODIFIED' : 'NOT MODIFIED'} (${pluralize(
@@ -191,6 +207,7 @@ export const modifyFilesContent = async modifyFilesContentOptions => {
       console.log(`.${filePath}`, chalk.yellow('NOT FOUND'));
     }
   });
+
   await Promise.all(promises);
 };
 
