@@ -38,7 +38,7 @@ const pluralize = (count, noun, suffix = 'es') => `${count} ${noun}${count !== 1
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 export const cleanString = str => str.replace(NON_LANGUAGE_ALPHANUMERIC_REGEX, '');
 
-export const checkRepositoryGitStatus = () => {
+export const checkGitRepositoryStatus = () => {
   shell.cd(APP_PATH);
   const output = shell.exec('git status', { silent: true }).stdout;
   const isClean = output.includes('nothing to commit, working tree clean');

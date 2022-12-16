@@ -3,7 +3,7 @@ import { program } from 'commander';
 
 import pjson from '../package.json';
 import {
-  checkRepositoryGitStatus,
+  checkGitRepositoryStatus,
   getAndroidCurrentName,
   getIosCurrentName,
   gitStageChanges,
@@ -40,7 +40,7 @@ if (!process.argv.slice(2).length) {
 }
 
 validateGitRepository();
-checkRepositoryGitStatus();
+checkGitRepositoryStatus();
 validateCreation();
 program.parseAsync(process.argv);
 
