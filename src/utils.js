@@ -23,22 +23,19 @@ import {
 dotenv.config();
 
 const APP_PATH = process.env.DEV_APP_PATH || process.cwd();
-const NON_ALPHANUMERIC_REGEX = /[^A-Za-z0-9]/g;
 const PROMISE_DELAY = 200;
 const MAX_NAME_LENGTH = 30;
-const MIN_NAME_LENGTH = 1;
-const MIN_ALPHANUMERIC_NAME_LENGTH = 4;
 const NON_LANGUAGE_ALPHANUMERIC_REGEX = /[^\p{L}\p{N}]+/gu;
+const MIN_LANGUAGE_ALPHANUMERIC_NAME_LENGTH = 4;
 
-export const removeSpaces = str => str.replaceAll(' ', '');
-export const encodeXmlEntities = name =>
-  encode(name, { mode: 'nonAscii', level: 'xml', numeric: 'hexadecimal' });
-export const decodeXmlEntities = name => decode(name, { level: 'xml' });
 const pluralize = (count, noun, suffix = 'es') => `${count} ${noun}${count !== 1 ? suffix : ''}`;
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 export const cleanString = str => str.replace(NON_LANGUAGE_ALPHANUMERIC_REGEX, '');
+export const decodeXmlEntities = name => decode(name, { level: 'xml' });
+export const encodeXmlEntities = name =>
+  encode(name, { mode: 'nonAscii', level: 'xml', numeric: 'hexadecimal' });
 
-export const checkGitRepositoryStatus = () => {
+export const checkGitRepoStatus = () => {
   shell.cd(APP_PATH);
   const output = shell.exec('git status', { silent: true }).stdout;
   const isClean = output.includes('nothing to commit, working tree clean');
@@ -46,13 +43,13 @@ export const checkGitRepositoryStatus = () => {
   if (!isClean) {
     console.log(
       `The directory is not clean. There are changes that have not been committed to the Git repository.
-Or you can use the 'git stash' command to save your changes and return the directory to a clean state.`
+Clean it first and try again.`
     );
     process.exit();
   }
 };
 
-export const validateGitRepository = () => {
+export const validateGitRepo = () => {
   shell.cd(APP_PATH);
   const isGitRepository =
     shell.exec('git rev-parse --is-inside-work-tree', { silent: true }).code === 0;
@@ -69,28 +66,43 @@ export const validateCreation = () => {
     fs.existsSync(path.join(APP_PATH, androidValuesStrings));
 
   if (!fileExists) {
-    console.log('Directory should be created using "react-native init"');
+    console.log('Directory should be created using "react-native init".');
     process.exit();
   }
 };
 
-export const validateNewName = name => {
-  const isLengthValid = name.length <= MAX_NAME_LENGTH;
-
-  if (!isLengthValid) {
-    console.log(`New app name "${name}" is too long`);
+export const validateNewName = (newName, programOptions) => {
+  if (!(newName.length <= MAX_NAME_LENGTH)) {
+    console.log(`New app name "${newName}" is too long`);
     process.exit();
   }
 
-  // const cleanNameLength = cleanString(name).length;
-  // const isAlphanumericLengthValid = cleanNameLength >= MIN_ALPHANUMERIC_NAME_LENGTH;
+  const cleanNewName = cleanString(newName);
+  const isCleanNewNameLengthValid = cleanNewName.length >= MIN_LANGUAGE_ALPHANUMERIC_NAME_LENGTH;
+  const specialCharactersInNewName = newName.match(NON_LANGUAGE_ALPHANUMERIC_REGEX)?.join(',');
+  const hasPathContentStr = !!programOptions.pathContentStr;
 
-  // if (!isAlphanumericLengthValid) {
-  //   console.log(
-  //     `New app name "${name}" is too short, it should be at least ${MIN_ALPHANUMERIC_NAME_LENGTH} characters long`
-  //   );
-  //   process.exit();
-  // }
+  // Ask user to provide a custom path and content string if the cleanNewName is less than MIN_LANGUAGE_ALPHANUMERIC_NAME_LENGTH
+  if (!isCleanNewNameLengthValid && !hasPathContentStr) {
+    console.log(
+      `The characters [${specialCharactersInNewName}] cannot be used in the names of folders, files, or their contents when renaming them.
+Please use "-p" or "--pathContentStr" option to add string that is close to your app name and it should be at least ${MIN_LANGUAGE_ALPHANUMERIC_NAME_LENGTH} characters.
+example: react-native-rename "M&Ms" -p "MMsChocolates"`
+    );
+    process.exit();
+  }
+};
+
+export const validatePathContentStr = value => {
+  const cleanValue = cleanString(value ?? '');
+  const isCleanValueLengthValid = cleanValue.length >= MIN_LANGUAGE_ALPHANUMERIC_NAME_LENGTH;
+
+  if (!isCleanValueLengthValid) {
+    console.log(
+      `The value provided in --pathContentString or -p option is too short or contains special characters.`
+    );
+    process.exit();
+  }
 };
 
 const getCurrentNameFromXml = ({ filepath, selector }) => {
@@ -115,27 +127,7 @@ export const getAndroidCurrentName = () => {
   return getCurrentNameFromXml({ filepath, selector });
 };
 
-export const storeNamesInAppJson = async ({ currentIosName, currentAndroidName, newName }) => {
-  const appJsonPath = path.join(APP_PATH, appJson);
-
-  if (!fs.existsSync(appJsonPath)) {
-    console.log('app.json not found');
-    process.exit();
-  }
-
-  const appJsonContent = JSON.parse(fs.readFileSync(appJsonPath, 'utf8'));
-
-  appJsonContent['react-native-rename'] = {
-    currentIosName,
-    currentAndroidName,
-    newName,
-  };
-
-  await fs.promises.writeFile(appJsonPath, JSON.stringify(appJsonContent, null, 2));
-  console.log('Stored names in app.json');
-};
-
-const getIosXcodeProjectPathName = () => {
+export const getIosXcodeProjectPathName = () => {
   const xcodeProjectPath = globbySync(path.join(APP_PATH, iosXcodeproj), {
     onlyDirectories: true,
   });
@@ -143,13 +135,17 @@ const getIosXcodeProjectPathName = () => {
   return xcodeProjectPath[0].split('/').pop().replace('.xcodeproj', '');
 };
 
-const renameFoldersAndFiles = async ({ foldersAndFilesPaths, currentPathName, newName }) => {
+const renameFoldersAndFiles = async ({
+  foldersAndFilesPaths,
+  currentPathContentStr,
+  newPathContentStr,
+}) => {
   const promises = foldersAndFilesPaths.map(async (filePath, index) => {
     await delay(index * PROMISE_DELAY);
     const oldPath = path.join(APP_PATH, filePath);
     const newPath = path.join(
       APP_PATH,
-      filePath.replace(cleanString(currentPathName), cleanString(newName))
+      filePath.replace(cleanString(currentPathContentStr), cleanString(newPathContentStr))
     );
 
     if (oldPath === newPath) {
@@ -175,10 +171,17 @@ const renameFoldersAndFiles = async ({ foldersAndFilesPaths, currentPathName, ne
   await Promise.all(promises);
 };
 
-export const renameIosFoldersAndFiles = async newName => {
-  const currentPathName = getIosXcodeProjectPathName();
-  const foldersAndFilesPaths = getIosFoldersAndFilesPaths(currentPathName, newName);
-  await renameFoldersAndFiles({ foldersAndFilesPaths, currentPathName, newName });
+export const renameIosFoldersAndFiles = async newPathContentStr => {
+  const currentPathContentStr = getIosXcodeProjectPathName();
+  const foldersAndFilesPaths = getIosFoldersAndFilesPaths({
+    currentPathContentStr,
+    newPathContentStr,
+  });
+  await renameFoldersAndFiles({
+    foldersAndFilesPaths,
+    currentPathContentStr,
+    newPathContentStr,
+  });
 };
 
 export const modifyFilesContent = async modifyFilesContentOptions => {
@@ -193,7 +196,6 @@ export const modifyFilesContent = async modifyFilesContentOptions => {
 
     try {
       const results = await replace(updatedOption);
-
       results.map(result => {
         const hasChanged = result.hasChanged;
         const message = `${hasChanged ? 'MODIFIED' : 'NOT MODIFIED'} (${pluralize(
@@ -211,18 +213,40 @@ export const modifyFilesContent = async modifyFilesContentOptions => {
   await Promise.all(promises);
 };
 
-export const modifyIosFilesContent = async (currentName, newName) => {
-  const modifyFilesContentOptions = getIosModifyFilesContentOptions(currentName, newName);
+export const modifyIosFilesContent = async ({
+  currentName,
+  newName,
+  currentPathContentStr,
+  newPathContentStr,
+}) => {
+  const modifyFilesContentOptions = getIosModifyFilesContentOptions({
+    currentName,
+    newName,
+    currentPathContentStr,
+    newPathContentStr,
+  });
   await modifyFilesContent(modifyFilesContentOptions);
 };
 
-const getPackageJsonName = async () => {
-  const packageJsonContent = JSON.parse(fs.readFileSync(path.join(APP_PATH, packageJson), 'utf8'));
-  return packageJsonContent.name;
+const getAppJsonContent = () => {
+  return JSON.parse(fs.readFileSync(path.join(APP_PATH, appJson), 'utf8'));
 };
 
-export const modifyOtherFilesContent = async newName => {
-  const modifyFilesContentOptions = getOtherModifyFilesContentOptions(newName);
+const getPackageJsonContent = () => {
+  return JSON.parse(fs.readFileSync(path.join(APP_PATH, packageJson), 'utf8'));
+};
+
+export const modifyOtherFilesContent = async ({ newName, newPathContentStr }) => {
+  const appJsonContent = getAppJsonContent();
+  const packageJsonContent = getPackageJsonContent();
+
+  const modifyFilesContentOptions = getOtherModifyFilesContentOptions({
+    newName,
+    newPathContentStr,
+    appJsonName: appJsonContent?.name,
+    appJsonDisplayName: appJsonContent?.displayName,
+    packageJsonName: packageJsonContent?.name,
+  });
   await modifyFilesContent(modifyFilesContentOptions);
 };
 
@@ -231,16 +255,15 @@ export const getAndroidBundleID = async () => {
   return data.match(/package="(.*)"/)[1];
 };
 
-export const showSuccessMessages = (currentName, newName) => {
+export const showSuccessMessages = newName => {
   console.log(
     `
-${chalk.green('SUCCESS! 🎉 🎉 🎉')} Your app has been renamed from ${chalk.yellow(
-      currentName
-    )} to ${chalk.yellow(newName)}.
-`,
-    `${chalk.yellow(
-      'Please make sure to run "watchman watch-del-all" and "npm start --reset-cache" before running the app.'
-    )}`
+${chalk.green('SUCCESS! 🎉 🎉 🎉')} Your app has been renamed to "${chalk.yellow(newName)}".
+${chalk.yellow(
+  'Please make sure to run "npx pod-install" and "watchman watch-del-all" before running the app.'
+)}
+
+`
   );
 };
 

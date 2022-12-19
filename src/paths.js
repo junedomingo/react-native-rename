@@ -8,31 +8,37 @@ export const androidValuesStrings = 'android/app/src/main/res/values/strings.xml
 export const appJson = 'app.json';
 export const packageJson = 'package.json';
 
-export const getIosFoldersAndFilesPaths = (currentName, newName) => {
-  const cleanCurrentName = cleanString(currentName);
-  const cleanNewName = cleanString(newName);
+export const getIosFoldersAndFilesPaths = ({ currentPathContentStr, newPathContentStr }) => {
+  const cleanNewPathContentStr = cleanString(newPathContentStr);
 
   return [
-    `ios/${currentName}`,
-    `ios/${cleanNewName}/${currentName}.entitlements`,
-    `ios/${currentName}-tvOS`,
-    `ios/${currentName}-tvOSTests`,
-    `ios/${currentName}.xcworkspace`,
-    `ios/${currentName}Tests`,
-    `ios/${cleanNewName}Tests/${currentName}Tests.m`,
-    `ios/${currentName}.xcodeproj`,
-    `ios/${cleanNewName}.xcodeproj/xcshareddata/xcschemes/${currentName}-tvOS.xcscheme`,
-    `ios/${cleanNewName}.xcodeproj/xcshareddata/xcschemes/${currentName}.xcscheme`,
-    `ios/${currentName}-Bridging-Header.h`,
+    `ios/${currentPathContentStr}`,
+    `ios/${cleanNewPathContentStr}/${currentPathContentStr}.entitlements`,
+    `ios/${currentPathContentStr}-tvOS`,
+    `ios/${currentPathContentStr}-tvOSTests`,
+    `ios/${currentPathContentStr}.xcworkspace`,
+    `ios/${currentPathContentStr}Tests`,
+    `ios/${cleanNewPathContentStr}Tests/${currentPathContentStr}Tests.m`,
+    `ios/${currentPathContentStr}.xcodeproj`,
+    `ios/${cleanNewPathContentStr}.xcodeproj/xcshareddata/xcschemes/${currentPathContentStr}-tvOS.xcscheme`,
+    `ios/${cleanNewPathContentStr}.xcodeproj/xcshareddata/xcschemes/${currentPathContentStr}.xcscheme`,
+    `ios/${currentPathContentStr}-Bridging-Header.h`,
   ];
 };
 
 // IMPORTANT: "files:" value should be in array even if there is only one file
-export const getIosModifyFilesContentOptions = (currentName, newName) => {
+export const getIosModifyFilesContentOptions = ({
+  currentName,
+  newName,
+  currentPathContentStr,
+  newPathContentStr,
+}) => {
   const encodedNewName = encodeXmlEntities(newName);
   const encodedCurrentName = encodeXmlEntities(currentName);
-  const cleanCurrentName = cleanString(currentName);
-  const cleanNewName = cleanString(newName);
+  const cleanCurrentPathContentStr = cleanString(currentPathContentStr);
+  const cleanNewPathContentStr = cleanString(newPathContentStr);
+  const encodedNewPathContentStr = encodeXmlEntities(newPathContentStr);
+  const encodedCurrentPathContentStr = encodeXmlEntities(currentPathContentStr);
 
   return [
     {
@@ -41,78 +47,90 @@ export const getIosModifyFilesContentOptions = (currentName, newName) => {
       to: newName,
     },
     {
+      files: ['ios/Podfile'],
+      from: [
+        new RegExp(`\\b${currentPathContentStr}\\b`, 'g'),
+        new RegExp(`\\b${currentPathContentStr}Tests\\b`, 'g'),
+      ],
+      to: [`${cleanNewPathContentStr}`, `${cleanNewPathContentStr}Tests`],
+    },
+    {
+      files: ['ios/*/AppDelegate.m', 'ios/*/AppDelegate.mm'],
+      from: [
+        new RegExp(`\\b${currentPathContentStr}\\b`, 'g'),
+        new RegExp(`\\b${currentName}\\b`, 'g'),
+      ],
+      to: `${newPathContentStr}`,
+    },
+    {
       files: [
         'ios/*.xcodeproj/project.pbxproj',
         'ios/*.xcworkspace/contents.xcworkspacedata',
         'ios/*.xcodeproj/xcshareddata/xcschemes/*-tvOS.xcscheme',
         'ios/*.xcodeproj/xcshareddata/xcschemes/*.xcscheme',
         'ios/*Tests/*Tests.m',
-        'ios/Podfile',
       ],
-      from: [
-        new RegExp(`\\b${currentName}\\b`, 'gi'),
-        new RegExp(`\\b${cleanCurrentName}\\b`, 'gi'),
-      ],
-      to: cleanNewName,
-    },
-    {
-      files: ['ios/*/AppDelegate.m', 'ios/*/AppDelegate.mm'],
-      from: new RegExp(`\\b${currentName}\\b`, 'gi'),
-      to: newName,
+      from: [new RegExp(`\\b${currentPathContentStr}\\b`, 'g')],
+      to: cleanNewPathContentStr,
     },
     {
       files: [
         'ios/*.xcodeproj/project.pbxproj',
         'ios/*Tests/*Tests.m',
-        'ios/Podfile',
         'ios/*.xcodeproj/xcshareddata/xcschemes/*.xcscheme',
       ],
-      from: new RegExp(`\\b${cleanCurrentName}Tests\\b`, 'gi'),
-      to: `${cleanNewName}Tests`,
+      from: new RegExp(`\\b${currentPathContentStr}Tests\\b`, 'g'),
+      to: `${cleanNewPathContentStr}Tests`,
     },
     {
       files: ['ios/*.xcodeproj/project.pbxproj'],
       from: [
         new RegExp(/INFOPLIST_KEY_CFBundleDisplayName = "(.*)"/, 'g'),
-        new RegExp(`remoteInfo = ${cleanNewName};`, 'gi'),
-        new RegExp(`\\bpath = ${cleanNewName}Tests.xctest\\b`, 'gi'),
-        new RegExp(`\\bpath = ${cleanNewName}Tests.m\\b`, 'gi'),
-        new RegExp(`\\bpath = ${cleanNewName}.app\\b`, 'gi'),
-        new RegExp(`\\bpath = ${cleanNewName}/AppDelegate.h\\b`, 'gi'),
-        new RegExp(`\\bpath = ${cleanNewName}/AppDelegate.mm\\b`, 'gi'),
-        new RegExp(`\\bpath = ${cleanNewName}/Images.xcassets\\b`, 'gi'),
-        new RegExp(`\\bpath = ${cleanNewName}/Info.plist\\b`, 'gi'),
-        new RegExp(`\\bpath = ${cleanNewName}/main.m\\b`, 'gi'),
-        new RegExp(`\\bpath = ${cleanNewName}/LaunchScreen.storyboard\\b`, 'gi'),
-        new RegExp(`\\bpath = ${cleanNewName}Tests\\b`, 'gi'),
-        new RegExp(`name = ${newName}Tests;`, 'gi'),
-        new RegExp(`name = ${cleanNewName};`, 'g'),
-        new RegExp(`productName = ${cleanNewName};`, 'g'),
-        new RegExp(`productName = ${newName}Tests;`, 'g'),
-        new RegExp(`INFOPLIST_FILE = ${cleanNewName}Tests/Info.plist;`, 'g'),
-        new RegExp(`INFOPLIST_FILE = ${cleanNewName}/Info.plist;`, 'g'),
-        new RegExp(`PRODUCT_NAME = ${cleanNewName};`, 'gi'),
+        new RegExp(`remoteInfo = ${cleanNewPathContentStr};`, 'gi'),
+        new RegExp(`\\bpath = ${cleanNewPathContentStr}Tests.xctest\\b`, 'gi'),
+        new RegExp(`\\bpath = ${cleanNewPathContentStr}Tests.m\\b`, 'gi'),
+        new RegExp(`\\bpath = ${cleanNewPathContentStr}.app\\b`, 'gi'),
+        new RegExp(`\\bpath = ${cleanNewPathContentStr}/AppDelegate.h\\b`, 'gi'),
+        new RegExp(`\\bpath = ${cleanNewPathContentStr}/AppDelegate.mm\\b`, 'gi'),
+        new RegExp(`\\bpath = ${cleanNewPathContentStr}/Images.xcassets\\b`, 'gi'),
+        new RegExp(`\\bpath = ${cleanNewPathContentStr}/Info.plist\\b`, 'gi'),
+        new RegExp(`\\bpath = ${cleanNewPathContentStr}/main.m\\b`, 'gi'),
+        new RegExp(`\\bpath = ${cleanNewPathContentStr}/LaunchScreen.storyboard\\b`, 'gi'),
+        new RegExp(`\\bpath = ${cleanNewPathContentStr}Tests\\b`, 'gi'),
+        new RegExp(`name = ${newPathContentStr}Tests;`, 'gi'),
+        new RegExp(`name = ${cleanNewPathContentStr};`, 'g'),
+        new RegExp(`name = "${currentName}";`, 'g'),
+        new RegExp(`productName = ${cleanNewPathContentStr};`, 'g'),
+        new RegExp(`productName = "${currentName}";`, 'g'),
+        new RegExp(`productName = ${newPathContentStr}Tests;`, 'g'),
+        new RegExp(`INFOPLIST_FILE = ${cleanNewPathContentStr}Tests/Info.plist;`, 'g'),
+        new RegExp(`INFOPLIST_FILE = ${cleanNewPathContentStr}/Info.plist;`, 'g'),
+        new RegExp(`PRODUCT_NAME = "${currentName}";`, 'gi'),
+        new RegExp(`PRODUCT_NAME = ${cleanNewPathContentStr};`, 'gi'),
       ],
       to: [
-        `INFOPLIST_KEY_CFBundleDisplayName = "${newName}"`,
-        `remoteInfo = "${cleanNewName}";`,
-        `path = "${cleanNewName}Tests.xctest"`,
-        `path = "${cleanNewName}Tests.m"`,
-        `path = "${cleanNewName}.app"`,
-        `path = "${cleanNewName}/AppDelegate.h"`,
-        `path = "${cleanNewName}/AppDelegate.mm"`,
-        `path = "${cleanNewName}/Images.xcassets"`,
-        `path = "${cleanNewName}/Info.plist"`,
-        `path = "${cleanNewName}/main.m"`,
-        `path = "${cleanNewName}/LaunchScreen.storyboard"`,
-        `path = "${cleanNewName}Tests"`,
-        `name = "${newName}Tests";`,
-        `name = "${newName}";`,
-        `productName = "${newName}";`,
-        `productName = "${newName}Tests;"`,
-        `INFOPLIST_FILE = "${cleanNewName}Tests/Info.plist";`,
-        `INFOPLIST_FILE = "${cleanNewName}/Info.plist";`,
-        `PRODUCT_NAME = "${newName}";`,
+        `INFOPLIST_KEY_CFBundleDisplayName = "${newName}";`,
+        `remoteInfo = "${cleanNewPathContentStr}";`,
+        `path = "${cleanNewPathContentStr}Tests.xctest"`,
+        `path = "${cleanNewPathContentStr}Tests.m"`,
+        `path = "${cleanNewPathContentStr}.app"`,
+        `path = "${cleanNewPathContentStr}/AppDelegate.h"`,
+        `path = "${cleanNewPathContentStr}/AppDelegate.mm"`,
+        `path = "${cleanNewPathContentStr}/Images.xcassets"`,
+        `path = "${cleanNewPathContentStr}/Info.plist"`,
+        `path = "${cleanNewPathContentStr}/main.m"`,
+        `path = "${cleanNewPathContentStr}/LaunchScreen.storyboard"`,
+        `path = "${cleanNewPathContentStr}Tests"`,
+        `name = "${newPathContentStr}Tests";`,
+        `name = "${newPathContentStr}";`,
+        `name = "${newPathContentStr}";`,
+        `productName = "${newPathContentStr}";`,
+        `productName = "${newPathContentStr}";`,
+        `productName = "${newPathContentStr}Tests;"`,
+        `INFOPLIST_FILE = "${cleanNewPathContentStr}Tests/Info.plist";`,
+        `INFOPLIST_FILE = "${cleanNewPathContentStr}/Info.plist";`,
+        `PRODUCT_NAME = "${newPathContentStr}";`,
+        `PRODUCT_NAME = "${newPathContentStr}";`,
       ],
     },
     {
@@ -122,25 +140,31 @@ export const getIosModifyFilesContentOptions = (currentName, newName) => {
         'ios/*/Info.plist',
       ],
       from: [
-        new RegExp(`\\b${currentName}\\b`, 'gi'),
-        new RegExp(`\\b${encodedCurrentName}\\b`, 'gi'),
+        new RegExp(`\\b${encodedCurrentName}\\b`, 'g'),
+        new RegExp(`\\b${currentName}\\b`, 'g'),
       ],
       to: encodedNewName,
     },
   ];
 };
 
-export const getOtherModifyFilesContentOptions = newName => {
+export const getOtherModifyFilesContentOptions = ({
+  newName,
+  newPathContentStr,
+  appJsonName,
+  appJsonDisplayName,
+  packageJsonName,
+}) => {
   return [
     {
       files: ['package.json'],
-      from: [new RegExp(/"name":(.*)/, 'g')],
-      to: `"name": "${cleanString(newName).toLowerCase()}",`,
+      from: [new RegExp(`${packageJsonName}`, 'gi')],
+      to: cleanString(newPathContentStr).toLowerCase(),
     },
     {
       files: ['app.json'],
-      from: [new RegExp(/"name": "(.*)"/, 'g'), new RegExp(/"displayName": "(.*)"/, 'g')],
-      to: [`"name": "${newName}"`, `"displayName": "${newName}"`],
+      from: [new RegExp(`${appJsonName}`, 'gi'), new RegExp(`${appJsonDisplayName}`, 'gi')],
+      to: newName,
     },
   ];
 };
