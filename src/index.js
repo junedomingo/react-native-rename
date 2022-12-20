@@ -26,7 +26,7 @@ program
   .option('-b, --bundleID [value]', 'Set custom bundle identifier eg. "com.junedomingo.travelapp"')
   .option(
     '-p, --pathContentStr [value]',
-    `Path and content string that can be used in replacing folders, files and its content. Make sure it doesn't include any special characters. eg. "Travelapp"`
+    `Path and content string that can be used in replacing folders, files and their content. Make sure it doesn't include any special characters. eg. "Travelapp"`
   )
   .action(async newName => {
     validateNewName(newName, program.opts());

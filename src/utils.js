@@ -79,14 +79,12 @@ export const validateNewName = (newName, programOptions) => {
 
   const cleanNewName = cleanString(newName);
   const isCleanNewNameLengthValid = cleanNewName.length >= MIN_LANGUAGE_ALPHANUMERIC_NAME_LENGTH;
-  const specialCharactersInNewName = newName.match(NON_LANGUAGE_ALPHANUMERIC_REGEX)?.join(',');
   const hasPathContentStr = !!programOptions.pathContentStr;
 
   // Ask user to provide a custom path and content string if the cleanNewName is less than MIN_LANGUAGE_ALPHANUMERIC_NAME_LENGTH
   if (!isCleanNewNameLengthValid && !hasPathContentStr) {
     console.log(
-      `The characters [${specialCharactersInNewName}] cannot be used in the names of folders, files, or their contents when renaming them.
-Please use "-p" or "--pathContentStr" option to add string that is close to your app name and it should be at least ${MIN_LANGUAGE_ALPHANUMERIC_NAME_LENGTH} characters.
+      `Please provide path and content string using "-p [value]" or "--pathContentStr [value]" option to be used in renaming the app\'s folders, files and their contents.
 example: react-native-rename "M&Ms" -p "MMsChocolates"`
     );
     process.exit();
