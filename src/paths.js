@@ -109,7 +109,7 @@ export const getIosModifyFilesContentOptions = ({
         new RegExp(`PRODUCT_NAME = ${cleanNewPathContentStr};`, 'gi'),
       ],
       to: [
-        `INFOPLIST_KEY_CFBundleDisplayName = "${newName}";`,
+        `INFOPLIST_KEY_CFBundleDisplayName = "${newName}"`,
         `remoteInfo = "${cleanNewPathContentStr}";`,
         `path = "${cleanNewPathContentStr}Tests.xctest"`,
         `path = "${cleanNewPathContentStr}Tests.m"`,
