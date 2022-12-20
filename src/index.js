@@ -26,12 +26,20 @@ program
   .option('-b, --bundleID [value]', 'Set custom bundle identifier eg. "com.junedomingo.travelapp"')
   .option(
     '-p, --pathContentStr [value]',
-    `Path and content string that can be used in replacing folders, files and their content. Make sure it doesn't include any special characters. eg. "Travelapp"`
+    `Path and content string that can be used in replacing folders, files and their content. Make sure it doesn't include any special characters.`
   )
+  .option('--skipGitStatusCheck', 'Skip git repo status check')
   .action(async newName => {
-    validateNewName(newName, program.opts());
+    const options = program.opts();
 
-    const pathContentStr = program.opts().pathContentStr;
+    if (!options.skipGitStatusCheck) {
+      checkGitRepoStatus();
+    }
+
+    validateNewName(newName, options);
+
+    const pathContentStr = options.pathContentStr;
+
     if (pathContentStr) {
       validatePathContentStr(pathContentStr);
     }
@@ -40,7 +48,6 @@ program
     const currentIosName = getIosCurrentName();
     const currentPathContentStr = getIosXcodeProjectPathName();
     const newPathContentStr = pathContentStr || newName;
-
     await renameIosFoldersAndFiles(newPathContentStr);
     await modifyIosFilesContent({
       currentName: currentIosName,
@@ -60,7 +67,6 @@ if (!process.argv.slice(2).length) {
 }
 
 validateGitRepo();
-checkGitRepoStatus();
 validateCreation();
 program.parseAsync(process.argv);
 
