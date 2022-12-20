@@ -134,6 +134,22 @@ export const getIosModifyFilesContentOptions = ({
       ],
     },
     {
+      files: ['ios/*.xcodeproj/project.pbxproj'],
+      processor: input => {
+        const matchesDisplayName = input.match(/INFOPLIST_KEY_CFBundleDisplayName = "(.*)"/g);
+        // If there is no display name, add it
+        if (matchesDisplayName === null) {
+          input = input.replaceAll(
+            `INFOPLIST_FILE = "${cleanNewPathContentStr}/Info.plist";`,
+            `INFOPLIST_FILE = "${cleanNewPathContentStr}/Info.plist";
+             INFOPLIST_KEY_CFBundleDisplayName = "${newName}";`
+          );
+        }
+        return input;
+      },
+    },
+    // This should be in the end of the array
+    {
       files: [
         'ios/*/Base.lproj/LaunchScreen.xib',
         'ios/*/LaunchScreen.storyboard',
