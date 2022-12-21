@@ -79,9 +79,6 @@ program.parseAsync(process.argv);
 
 // TODO
 // - [ ] Add support for Android
-// - [ ] Add support for Windows
-// - [ ] Add support for macOS
-// - [ ] Check if the new name is too short
 // - [ x ] Check if the new name is too long
 // - [ x ] Check if the new name for modifying files is too short
 // - [ x ] Check package.json, should not contain special characters
