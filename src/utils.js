@@ -13,8 +13,8 @@ import {
   androidValuesStrings,
   appJson,
   getIosFoldersAndFilesPaths,
-  getIosModifyFilesContentOptions,
-  getOtherModifyFilesContentOptions,
+  getIosUpdateFilesContentOptions,
+  getOtherUpdateFilesContentOptions,
   iosPlist,
   iosXcodeproj,
   packageJson,
@@ -202,8 +202,8 @@ export const renameIosFoldersAndFiles = async newPathContentStr => {
   });
 };
 
-export const modifyFilesContent = async modifyFilesContentOptions => {
-  const promises = modifyFilesContentOptions.map(async (option, index) => {
+export const updateFilesContent = async filesContentOptions => {
+  const promises = filesContentOptions.map(async (option, index) => {
     await delay(index * PROMISE_DELAY);
     const updatedOption = {
       ...option,
@@ -216,7 +216,7 @@ export const modifyFilesContent = async modifyFilesContentOptions => {
       const results = await replace(updatedOption);
       results.map(result => {
         const hasChanged = result.hasChanged;
-        const message = `${hasChanged ? 'MODIFIED' : 'NOT MODIFIED'} (${pluralize(
+        const message = `${hasChanged ? 'UPDATED' : 'NOT UPDATED'} (${pluralize(
           result.numMatches,
           'match'
         )})`;
@@ -231,21 +231,21 @@ export const modifyFilesContent = async modifyFilesContentOptions => {
   await Promise.all(promises);
 };
 
-export const modifyIosFilesContent = async ({
+export const updateIosFilesContent = async ({
   currentName,
   newName,
   currentPathContentStr,
   newPathContentStr,
   bundleID,
 }) => {
-  const modifyFilesContentOptions = getIosModifyFilesContentOptions({
+  const filesContentOptions = getIosUpdateFilesContentOptions({
     currentName,
     newName,
     currentPathContentStr,
     newPathContentStr,
     bundleID,
   });
-  await modifyFilesContent(modifyFilesContentOptions);
+  await updateFilesContent(filesContentOptions);
 };
 
 const getAppJsonContent = () => {
@@ -256,18 +256,18 @@ const getPackageJsonContent = () => {
   return JSON.parse(fs.readFileSync(path.join(APP_PATH, packageJson), 'utf8'));
 };
 
-export const modifyOtherFilesContent = async ({ newName, newPathContentStr }) => {
+export const updateOtherFilesContent = async ({ newName, newPathContentStr }) => {
   const appJsonContent = getAppJsonContent();
   const packageJsonContent = getPackageJsonContent();
 
-  const modifyFilesContentOptions = getOtherModifyFilesContentOptions({
+  const filesContentOptions = getOtherUpdateFilesContentOptions({
     newName,
     newPathContentStr,
     appJsonName: appJsonContent?.name,
     appJsonDisplayName: appJsonContent?.displayName,
     packageJsonName: packageJsonContent?.name,
   });
-  await modifyFilesContent(modifyFilesContentOptions);
+  await updateFilesContent(filesContentOptions);
 };
 
 export const showSuccessMessages = newName => {

@@ -27,7 +27,7 @@ export const getIosFoldersAndFilesPaths = ({ currentPathContentStr, newPathConte
 };
 
 // IMPORTANT: "files:" value should be in array even if there is only one file
-export const getIosModifyFilesContentOptions = ({
+export const getIosUpdateFilesContentOptions = ({
   currentName,
   newName,
   currentPathContentStr,
@@ -174,7 +174,7 @@ export const getIosModifyFilesContentOptions = ({
   ];
 };
 
-export const getOtherModifyFilesContentOptions = ({
+export const getOtherUpdateFilesContentOptions = ({
   newName,
   newPathContentStr,
   appJsonName,

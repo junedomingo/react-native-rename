@@ -8,8 +8,8 @@ import {
   getIosCurrentName,
   getIosXcodeProjectPathName,
   gitStageChanges,
-  modifyIosFilesContent,
-  modifyOtherFilesContent,
+  updateIosFilesContent,
+  updateOtherFilesContent,
   renameIosFoldersAndFiles,
   showSuccessMessages,
   validateBundleID,
@@ -55,14 +55,14 @@ program
     const currentPathContentStr = getIosXcodeProjectPathName();
     const newPathContentStr = pathContentStr || newName;
     await renameIosFoldersAndFiles(newPathContentStr);
-    await modifyIosFilesContent({
+    await updateIosFilesContent({
       currentName: currentIosName,
       newName,
       currentPathContentStr,
       newPathContentStr,
       bundleID: options.bundleID,
     });
-    await modifyOtherFilesContent({ newName, newPathContentStr });
+    await updateOtherFilesContent({ newName, newPathContentStr });
     showSuccessMessages(newName);
     gitStageChanges();
   });
