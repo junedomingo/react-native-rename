@@ -40,7 +40,7 @@ program
     validateNewName(newName, options);
 
     const pathContentStr = options.pathContentStr;
-    const bundleID = options.bundleID;
+    const bundleID = options.bundleID?.toLowerCase();
 
     if (pathContentStr) {
       validatePathContentStr(pathContentStr);
@@ -61,7 +61,7 @@ program
       newName,
       currentPathContentStr,
       newPathContentStr,
-      bundleID: options.bundleID,
+      bundleID,
     });
     await updateOtherFilesContent({ newName, newPathContentStr });
     showSuccessMessages(newName);
