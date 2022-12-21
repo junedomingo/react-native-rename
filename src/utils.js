@@ -217,7 +217,7 @@ export const updateFilesContent = async filesContentOptions => {
       results.map(result => {
         const hasChanged = result.hasChanged;
         const message = `${hasChanged ? 'UPDATED' : 'NOT UPDATED'} (${pluralize(
-          result.numMatches,
+          result.numMatches || 0,
           'match'
         )})`;
         console.log(`.${result.file}`, hasChanged ? chalk.green(message) : chalk.yellow(message));
