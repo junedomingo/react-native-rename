@@ -248,17 +248,9 @@ export const updateIosFilesContent = async ({
   await updateFilesContent(filesContentOptions);
 };
 
-const getAppJsonContent = () => {
-  return JSON.parse(fs.readFileSync(path.join(APP_PATH, appJson), 'utf8'));
-};
-
-const getPackageJsonContent = () => {
-  return JSON.parse(fs.readFileSync(path.join(APP_PATH, packageJson), 'utf8'));
-};
-
 export const updateOtherFilesContent = async ({ newName, newPathContentStr }) => {
-  const appJsonContent = getAppJsonContent();
-  const packageJsonContent = getPackageJsonContent();
+  const appJsonContent = JSON.parse(fs.readFileSync(path.join(APP_PATH, appJson), 'utf8'));
+  const packageJsonContent = JSON.parse(fs.readFileSync(path.join(APP_PATH, packageJson), 'utf8'));
 
   const filesContentOptions = getOtherUpdateFilesContentOptions({
     newName,
