@@ -54,6 +54,7 @@ program
     const currentIosName = getIosCurrentName();
     const currentPathContentStr = getIosXcodeProjectPathName();
     const newPathContentStr = pathContentStr || newName;
+
     await renameIosFoldersAndFiles(newPathContentStr);
     await updateIosFilesContent({
       currentName: currentIosName,
