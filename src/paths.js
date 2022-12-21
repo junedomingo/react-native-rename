@@ -150,6 +150,11 @@ export const getIosUpdateFilesContentOptions = ({
             /PRODUCT_BUNDLE_IDENTIFIER = "(.*)"/g,
             `PRODUCT_BUNDLE_IDENTIFIER = "${bundleID}"`
           );
+
+          input = input.replaceAll(
+            /PRODUCT_BUNDLE_IDENTIFIER = (.*)/g,
+            `PRODUCT_BUNDLE_IDENTIFIER = "${bundleID}";`
+          );
         }
 
         return input;
