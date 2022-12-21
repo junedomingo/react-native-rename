@@ -107,7 +107,7 @@ export const validatePathContentStr = value => {
 export const validateBundleID = bundleID => {
   if (!VALID_BUNDLE_ID_REGEX.test(bundleID)) {
     console.log(
-      `The bundle identifier "${bundleID}" is not valid. It should be a reverse DNS name, e.g. com.example.MyApp`
+      `The bundle identifier "${bundleID}" is not valid. It should contain only alphanumeric characters and dots, e.g. com.example.MyApp or com.example`
     );
     process.exit();
   }
