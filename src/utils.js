@@ -270,11 +270,6 @@ export const modifyOtherFilesContent = async ({ newName, newPathContentStr }) =>
   await modifyFilesContent(modifyFilesContentOptions);
 };
 
-export const getAndroidBundleID = async () => {
-  const data = await fs.promises.readFile(path.join(APP_PATH, androidManifestXml), 'utf8');
-  return data.match(/package="(.*)"/)[1];
-};
-
 export const showSuccessMessages = newName => {
   console.log(
     `
