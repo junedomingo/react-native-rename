@@ -27,6 +27,7 @@ const PROMISE_DELAY = 200;
 const MAX_NAME_LENGTH = 30;
 const NON_LANGUAGE_ALPHANUMERIC_REGEX = /[^\p{L}\p{N}]+/gu;
 const MIN_LANGUAGE_ALPHANUMERIC_NAME_LENGTH = 4;
+const VALID_BUNDLE_ID_REGEX = /^([a-zA-Z]([a-zA-Z0-9_])*\.)+[a-zA-Z]([a-zA-Z0-9_])*$/u;
 
 const pluralize = (count, noun, suffix = 'es') => `${count} ${noun}${count !== 1 ? suffix : ''}`;
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -98,6 +99,24 @@ export const validatePathContentStr = value => {
   if (!isCleanValueLengthValid) {
     console.log(
       `The value provided in --pathContentString or -p option is too short or contains special characters.`
+    );
+    process.exit();
+  }
+};
+
+export const validateBundleID = bundleID => {
+  if (!VALID_BUNDLE_ID_REGEX.test(bundleID)) {
+    console.log(
+      `The bundle identifier "${bundleID}" is not valid. It should be a reverse DNS name, e.g. com.example.MyApp`
+    );
+    process.exit();
+  }
+
+  const segments = bundleID.split('.');
+
+  if (segments.length < 2) {
+    console.log(
+      `The bundle identifier "${bundleID}" is not valid. It should contain at least 2 segments, e.g. com.example.MyApp or com.example`
     );
     process.exit();
   }
@@ -216,12 +235,14 @@ export const modifyIosFilesContent = async ({
   newName,
   currentPathContentStr,
   newPathContentStr,
+  bundleID,
 }) => {
   const modifyFilesContentOptions = getIosModifyFilesContentOptions({
     currentName,
     newName,
     currentPathContentStr,
     newPathContentStr,
+    bundleID,
   });
   await modifyFilesContent(modifyFilesContentOptions);
 };

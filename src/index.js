@@ -12,6 +12,7 @@ import {
   modifyOtherFilesContent,
   renameIosFoldersAndFiles,
   showSuccessMessages,
+  validateBundleID,
   validateCreation,
   validateGitRepo,
   validateNewName,
@@ -39,9 +40,14 @@ program
     validateNewName(newName, options);
 
     const pathContentStr = options.pathContentStr;
+    const bundleID = options.bundleID;
 
     if (pathContentStr) {
       validatePathContentStr(pathContentStr);
+    }
+
+    if (bundleID) {
+      validateBundleID(bundleID);
     }
 
     const currentAndroidName = getAndroidCurrentName();
@@ -54,6 +60,7 @@ program
       newName,
       currentPathContentStr,
       newPathContentStr,
+      bundleID: options.bundleID,
     });
     await modifyOtherFilesContent({ newName, newPathContentStr });
     showSuccessMessages(newName);
@@ -79,9 +86,9 @@ program.parseAsync(process.argv);
 // - [ x ] Check if the new name for modifying files is too short
 // - [ x ] Check package.json, should not contain special characters
 // - [ x ] Test pbxproj for other languages
-// - [  ] Change bundle identifier on ios
+// - [ x ] Change bundle identifier on ios
 // - [  ] Change bundle identifier on android
 // - [  ] Add option to add iosNewName
 // - [  ] Add option to add androidNewName
 // - [ x ] Add option to add custom file and folder name e.g "AwesomeApp"
-// - [ ] Add ios DisplayName
+// - [ x ] Add ios DisplayName

@@ -32,6 +32,7 @@ export const getIosModifyFilesContentOptions = ({
   newName,
   currentPathContentStr,
   newPathContentStr,
+  bundleID,
 }) => {
   const encodedNewName = encodeXmlEntities(newName);
   const encodedCurrentName = encodeXmlEntities(currentName);
@@ -142,9 +143,18 @@ export const getIosModifyFilesContentOptions = ({
           input = input.replaceAll(
             `INFOPLIST_FILE = "${cleanNewPathContentStr}/Info.plist";`,
             `INFOPLIST_FILE = "${cleanNewPathContentStr}/Info.plist";
-             INFOPLIST_KEY_CFBundleDisplayName = "${newName}";`
+        INFOPLIST_KEY_CFBundleDisplayName = "${newName}";`
           );
         }
+
+        // Replace bundle ID
+        if (bundleID) {
+          input = input.replaceAll(
+            /PRODUCT_BUNDLE_IDENTIFIER = "(.*)"/g,
+            `PRODUCT_BUNDLE_IDENTIFIER = "${bundleID}"`
+          );
+        }
+
         return input;
       },
     },
