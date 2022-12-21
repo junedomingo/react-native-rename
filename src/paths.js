@@ -140,7 +140,7 @@ export const getIosUpdateFilesContentOptions = ({
           input = input.replaceAll(
             `INFOPLIST_FILE = "${cleanNewPathContentStr}/Info.plist";`,
             `INFOPLIST_FILE = "${cleanNewPathContentStr}/Info.plist";
-        INFOPLIST_KEY_CFBundleDisplayName = "${newName}";`
+             INFOPLIST_KEY_CFBundleDisplayName = "${newName}";`
           );
         }
 
