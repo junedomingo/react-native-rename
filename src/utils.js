@@ -122,26 +122,27 @@ export const validateBundleID = bundleID => {
   }
 };
 
-const getCurrentNameFromXml = ({ filepath, selector }) => {
+const getElementFromXml = ({ filepath, selector }) => {
   const xml = fs.readFileSync(filepath, 'utf8');
   const $ = cheerio.load(xml, { xmlMode: true, decodeEntities: false });
-  const element = $(selector);
 
-  return decodeXmlEntities(element.text());
+  return $(selector);
 };
 
 export const getIosCurrentName = () => {
   const filepath = globbySync(path.join(APP_PATH, iosPlist))[0];
   const selector = 'dict > key:contains("CFBundleDisplayName") + string';
+  const element = getElementFromXml({ filepath, selector });
 
-  return getCurrentNameFromXml({ filepath, selector });
+  return decodeXmlEntities(element.text());
 };
 
 export const getAndroidCurrentName = () => {
   const filepath = path.join(APP_PATH, androidValuesStrings);
   const selector = 'resources > string[name="app_name"]';
+  const element = getElementFromXml({ filepath, selector });
 
-  return getCurrentNameFromXml({ filepath, selector });
+  return decodeXmlEntities(element.text());
 };
 
 export const getIosXcodeProjectPathName = () => {
