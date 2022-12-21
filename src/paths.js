@@ -1,10 +1,10 @@
 import { cleanString, encodeXmlEntities } from './utils';
 
 export const androidManifestXml = 'android/app/src/main/AndroidManifest.xml';
+export const androidValuesStrings = 'android/app/src/main/res/values/strings.xml';
 export const iosXcodeproj = 'ios/*.xcodeproj';
 export const iosPbxProject = 'ios/*.xcodeproj/project.pbxproj';
 export const iosPlist = 'ios/*/Info.plist';
-export const androidValuesStrings = 'android/app/src/main/res/values/strings.xml';
 export const appJson = 'app.json';
 export const packageJson = 'package.json';
 
@@ -155,18 +155,30 @@ export const getIosUpdateFilesContentOptions = ({
         return input;
       },
     },
-    // This should be in the end of the array
     {
-      files: [
-        'ios/*/Base.lproj/LaunchScreen.xib',
-        'ios/*/LaunchScreen.storyboard',
-        'ios/*/Info.plist',
-      ],
+      files: ['ios/*/Base.lproj/LaunchScreen.xib'],
       from: [
         new RegExp(`\\b${encodedCurrentName}\\b`, 'g'),
         new RegExp(`\\b${currentName}\\b`, 'g'),
       ],
       to: encodedNewName,
+    },
+    {
+      files: ['ios/*/LaunchScreen.storyboard'],
+      from: [
+        new RegExp(`text="${encodedCurrentName}"`, 'g'),
+        new RegExp(`text="${currentName}"`, 'g'),
+      ],
+      to: `text="${encodedNewName}"`,
+    },
+    // Info.plist should be in the end of the array
+    {
+      files: ['ios/*/Info.plist'],
+      from: [
+        new RegExp(`<string>${encodedCurrentName}</string>`, 'g'),
+        new RegExp(`<string>${currentName}</string>`, 'g'),
+      ],
+      to: `<string>${encodedNewName}</string>`,
     },
   ];
 };
