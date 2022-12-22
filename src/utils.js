@@ -145,6 +145,14 @@ export const getAndroidCurrentName = () => {
   return decodeXmlEntities(element.text());
 };
 
+export const getAndroidCurrentBundleID = () => {
+  const filepath = path.join(APP_PATH, androidManifestXml);
+  const selector = 'manifest';
+  const element = getElementFromXml({ filepath, selector });
+
+  return element.attr('package');
+};
+
 export const getIosXcodeProjectPathName = () => {
   const xcodeProjectPath = globbySync(path.join(APP_PATH, iosXcodeproj), {
     onlyDirectories: true,
