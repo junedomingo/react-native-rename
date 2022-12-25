@@ -202,7 +202,7 @@ const renameFoldersAndFiles = async ({
         console.log(`.${newPath}`, chalk.green('RENAMED'));
       });
     } catch (error) {
-      console.log('ERROR:::::', error);
+      console.log(error);
     }
   });
 
