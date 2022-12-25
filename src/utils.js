@@ -90,7 +90,7 @@ export const validateNewName = (newName, programOptions) => {
   // Ask user to provide a custom path and content string if the cleanNewName is less than MIN_LANGUAGE_ALPHANUMERIC_NAME_LENGTH
   if (!isCleanNewNameLengthValid && !hasPathContentStr) {
     console.log(
-      `Please provide path and content string using "-p [value]" or "--pathContentStr [value]" option to be used in renaming the app\'s folders, files and their contents.
+      `Please provide path and content string using "-p [value]" or "--pathContentStr [value]" option to be used in renaming the app's folders, files and their contents.
 example: react-native-rename "M&Ms" -p "MMsChocolates"`
     );
     process.exit();
@@ -272,7 +272,6 @@ export const renameAndroidBundleIDFolders = async ({
   currentBundleIDAsPath,
   newBundleIDAsPath,
 }) => {
-  const currentBundleIDToPathLastFolder = currentBundleIDAsPath.split('/').pop();
   const currentBundleIDFoldersPaths = globbySync(
     path.join(APP_PATH, `${androidJava}/${currentBundleIDAsPath}`),
     { onlyDirectories: true }

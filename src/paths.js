@@ -36,10 +36,7 @@ export const getIosUpdateFilesContentOptions = ({
 }) => {
   const encodedNewName = encodeXmlEntities(newName);
   const encodedCurrentName = encodeXmlEntities(currentName);
-  const cleanCurrentPathContentStr = cleanString(currentPathContentStr);
   const cleanNewPathContentStr = cleanString(newPathContentStr);
-  const encodedNewPathContentStr = encodeXmlEntities(newPathContentStr);
-  const encodedCurrentPathContentStr = encodeXmlEntities(currentPathContentStr);
 
   // IMPORTANT: "files:" value should be in array even if there is only one file
   return [
