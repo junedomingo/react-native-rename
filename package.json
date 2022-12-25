@@ -6,10 +6,32 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "esbuild src/index.js --platform=node --bundle --outdir=lib --watch --external:shelljs",
-    "build": "esbuild src/index.js --platform=node --bundle --outdir=lib --external:shelljs"
+    "build": "esbuild src/index.js --platform=node --bundle --outdir=lib --external:shelljs",
+    "format": "prettier --write '**/*.{js,jsx}'",
+    "lint": "eslint '**/*.{js,jsx}'"
   },
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/junedomingo/react-native-rename.git"
+  },
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "rename",
+    "renamer",
+    "react",
+    "space"
+  ],
+  "author": "June Domingo <junedomingo@gmail.com>",
+  "license": "MIT",
+  "bin": {
+    "react-native-rename": "lib/index.js"
+  },
+  "bugs": {
+    "url": "https://github.com/junedomingo/react-native-rename/issues"
+  },
+  "homepage": "https://github.com/junedomingo/react-native-rename#readme",
   "devDependencies": {
     "esbuild": "^0.16.4",
     "prettier": "^2.8.1"
