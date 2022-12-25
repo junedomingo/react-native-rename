@@ -7,6 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "esbuild src/index.js --platform=node --bundle --outdir=lib --watch --external:shelljs",
     "build": "esbuild src/index.js --platform=node --bundle --outdir=lib --external:shelljs",
+    "prepublish": "npm run build",
+    "relink": "npm unlink react-native-rename && npm run prepublish && npm link",
     "format": "prettier --write '**/*.{js,jsx}'",
     "lint": "eslint 'src/*.{js,jsx}'"
   },
