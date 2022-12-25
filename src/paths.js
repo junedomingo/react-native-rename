@@ -2,6 +2,7 @@ import { cleanString, encodeXmlEntities } from './utils';
 
 export const androidManifestXml = 'android/app/src/main/AndroidManifest.xml';
 export const androidValuesStrings = 'android/app/src/main/res/values/strings.xml';
+export const androidJava = 'android/app/src/*/java';
 export const iosXcodeproj = 'ios/*.xcodeproj';
 export const iosPbxProject = 'ios/*.xcodeproj/project.pbxproj';
 export const iosPlist = 'ios/*/Info.plist';
@@ -26,13 +27,12 @@ export const getIosFoldersAndFilesPaths = ({ currentPathContentStr, newPathConte
   ];
 };
 
-// IMPORTANT: "files:" value should be in array even if there is only one file
 export const getIosUpdateFilesContentOptions = ({
   currentName,
   newName,
   currentPathContentStr,
   newPathContentStr,
-  bundleID,
+  newBundleID,
 }) => {
   const encodedNewName = encodeXmlEntities(newName);
   const encodedCurrentName = encodeXmlEntities(currentName);
@@ -41,6 +41,7 @@ export const getIosUpdateFilesContentOptions = ({
   const encodedNewPathContentStr = encodeXmlEntities(newPathContentStr);
   const encodedCurrentPathContentStr = encodeXmlEntities(currentPathContentStr);
 
+  // IMPORTANT: "files:" value should be in array even if there is only one file
   return [
     {
       files: ['index.ios.js'],
@@ -145,15 +146,15 @@ export const getIosUpdateFilesContentOptions = ({
         }
 
         // Replace bundle ID
-        if (bundleID) {
+        if (newBundleID) {
           input = input.replaceAll(
             /PRODUCT_BUNDLE_IDENTIFIER = "(.*)"/g,
-            `PRODUCT_BUNDLE_IDENTIFIER = "${bundleID}"`
+            `PRODUCT_BUNDLE_IDENTIFIER = "${newBundleID}"`
           );
 
           input = input.replaceAll(
             /PRODUCT_BUNDLE_IDENTIFIER = (.*)/g,
-            `PRODUCT_BUNDLE_IDENTIFIER = "${bundleID}";`
+            `PRODUCT_BUNDLE_IDENTIFIER = "${newBundleID}";`
           );
         }
 
@@ -188,6 +189,109 @@ export const getIosUpdateFilesContentOptions = ({
   ];
 };
 
+export const getAndroidUpdateFilesContentOptions = ({
+  currentName,
+  newName,
+  newBundleIDAsPath,
+}) => {
+  const encodedNewName = encodeXmlEntities(newName);
+  const encodedCurrentName = encodeXmlEntities(currentName);
+  const modulesName = cleanString(newName).toLowerCase();
+
+  return [
+    {
+      files: ['android/settings.gradle'],
+      from: [/rootProject.name = "(.*)"/g, /rootProject.name = '(.*)'/g],
+      to: `rootProject.name = '${newName}'`,
+    },
+    {
+      files: ['android/app/src/main/java/*/*/MainActivity.java'],
+      from: [`"${currentName}"`],
+      to: `"${newName}"`,
+    },
+    {
+      files: ['android/.idea/.name'],
+      from: currentName,
+      to: newName,
+    },
+    // Update *_appmodules name
+    {
+      files: [
+        `android/app/src/main/java/${newBundleIDAsPath}/newarchitecture/modules/MainApplicationTurboModuleManagerDelegate.java`,
+      ],
+      from: /SoLoader\.loadLibrary\("(.*)"\)/g,
+      to: `SoLoader.loadLibrary("${modulesName}_appmodules")`,
+    },
+    {
+      files: ['android/app/src/main/jni/CMakeLists.txt'],
+      from: /project\((.*)\)/g,
+      to: `project(${modulesName}_appmodules)`,
+    },
+    {
+      files: ['android/.idea/workspace.xml'],
+      from: [/<module name="(.*)\.app\.main" \/>/, new RegExp(currentName, 'g')],
+      to: [`<module name="${modulesName}.app.main" />`, newName],
+    },
+    // strings.xml should be in the end of the array
+    {
+      files: ['android/app/src/main/res/values/strings.xml'],
+      from: [
+        `<string name="app_name">${currentName}</string>`,
+        `<string name="app_name">${encodedCurrentName}</string>`,
+      ],
+      to: `<string name="app_name">${encodedNewName}</string>`,
+    },
+  ];
+};
+
+export const getAndroidUpdateBundleIDOptions = ({
+  currentBundleID,
+  newBundleID,
+  currentBundleIDAsPath,
+  newBundleIDAsPath,
+}) => {
+  return [
+    {
+      files: [
+        'android/app/_BUCK',
+        'android/app/build.gradle',
+        `android/app/src/debug/java/${newBundleIDAsPath}/ReactNativeFlipper.java`,
+        `android/app/src/main/java/${newBundleIDAsPath}/MainActivity.java`,
+        `android/app/src/main/java/${newBundleIDAsPath}/MainApplication.java`,
+      ],
+      from: new RegExp(`${currentBundleID}`, 'g'),
+      to: newBundleID,
+    },
+    {
+      files: [
+        `android/app/src/main/java/${newBundleIDAsPath}/newarchitecture/MainApplicationReactNativeHost.java`,
+        `android/app/src/main/java/${newBundleIDAsPath}/newarchitecture/components/MainComponentsRegistry.java`,
+        `android/app/src/main/java/${newBundleIDAsPath}/newarchitecture/modules/MainApplicationTurboModuleManagerDelegate.java`,
+      ],
+      from: new RegExp(currentBundleID, 'g'),
+      to: newBundleID,
+    },
+    {
+      files: [
+        'android/app/src/main/jni/MainApplicationTurboModuleManagerDelegate.h',
+        'android/app/src/main/jni/MainComponentsRegistry.h',
+      ],
+      from: new RegExp(`L${currentBundleIDAsPath}`, 'g'),
+      to: `L${newBundleIDAsPath}`,
+    },
+    {
+      files: ['android/.idea/workspace.xml'],
+      from: new RegExp(`${currentBundleIDAsPath}`, 'g'),
+      to: newBundleIDAsPath,
+    },
+    {
+      files: ['android/app/src/main/AndroidManifest.xml'],
+      from: new RegExp(`${currentBundleID}`, 'g'),
+      to: newBundleID,
+    },
+  ];
+};
+
 export const getOtherUpdateFilesContentOptions = ({
   newName,
   newPathContentStr,
@@ -208,84 +312,3 @@ export const getOtherUpdateFilesContentOptions = ({
     },
   ];
 };
-
-// export const getReplaceInFileOptions = (currentName, newName) => {
-//   const clearedCurrentName = clearName(currentName);
-//   const clearedNewName = clearName(newName);
-//   const encodedNewName = encodeXmlEntities(newName);
-
-//   // IMPORTANT: app.json file should be last in the array
-//   // because it contains the name of the app
-//   // and it should be changed last.
-//   // also "files:" value should be in array even if there is only one file
-//   return [
-//     {
-//       files: ['android/app/src/main/res/values/strings.xml'],
-//       from: new RegExp(`\\b${currentName}\\b`, 'gi'),
-//       to: encodedNewName,
-//     },
-//     {
-//       files: ['index.js', 'index.android.js', 'index.ios.js'],
-//       from: [new RegExp(`\\b${currentName}\\b`, 'g'), new RegExp(`\\b'${currentName}'\\b`, 'g')],
-//       to: newName,
-//     },
-//     {
-//       files: [
-//         'ios/*.xcodeproj/project.pbxproj',
-//         'ios/*.xcodeproj/xcshareddata/xcschemes/*-tvOS.xcscheme',
-//         'ios/*.xcodeproj/xcshareddata/xcschemes/*.xcscheme',
-//         'ios/*/AppDelegate.m',
-//         'ios/*/AppDelegate.mm',
-//         'android/settings.gradle',
-//         'ios/*Tests/*Tests.m',
-//         'ios/Podfile',
-//       ],
-//       from: new RegExp(`\\b${clearedCurrentName}\\b`, 'gi'),
-//       to: clearedNewName,
-//     },
-//     {
-//       files: [
-//         'ios/*.xcodeproj/project.pbxproj',
-//         'ios/*.xcodeproj/xcshareddata/xcschemes/*.xcscheme',
-//         'ios/*Tests/*Tests.m',
-//         'ios/Podfile',
-//       ],
-//       from: new RegExp(`\\b${clearedCurrentName}Tests\\b`, 'gi'),
-//       to: `${clearedNewName}Tests`,
-//     },
-//     {
-//       files: [
-//         'ios/*/Base.lproj/LaunchScreen.xib',
-//         'ios/*/LaunchScreen.storyboard',
-//         'ios/*/Info.plist',
-//         'ios/*.xcworkspace/contents.xcworkspacedata',
-//       ],
-//       from: new RegExp(`\\b${currentName}\\b`, 'gi'),
-//       to: encodedNewName,
-//     },
-
-//     {
-//       files: ['android/app/src/main/java/*/*/MainActivity.java'],
-//       from: new RegExp(`return "${currentName}";`, 'gi'),
-//       to: `return "${newName}";`,
-//     },
-//     {
-//       files: [
-//         'android/app/src/main/jni/CMakeLists.txt',
-//         'android/app/src/main/java/*/*/newarchitecture/modules/MainApplicationTurboModuleManagerDelegate.java',
-//       ],
-//       from: new RegExp(`\\b${clearedCurrentName.toLowerCase()}_appmodules\\b`, 'gi'),
-//       to: `${clearedNewName.toLowerCase()}_appmodules`,
-//     },
-//     {
-//       files: ['package.json'],
-//       from: `"name": "${clearedCurrentName.toLowerCase()}"`,
-//       to: `"name": "${clearedNewName.toLowerCase()}"`,
-//     },
-//     {
-//       files: ['app.json'],
-//       from: new RegExp(`\\b${currentName}\\b`, 'gi'),
-//       to: newName,
-//     },
-//   ];
-// };

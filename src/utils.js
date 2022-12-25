@@ -9,9 +9,12 @@ import replace from 'replace-in-file';
 import shell from 'shelljs';
 
 import {
+  androidJava,
   androidManifestXml,
   androidValuesStrings,
   appJson,
+  getAndroidUpdateBundleIDOptions,
+  getAndroidUpdateFilesContentOptions,
   getIosFoldersAndFilesPaths,
   getIosUpdateFilesContentOptions,
   getOtherUpdateFilesContentOptions,
@@ -31,7 +34,9 @@ const VALID_BUNDLE_ID_REGEX = /^([a-zA-Z]([a-zA-Z0-9_])*\.)+[a-zA-Z]([a-zA-Z0-9_
 
 const pluralize = (count, noun, suffix = 'es') => `${count} ${noun}${count !== 1 ? suffix : ''}`;
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const toRelativePath = absolutePath => path.relative(APP_PATH, absolutePath);
 export const cleanString = str => str.replace(NON_LANGUAGE_ALPHANUMERIC_REGEX, '');
+export const bundleIDToPath = bundleID => bundleID.replace(/\./g, '/');
 export const decodeXmlEntities = name => decode(name, { level: 'xml' });
 export const encodeXmlEntities = name =>
   encode(name, { mode: 'nonAscii', level: 'xml', numeric: 'hexadecimal' });
@@ -92,7 +97,7 @@ example: react-native-rename "M&Ms" -p "MMsChocolates"`
   }
 };
 
-export const validatePathContentStr = value => {
+export const validateNewPathContentStr = value => {
   const cleanValue = cleanString(value ?? '');
   const isCleanValueLengthValid = cleanValue.length >= MIN_LANGUAGE_ALPHANUMERIC_NAME_LENGTH;
 
@@ -104,19 +109,19 @@ export const validatePathContentStr = value => {
   }
 };
 
-export const validateBundleID = bundleID => {
-  if (!VALID_BUNDLE_ID_REGEX.test(bundleID)) {
+export const validateNewBundleID = newBundleID => {
+  if (!VALID_BUNDLE_ID_REGEX.test(newBundleID)) {
     console.log(
-      `The bundle identifier "${bundleID}" is not valid. It should contain only alphanumeric characters and dots, e.g. com.example.MyApp or com.example`
+      `The bundle identifier "${newBundleID}" is not valid. It should contain only alphanumeric characters and dots, e.g. com.example.MyApp or com.example`
     );
     process.exit();
   }
 
-  const segments = bundleID.split('.');
+  const segments = newBundleID.split('.');
 
   if (segments.length < 2) {
     console.log(
-      `The bundle identifier "${bundleID}" is not valid. It should contain at least 2 segments, e.g. com.example.MyApp or com.example`
+      `The bundle identifier "${newBundleID}" is not valid. It should contain at least 2 segments, e.g. com.example.MyApp or com.example`
     );
     process.exit();
   }
@@ -163,35 +168,42 @@ export const getIosXcodeProjectPathName = () => {
 
 const renameFoldersAndFiles = async ({
   foldersAndFilesPaths,
-  currentPathContentStr,
-  newPathContentStr,
+  currentPath: currentPathParam,
+  newPath: newPathParam,
+  createNewPathFirst = false,
+  shellMoveCurrentPathGlobEnd = '',
 }) => {
   const promises = foldersAndFilesPaths.map(async (filePath, index) => {
     await delay(index * PROMISE_DELAY);
-    const oldPath = path.join(APP_PATH, filePath);
-    const newPath = path.join(
-      APP_PATH,
-      filePath.replace(cleanString(currentPathContentStr), cleanString(newPathContentStr))
-    );
+    const currentPath = path.join(APP_PATH, filePath);
+    const newPath = path.join(APP_PATH, filePath.replace(currentPathParam, newPathParam));
 
-    if (oldPath === newPath) {
-      return console.log(`.${oldPath}`, chalk.yellow('NOT RENAMED'));
+    if (currentPath === newPath) {
+      return console.log(`.${currentPath}`, chalk.yellow('NOT RENAMED'));
     }
 
-    new Promise(resolve => {
-      if (!fs.existsSync(oldPath)) {
-        return resolve();
-      }
+    if (createNewPathFirst) {
+      shell.mkdir('-p', newPath);
+    }
 
-      const shellMove = shell.mv('-f', oldPath, newPath);
+    try {
+      new Promise(resolve => {
+        if (!fs.existsSync(currentPath)) {
+          return resolve();
+        }
 
-      if (shellMove.code !== 0) {
-        console.log(chalk.red(shellMove.stderr));
-      }
+        const shellMove = shell.mv('-f', `${currentPath}${shellMoveCurrentPathGlobEnd}`, newPath);
 
-      resolve();
-      console.log(`.${newPath}`, chalk.green('RENAMED'));
-    });
+        if (shellMove.code !== 0) {
+          console.log(chalk.red(shellMove.stderr));
+        }
+
+        resolve();
+        console.log(`.${newPath}`, chalk.green('RENAMED'));
+      });
+    } catch (error) {
+      console.log('ERROR:::::', error);
+    }
   });
 
   await Promise.all(promises);
@@ -205,8 +217,8 @@ export const renameIosFoldersAndFiles = async newPathContentStr => {
   });
   await renameFoldersAndFiles({
     foldersAndFilesPaths,
-    currentPathContentStr,
-    newPathContentStr,
+    currentPath: cleanString(currentPathContentStr),
+    newPath: cleanString(newPathContentStr),
   });
 };
 
@@ -244,14 +256,61 @@ export const updateIosFilesContent = async ({
   newName,
   currentPathContentStr,
   newPathContentStr,
-  bundleID,
+  newBundleID,
 }) => {
   const filesContentOptions = getIosUpdateFilesContentOptions({
     currentName,
     newName,
     currentPathContentStr,
     newPathContentStr,
-    bundleID,
+    newBundleID,
+  });
+  await updateFilesContent(filesContentOptions);
+};
+
+export const renameAndroidBundleIDFolders = async ({
+  currentBundleIDAsPath,
+  newBundleIDAsPath,
+}) => {
+  const currentBundleIDToPathLastFolder = currentBundleIDAsPath.split('/').pop();
+  const currentBundleIDFoldersPaths = globbySync(
+    path.join(APP_PATH, `${androidJava}/${currentBundleIDAsPath}`),
+    { onlyDirectories: true }
+  );
+
+  const currentBundleIDFoldersRelativePaths = currentBundleIDFoldersPaths.map(folderPath =>
+    toRelativePath(folderPath)
+  );
+
+  await renameFoldersAndFiles({
+    foldersAndFilesPaths: currentBundleIDFoldersRelativePaths,
+    currentPath: currentBundleIDAsPath,
+    newPath: newBundleIDAsPath,
+    createNewPathFirst: true,
+    shellMoveCurrentPathGlobEnd: '/*',
+  });
+};
+
+export const updateAndroidFilesContent = async ({ currentName, newName, newBundleIDAsPath }) => {
+  const filesContentOptions = getAndroidUpdateFilesContentOptions({
+    currentName,
+    newName,
+    newBundleIDAsPath,
+  });
+  await updateFilesContent(filesContentOptions);
+};
+
+export const updateAndroidFilesContentBundleID = async ({
+  currentBundleID,
+  newBundleID,
+  currentBundleIDAsPath,
+  newBundleIDAsPath,
+}) => {
+  const filesContentOptions = getAndroidUpdateBundleIDOptions({
+    currentBundleID,
+    newBundleID,
+    currentBundleIDAsPath,
+    newBundleIDAsPath,
   });
   await updateFilesContent(filesContentOptions);
 };

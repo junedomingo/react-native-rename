@@ -3,20 +3,25 @@ import { program } from 'commander';
 
 import pjson from '../package.json';
 import {
+  bundleIDToPath,
   checkGitRepoStatus,
+  getAndroidCurrentBundleID,
   getAndroidCurrentName,
   getIosCurrentName,
   getIosXcodeProjectPathName,
   gitStageChanges,
-  updateIosFilesContent,
-  updateOtherFilesContent,
+  renameAndroidBundleIDFolders,
   renameIosFoldersAndFiles,
   showSuccessMessages,
-  validateBundleID,
+  updateAndroidFilesContent,
+  updateAndroidFilesContentBundleID,
+  updateIosFilesContent,
+  updateOtherFilesContent,
   validateCreation,
   validateGitRepo,
+  validateNewBundleID,
   validateNewName,
-  validatePathContentStr,
+  validateNewPathContentStr,
 } from './utils';
 
 program
@@ -40,20 +45,21 @@ program
     validateNewName(newName, options);
 
     const pathContentStr = options.pathContentStr;
-    const bundleID = options.bundleID?.toLowerCase();
+    const newBundleID = options.bundleID?.toLowerCase();
 
     if (pathContentStr) {
-      validatePathContentStr(pathContentStr);
+      validateNewPathContentStr(pathContentStr);
     }
 
-    if (bundleID) {
-      validateBundleID(bundleID);
+    if (newBundleID) {
+      validateNewBundleID(newBundleID);
     }
 
     const currentAndroidName = getAndroidCurrentName();
     const currentIosName = getIosCurrentName();
     const currentPathContentStr = getIosXcodeProjectPathName();
     const newPathContentStr = pathContentStr || newName;
+    const currentAndroidBundleID = getAndroidCurrentBundleID();
 
     await renameIosFoldersAndFiles(newPathContentStr);
     await updateIosFilesContent({
@@ -61,8 +67,30 @@ program
       newName,
       currentPathContentStr,
       newPathContentStr,
-      bundleID,
+      newBundleID,
     });
+
+    if (newBundleID) {
+      await renameAndroidBundleIDFolders({
+        currentBundleIDAsPath: bundleIDToPath(currentAndroidBundleID),
+        newBundleIDAsPath: bundleIDToPath(newBundleID),
+      });
+    }
+
+    await updateAndroidFilesContent({
+      currentName: currentAndroidName,
+      newName,
+      newBundleIDAsPath: bundleIDToPath(newBundleID || currentAndroidBundleID),
+    });
+
+    if (newBundleID) {
+      await updateAndroidFilesContentBundleID({
+        currentBundleID: currentAndroidBundleID,
+        newBundleID,
+        currentBundleIDAsPath: bundleIDToPath(currentAndroidBundleID),
+        newBundleIDAsPath: bundleIDToPath(newBundleID),
+      });
+    }
     await updateOtherFilesContent({ newName, newPathContentStr });
     showSuccessMessages(newName);
     gitStageChanges();
@@ -79,14 +107,15 @@ validateCreation();
 program.parseAsync(process.argv);
 
 // TODO
-// - [ ] Add support for Android
+// - [ x ] Add support for Android
 // - [ x ] Check if the new name is too long
 // - [ x ] Check if the new name for modifying files is too short
 // - [ x ] Check package.json, should not contain special characters
 // - [ x ] Test pbxproj for other languages
 // - [ x ] Change bundle identifier on ios
-// - [  ] Change bundle identifier on android
+// - [ x ] Change bundle identifier on android
 // - [  ] Add option to add iosNewName
 // - [  ] Add option to add androidNewName
 // - [ x ] Add option to add custom file and folder name e.g "AwesomeApp"
 // - [ x ] Add ios DisplayName
+// - [  ] Delete builds folder
