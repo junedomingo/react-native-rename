@@ -91,7 +91,9 @@ program
         newBundleIDAsPath: bundleIDToPath(newBundleID),
       });
     }
+
     await updateOtherFilesContent({ newName, newPathContentStr });
+
     showSuccessMessages(newName);
     gitStageChanges();
   });
