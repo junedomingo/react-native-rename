@@ -36,6 +36,8 @@ program
     '-b, --bundleID [value]',
     'Set custom bundle identifier eg. "com.example.app" or "com.example"'
   )
+  .option('--iosBundleID [value]', 'Set custom bundle identifier specifically for ios')
+  .option('--androidBundleID [value]', 'Set custom bundle identifier specifically for android')
   .option(
     '-p, --pathContentStr [value]',
     `Path and content string that can be used in replacing folders, files and their content. Make sure it doesn't include any special characters.`
@@ -52,6 +54,8 @@ program
 
     const pathContentStr = options.pathContentStr;
     const newBundleID = options.bundleID?.toLowerCase();
+    const newIosBundleID = options.iosBundleID?.toLowerCase();
+    const newAndroidBundleID = options.androidBundleID?.toLowerCase();
 
     if (pathContentStr) {
       validateNewPathContentStr(pathContentStr);
@@ -59,6 +63,14 @@ program
 
     if (newBundleID) {
       validateNewBundleID(newBundleID);
+    }
+
+    if (newIosBundleID) {
+      validateNewBundleID(newIosBundleID);
+    }
+
+    if (newAndroidBundleID) {
+      validateNewBundleID(newAndroidBundleID);
     }
 
     const currentAndroidName = getAndroidCurrentName();
@@ -73,30 +85,32 @@ program
       newName,
       currentPathContentStr,
       newPathContentStr,
-      newBundleID,
+      newBundleID: newIosBundleID || newBundleID,
     });
 
     await updateIosNameInInfoPlist(newName);
 
-    if (newBundleID) {
+    if (newAndroidBundleID || newBundleID) {
       await renameAndroidBundleIDFolders({
         currentBundleIDAsPath: bundleIDToPath(currentAndroidBundleID),
-        newBundleIDAsPath: bundleIDToPath(newBundleID),
+        newBundleIDAsPath: bundleIDToPath(newAndroidBundleID || newBundleID),
       });
     }
 
     await updateAndroidFilesContent({
       currentName: currentAndroidName,
       newName,
-      newBundleIDAsPath: bundleIDToPath(newBundleID || currentAndroidBundleID),
+      newBundleIDAsPath: bundleIDToPath(
+        newAndroidBundleID || newBundleID || currentAndroidBundleID
+      ),
     });
 
-    if (newBundleID) {
+    if (newAndroidBundleID || newBundleID) {
       await updateAndroidFilesContentBundleID({
         currentBundleID: currentAndroidBundleID,
-        newBundleID,
+        newBundleID: newAndroidBundleID || newBundleID,
         currentBundleIDAsPath: bundleIDToPath(currentAndroidBundleID),
-        newBundleIDAsPath: bundleIDToPath(newBundleID),
+        newBundleIDAsPath: bundleIDToPath(newAndroidBundleID || newBundleID),
       });
     }
 
