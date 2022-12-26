@@ -30,13 +30,17 @@ $ npx react-native-rename "Travel App"
 ```
 With custom Bundle Identifier
 ```
-$ npx react-native-rename "Travel App" -b com.junedomingo.travelapp
+$ npx react-native-rename "Travel App" -b "com.junedomingo.travelapp"
 ```
 
-### Additional Options
+### CLI Options
 |            Name            | Description                                                                                                                                  |
 | :------------------------: | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-p` or `--pathContentStr` | Path and content string that can be used in replacing folders, files and their content. Make sure it doesn't include any special characters. |
+| `-b` or `--bundleID` [value] | Set custom bundle identifier eg. "com.example.app" or "com.example". |
+| `--bundleID` [value] | Set custom bundle identifier both ios and android eg. "com.example.app" or "com.example". |
+| `--iosBundleID` [value] | Set custom bundle identifier specifically for ios. |
+| `--androidBundleID` [value] | Set custom bundle identifier specifically for android. |
+| `-p` or `--pathContentStr` [value] | Path and content string that can be used in replacing folders, files and their content. Make sure it doesn't include any special characters. |
 |   `--skipGitStatusCheck`   | Skip git repo status check                                                                                                                   |
 
 ### Local installation
