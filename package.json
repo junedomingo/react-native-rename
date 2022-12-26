@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "dev": "esbuild src/index.js --platform=node --bundle --outdir=lib --watch --external:shelljs",
-    "build": "esbuild src/index.js --platform=node --bundle --outdir=lib --external:shelljs",
+    "build": "esbuild src/index.js --platform=node --bundle --minify --outdir=lib --external:shelljs",
     "prepublish": "npm run build",
     "relink": "npm unlink react-native-rename && npm run prepublish && npm link",
     "format": "prettier --write 'src/*.{js,jsx}'",
