@@ -104,7 +104,7 @@ export const validateNewPathContentStr = value => {
 
   if (!isCleanValueLengthValid) {
     console.log(
-      `The value provided in --pathContentString or -p option is too short or contains special characters.`
+      'The value provided in --pathContentString or -p option is too short or contains special characters.'
     );
     process.exit();
   }
