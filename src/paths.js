@@ -208,7 +208,7 @@ export const getAndroidUpdateFilesContentOptions = ({
       to: `rootProject.name = '${newName}'`,
     },
     {
-      files: ['android/app/src/main/java/*/*/MainActivity.java'],
+      files: [`android/app/src/main/java/${newBundleIDAsPath}/MainActivity.java`],
       from: [`"${currentName}"`],
       to: `"${newName}"`,
     },
