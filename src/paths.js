@@ -8,6 +8,12 @@ export const iosPbxProject = 'ios/*.xcodeproj/project.pbxproj';
 export const iosPlist = 'ios/*/Info.plist';
 export const appJson = 'app.json';
 export const packageJson = 'package.json';
+export const buildPaths = [
+  'ios/build/*',
+  'android/.gradle/*',
+  'android/app/build/*',
+  'android/build/*',
+];
 
 export const getIosFoldersAndFilesPaths = ({ currentPathContentStr, newPathContentStr }) => {
   const cleanNewPathContentStr = cleanString(newPathContentStr);
@@ -309,10 +315,3 @@ export const getOtherUpdateFilesContentOptions = ({
     },
   ];
 };
-
-export const buildPaths = [
-  'ios/build/*',
-  'android/.gradle/*',
-  'android/app/build/*',
-  'android/build/*',
-];
