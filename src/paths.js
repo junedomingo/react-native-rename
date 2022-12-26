@@ -309,3 +309,10 @@ export const getOtherUpdateFilesContentOptions = ({
     },
   ];
 };
+
+export const buildPaths = [
+  'ios/build/*',
+  'android/.gradle/*',
+  'android/app/build/*',
+  'android/build/*',
+];

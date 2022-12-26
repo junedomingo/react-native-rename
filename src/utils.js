@@ -13,6 +13,7 @@ import {
   androidManifestXml,
   androidValuesStrings,
   appJson,
+  buildPaths,
   getAndroidUpdateBundleIDOptions,
   getAndroidUpdateFilesContentOptions,
   getIosFoldersAndFilesPaths,
@@ -325,7 +326,16 @@ export const updateOtherFilesContent = async ({ newName, newPathContentStr }) =>
     appJsonDisplayName: appJsonContent?.displayName,
     packageJsonName: packageJsonContent?.name,
   });
+
   await updateFilesContent(filesContentOptions);
+};
+
+export const cleanBuilds = () => {
+  shell.rm(
+    '-rf',
+    buildPaths.map(buildPath => path.join(APP_PATH, buildPath))
+  );
+  console.log(chalk.yellow('Done removing builds.'));
 };
 
 export const showSuccessMessages = newName => {

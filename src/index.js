@@ -5,6 +5,7 @@ import pjson from '../package.json';
 import {
   bundleIDToPath,
   checkGitRepoStatus,
+  cleanBuilds,
   getAndroidCurrentBundleID,
   getAndroidCurrentName,
   getIosCurrentName,
@@ -94,6 +95,7 @@ program
 
     await updateOtherFilesContent({ newName, newPathContentStr });
 
+    cleanBuilds();
     showSuccessMessages(newName);
     gitStageChanges();
   });
