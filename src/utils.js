@@ -164,10 +164,7 @@ export const getIosXcodeProjectPathName = () => {
     onlyDirectories: true,
   });
 
-  return xcodeProjectPath[0]
-    .split('/')
-    .pop()
-    .replace('.xcodeproj', '');
+  return xcodeProjectPath[0].split('/').pop().replace('.xcodeproj', '');
 };
 
 const renameFoldersAndFiles = async ({
