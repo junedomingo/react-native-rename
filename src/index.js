@@ -30,7 +30,10 @@ program
   .description(pjson.description)
   .version(pjson.version)
   .arguments('[newName]')
-  .option('-b, --bundleID [value]', 'Set custom bundle identifier eg. "com.junedomingo.travelapp"')
+  .option(
+    '-b, --bundleID [value]',
+    'Set custom bundle identifier eg. "com.example.app" or "com.example" '
+  )
   .option(
     '-p, --pathContentStr [value]',
     `Path and content string that can be used in replacing folders, files and their content. Make sure it doesn't include any special characters.`
