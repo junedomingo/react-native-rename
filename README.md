@@ -1,3 +1,6 @@
+# Announcement 📣
+V3 will be released very soon!
+
 # react-native-rename [![NPM version](https://img.shields.io/npm/v/react-native-rename.svg?style=flat)](https://www.npmjs.com/package/react-native-rename) [![NPM monthly downloads](https://img.shields.io/npm/dm/react-native-rename.svg?style=flat)](https://npm-stat.com/charts.html?package=react-native-rename) [![NPM total downloads](https://img.shields.io/npm/dt/react-native-rename.svg?style=flat)](https://npm-stat.com/charts.html?package=react-native-rename) [![Paypal Donate](https://img.shields.io/badge/paypal-donate-green.svg?style=flat)](https://www.paypal.me/junedomingo)
 
 Rename react-native app with just one command
