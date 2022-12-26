@@ -16,7 +16,9 @@ import {
   showSuccessMessages,
   updateAndroidFilesContent,
   updateAndroidFilesContentBundleID,
+  updateAndroidNameInStringsXml,
   updateIosFilesContent,
+  updateIosNameInInfoPlist,
   updateOtherFilesContent,
   validateCreation,
   validateGitRepo,
@@ -74,6 +76,8 @@ program
       newBundleID,
     });
 
+    await updateIosNameInInfoPlist(newName);
+
     if (newBundleID) {
       await renameAndroidBundleIDFolders({
         currentBundleIDAsPath: bundleIDToPath(currentAndroidBundleID),
@@ -96,6 +100,7 @@ program
       });
     }
 
+    await updateAndroidNameInStringsXml(newName);
     await updateOtherFilesContent({ newName, newPathContentStr });
 
     cleanBuilds();

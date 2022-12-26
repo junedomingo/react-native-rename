@@ -41,11 +41,12 @@ export const bundleIDToPath = bundleID => bundleID.replace(/\./g, '/');
 export const decodeXmlEntities = name => decode(name, { level: 'xml' });
 export const encodeXmlEntities = name =>
   encode(name, { mode: 'nonAscii', level: 'xml', numeric: 'hexadecimal' });
+const iosInfoPlistFullPath = globbySync(path.join(APP_PATH, iosPlist))[0];
+const androidValuesStringsFullPath = path.join(APP_PATH, androidValuesStrings);
 
 export const validateCreation = () => {
   const fileExists =
-    fs.existsSync(globbySync(path.join(APP_PATH, iosPlist))[0]) &&
-    fs.existsSync(path.join(APP_PATH, androidValuesStrings));
+    fs.existsSync(iosInfoPlistFullPath) && fs.existsSync(androidValuesStringsFullPath);
 
   if (!fileExists) {
     console.log('Directory should be created using "react-native init".');
@@ -144,9 +145,8 @@ export const getIosCurrentName = () => {
 };
 
 export const getAndroidCurrentName = () => {
-  const filepath = path.join(APP_PATH, androidValuesStrings);
   const selector = 'resources > string[name="app_name"]';
-  const element = getElementFromXml({ filepath, selector });
+  const element = getElementFromXml({ filepath: androidValuesStringsFullPath, selector });
 
   return decodeXmlEntities(element.text());
 };
@@ -272,6 +272,34 @@ export const updateIosFilesContent = async ({
     newBundleID,
   });
   await updateFilesContent(filesContentOptions);
+};
+
+const updateElementInXml = async ({ filepath, selector, text }) => {
+  const $ = cheerio.load(fs.readFileSync(filepath, 'utf8'), {
+    xmlMode: true,
+    decodeEntities: false,
+  });
+
+  const element = $(selector);
+  element.text(encodeXmlEntities(text));
+  await fs.promises.writeFile(filepath, $.xml());
+  console.log(toRelativePath(filepath), chalk.green('UPDATED'));
+};
+
+export const updateIosNameInInfoPlist = async newName => {
+  await updateElementInXml({
+    filepath: globbySync(path.join(APP_PATH, iosPlist))[0],
+    selector: 'dict > key:contains("CFBundleDisplayName") + string',
+    text: newName,
+  });
+};
+
+export const updateAndroidNameInStringsXml = async newName => {
+  await updateElementInXml({
+    filepath: androidValuesStringsFullPath,
+    selector: 'resources > string[name="app_name"]',
+    text: newName,
+  });
 };
 
 export const renameAndroidBundleIDFolders = async ({
