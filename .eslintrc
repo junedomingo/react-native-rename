@@ -1,15 +1,15 @@
 {
   "env": {
-      "node": true,
-      "es2021": true
+    "node": true,
+    "es2021": true
   },
   "extends": ["eslint:recommended", "prettier"],
   "plugins": ["prettier"],
   "overrides": [
   ],
   "parserOptions": {
-      "ecmaVersion": "latest",
-      "sourceType": "module"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
   "rules": {
     "no-unused-vars": "warn",
