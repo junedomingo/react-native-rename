@@ -109,17 +109,3 @@ if (!process.argv.slice(2).length) {
 validateGitRepo();
 validateCreation();
 program.parseAsync(process.argv);
-
-// TODO
-// - [ x ] Add support for Android
-// - [ x ] Check if the new name is too long
-// - [ x ] Check if the new name for modifying files is too short
-// - [ x ] Check package.json, should not contain special characters
-// - [ x ] Test pbxproj for other languages
-// - [ x ] Change bundle identifier on ios
-// - [ x ] Change bundle identifier on android
-// - [  ] Add option to add iosNewName
-// - [  ] Add option to add androidNewName
-// - [ x ] Add option to add custom file and folder name e.g "AwesomeApp"
-// - [ x ] Add ios DisplayName
-// - [  ] Delete builds folder
