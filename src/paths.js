@@ -180,15 +180,6 @@ export const getIosUpdateFilesContentOptions = ({
       ],
       to: `text="${encodedNewName}"`,
     },
-    // Info.plist should be in the end of the array
-    {
-      files: ['ios/*/Info.plist'],
-      from: [
-        new RegExp(`<string>${encodedCurrentName}</string>`, 'g'),
-        new RegExp(`<string>${currentName}</string>`, 'g'),
-      ],
-      to: `<string>${encodedNewName}</string>`,
-    },
   ];
 };
 
@@ -197,8 +188,6 @@ export const getAndroidUpdateFilesContentOptions = ({
   newName,
   newBundleIDAsPath,
 }) => {
-  const encodedNewName = encodeXmlEntities(newName);
-  const encodedCurrentName = encodeXmlEntities(currentName);
   const modulesName = cleanString(newName).toLowerCase();
 
   return [
@@ -234,15 +223,6 @@ export const getAndroidUpdateFilesContentOptions = ({
       files: ['android/.idea/workspace.xml'],
       from: [/<module name="(.*)\.app\.main" \/>/, new RegExp(currentName, 'g')],
       to: [`<module name="${modulesName}.app.main" />`, newName],
-    },
-    // strings.xml should be in the end of the array
-    {
-      files: ['android/app/src/main/res/values/strings.xml'],
-      from: [
-        `<string name="app_name">${currentName}</string>`,
-        `<string name="app_name">${encodedCurrentName}</string>`,
-      ],
-      to: `<string name="app_name">${encodedNewName}</string>`,
     },
   ];
 };
