@@ -180,7 +180,7 @@ const renameFoldersAndFiles = async ({
     const newPath = path.join(APP_PATH, filePath.replace(currentPathParam, newPathParam));
 
     if (currentPath === newPath) {
-      return console.log(`.${currentPath}`, chalk.yellow('NOT RENAMED'));
+      return console.log(toRelativePath(currentPath), chalk.yellow('NOT RENAMED'));
     }
 
     if (createNewPathFirst) {
@@ -200,7 +200,7 @@ const renameFoldersAndFiles = async ({
         }
 
         resolve();
-        console.log(`.${newPath}`, chalk.green('RENAMED'));
+        console.log(toRelativePath(newPath), chalk.green('RENAMED'));
       });
     } catch (error) {
       console.log(error);
@@ -243,11 +243,14 @@ export const updateFilesContent = async filesContentOptions => {
           result.numMatches || 0,
           'match'
         )})`;
-        console.log(`.${result.file}`, hasChanged ? chalk.green(message) : chalk.yellow(message));
+        console.log(
+          toRelativePath(result.file),
+          hasChanged ? chalk.green(message) : chalk.yellow(message)
+        );
       });
     } catch (error) {
       const filePath = error.message.replace('No files match the pattern:', '').trim();
-      console.log(`.${filePath}`, chalk.yellow('NOT FOUND'));
+      console.log(toRelativePath(filePath), chalk.yellow('NOT FOUND'));
     }
   });
 
