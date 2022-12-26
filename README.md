@@ -10,12 +10,12 @@ Rename react-native app with just one command
 
 ### Usage
 ```
-$ npx react-native-rename <newName>
+$ npx react-native-rename "new_name"
 ```
 
-> With custom Bundle Identifier (Android only. For iOS, please use Xcode)
+> With custom Bundle Identifier
 ```
-$ npx react-native-rename <newName> -b <bundleIdentifier>
+$ npx react-native-rename "new_name" -b "bundle_identifier"
 ```
 
 ### Example
@@ -28,10 +28,15 @@ $ git checkout -b rename-app
 ```
 $ npx react-native-rename "Travel App"
 ```
-> With custom Bundle Identifier
+With custom Bundle Identifier
 ```
 $ npx react-native-rename "Travel App" -b com.junedomingo.travelapp
 ```
+
+### Additional Options
+`-p, --pathContentStr` - Path and content string that can be used in replacing folders, files and their content. Make sure it doesn't include any special characters.
+
+`--skipGitStatusCheck` - Skip git repo status check
 
 ### Local installation
 With **Yarn**:
