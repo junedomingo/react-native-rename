@@ -32,7 +32,7 @@ program
   .arguments('[newName]')
   .option(
     '-b, --bundleID [value]',
-    'Set custom bundle identifier eg. "com.example.app" or "com.example" '
+    'Set custom bundle identifier eg. "com.example.app" or "com.example"'
   )
   .option(
     '-p, --pathContentStr [value]',
