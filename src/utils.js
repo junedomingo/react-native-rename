@@ -350,7 +350,7 @@ ${chalk.green('SUCCESS! 🎉 🎉 🎉')} Your app has been renamed to "${chalk.
 
   console.log(
     chalk.yellow(`Please make sure to run "npx pod-install" and "watchman watch-del-all" before running the app.
-If you like this tool, please give it a star on GitHub: https://github.com/junedomingo/react-native-rename.`)
+If you like this tool, please give it a star on GitHub: https://github.com/junedomingo/react-native-rename`)
   );
 };
 
