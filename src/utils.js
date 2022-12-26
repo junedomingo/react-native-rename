@@ -90,8 +90,8 @@ export const validateNewName = (newName, programOptions) => {
   // Ask user to provide a custom path and content string if the cleanNewName is less than MIN_LANGUAGE_ALPHANUMERIC_NAME_LENGTH
   if (!isCleanNewNameLengthValid && !hasPathContentStr) {
     console.log(
-      `Please provide path and content string using "-p [value]" or "--pathContentStr [value]" option to be used in renaming the app's folders, files and their contents.
-example: react-native-rename "M&Ms" -p "MMsChocolates"`
+      `Please provide path and content string using "-p [value]" or "--pathContentStr [value]" option to be used in renaming the folders, files and their contents.
+example: react-native-rename "${newName}" -p "[value]"`
     );
     process.exit();
   }
@@ -112,7 +112,7 @@ export const validateNewPathContentStr = value => {
 export const validateNewBundleID = newBundleID => {
   if (!VALID_BUNDLE_ID_REGEX.test(newBundleID)) {
     console.log(
-      `The bundle identifier "${newBundleID}" is not valid. It should contain only alphanumeric characters and dots, e.g. com.example.MyApp or com.example`
+      `The bundle identifier "${newBundleID}" is not valid. It should contain only alphanumeric characters and dots, e.g. com.example.app or com.example`
     );
     process.exit();
   }
@@ -121,7 +121,7 @@ export const validateNewBundleID = newBundleID => {
 
   if (segments.length < 2) {
     console.log(
-      `The bundle identifier "${newBundleID}" is not valid. It should contain at least 2 segments, e.g. com.example.MyApp or com.example`
+      `The bundle identifier "${newBundleID}" is not valid. It should contain at least 2 segments, e.g. com.example.app or com.example`
     );
     process.exit();
   }
@@ -215,6 +215,7 @@ export const renameIosFoldersAndFiles = async newPathContentStr => {
     currentPathContentStr,
     newPathContentStr,
   });
+
   await renameFoldersAndFiles({
     foldersAndFilesPaths,
     currentPath: cleanString(currentPathContentStr),
@@ -225,6 +226,7 @@ export const renameIosFoldersAndFiles = async newPathContentStr => {
 export const updateFilesContent = async filesContentOptions => {
   const promises = filesContentOptions.map(async (option, index) => {
     await delay(index * PROMISE_DELAY);
+
     const updatedOption = {
       ...option,
       countMatches: true,
@@ -272,14 +274,10 @@ export const renameAndroidBundleIDFolders = async ({
   currentBundleIDAsPath,
   newBundleIDAsPath,
 }) => {
-  const currentBundleIDFoldersPaths = globbySync(
+  const currentBundleIDFoldersRelativePaths = globbySync(
     path.join(APP_PATH, `${androidJava}/${currentBundleIDAsPath}`),
     { onlyDirectories: true }
-  );
-
-  const currentBundleIDFoldersRelativePaths = currentBundleIDFoldersPaths.map(folderPath =>
-    toRelativePath(folderPath)
-  );
+  ).map(folderPath => toRelativePath(folderPath));
 
   await renameFoldersAndFiles({
     foldersAndFilesPaths: currentBundleIDFoldersRelativePaths,
@@ -296,6 +294,7 @@ export const updateAndroidFilesContent = async ({ currentName, newName, newBundl
     newName,
     newBundleIDAsPath,
   });
+
   await updateFilesContent(filesContentOptions);
 };
 
@@ -311,6 +310,7 @@ export const updateAndroidFilesContentBundleID = async ({
     currentBundleIDAsPath,
     newBundleIDAsPath,
   });
+
   await updateFilesContent(filesContentOptions);
 };
 
