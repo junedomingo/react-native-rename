@@ -34,9 +34,10 @@ $ npx react-native-rename "Travel App" -b com.junedomingo.travelapp
 ```
 
 ### Additional Options
-`-p, --pathContentStr` - Path and content string that can be used in replacing folders, files and their content. Make sure it doesn't include any special characters.
-
-`--skipGitStatusCheck` - Skip git repo status check
+| Name | Description |
+| :---:|---|
+| `-p` or `--pathContentStr` | Path and content string that can be used in replacing folders, files and their content. <br> Make sure it doesn't include any special characters. |
+| `--skipGitStatusCheck` | Skip git repo status check |
 
 ### Local installation
 With **Yarn**:
