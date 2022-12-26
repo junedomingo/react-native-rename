@@ -3,3 +3,11 @@ tests
 .editorconfig
 .env.sample
 .vscode
+.eslintignore
+.eslintrc
+.github
+.prettierignore
+.prettierrc
+jest.config.js
+LICENSE
+package.json
