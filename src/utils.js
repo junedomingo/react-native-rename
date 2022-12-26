@@ -42,16 +42,13 @@ export const decodeXmlEntities = name => decode(name, { level: 'xml' });
 export const encodeXmlEntities = name =>
   encode(name, { mode: 'nonAscii', level: 'xml', numeric: 'hexadecimal' });
 
-export const checkGitRepoStatus = () => {
-  shell.cd(APP_PATH);
-  const output = shell.exec('git status', { silent: true }).stdout;
-  const isClean = output.includes('nothing to commit, working tree clean');
+export const validateCreation = () => {
+  const fileExists =
+    fs.existsSync(globbySync(path.join(APP_PATH, iosPlist))[0]) &&
+    fs.existsSync(path.join(APP_PATH, androidValuesStrings));
 
-  if (!isClean) {
-    console.log(
-      `The directory is not clean. There are changes that have not been committed to the Git repository.
-Clean it first and try again.`
-    );
+  if (!fileExists) {
+    console.log('Directory should be created using "react-native init".');
     process.exit();
   }
 };
@@ -67,13 +64,16 @@ export const validateGitRepo = () => {
   }
 };
 
-export const validateCreation = () => {
-  const fileExists =
-    fs.existsSync(globbySync(path.join(APP_PATH, iosPlist))[0]) &&
-    fs.existsSync(path.join(APP_PATH, androidValuesStrings));
+export const checkGitRepoStatus = () => {
+  shell.cd(APP_PATH);
+  const output = shell.exec('git status', { silent: true }).stdout;
+  const isClean = output.includes('nothing to commit, working tree clean');
 
-  if (!fileExists) {
-    console.log('Directory should be created using "react-native init".');
+  if (!isClean) {
+    console.log(
+      `The directory is not clean. There are changes that have not been committed to the Git repository.
+Clean it first and try again.`
+    );
     process.exit();
   }
 };

@@ -109,6 +109,6 @@ if (!process.argv.slice(2).length) {
   process.exit();
 }
 
-validateGitRepo();
 validateCreation();
+validateGitRepo();
 program.parseAsync(process.argv);
