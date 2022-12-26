@@ -1,23 +1,20 @@
 {
-  "extends": ["eslint:recommended", "prettier"],
-  "parser": "babel-eslint",
-  "plugins": ["prettier"],
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module"
-  },
   "env": {
-    "browser": true,
-    "es6": true,
-    "node": true
+      "node": true,
+      "es2021": true
+  },
+  "extends": ["eslint:recommended", "prettier"],
+  "plugins": ["prettier"],
+  "overrides": [
+  ],
+  "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
   },
   "rules": {
-    "arrow-body-style": [1, "as-needed"],
-    "indent": ["off", "spaces", { "SwitchCase": 1, "VariableDeclarator": 1 }],
-    "no-alert": 0,
-    "no-console": 0,
-    "no-debugger": 1,
-    "newline-before-return": "error",
+    "no-unused-vars": "warn",
+    "prettier/prettier": "error",
+    "newline-before-return": "warn",
     "no-useless-escape": 0
   }
 }
