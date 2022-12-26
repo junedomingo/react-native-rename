@@ -25,7 +25,10 @@
     "react",
     "space"
   ],
-  "author": "June Domingo <junedomingo@gmail.com>",
+  "author": {
+    "email": "junedomingo@gmail.com",
+    "name": "June Domingo"
+  },
   "license": "MIT",
   "bin": {
     "react-native-rename": "lib/index.js"
