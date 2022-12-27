@@ -73,7 +73,7 @@ export const checkGitRepoStatus = () => {
   if (!isClean) {
     console.log(
       `The directory is not clean. There are changes that have not been committed to the Git repository.
-Clean it first and try again.`
+Clean it first and try again or use "--skipGitStatusCheck" option to skip this check.`
     );
     process.exit();
   }
