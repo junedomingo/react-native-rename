@@ -41,10 +41,10 @@ export const bundleIDToPath = bundleID => bundleID.replace(/\./g, '/');
 export const decodeXmlEntities = name => decode(name, { level: 'xml' });
 export const encodeXmlEntities = name =>
   encode(name, { mode: 'nonAscii', level: 'xml', numeric: 'hexadecimal' });
-const iosInfoPlistFullPath = globbySync(path.join(APP_PATH, iosPlist))[0];
 const androidValuesStringsFullPath = path.join(APP_PATH, androidValuesStrings);
 
 export const validateCreation = () => {
+  const iosInfoPlistFullPath = globbySync(path.join(APP_PATH, iosPlist))[0];
   const fileExists =
     fs.existsSync(iosInfoPlistFullPath) && fs.existsSync(androidValuesStringsFullPath);
 
