@@ -73,7 +73,7 @@ export const checkGitRepoStatus = () => {
   if (!isClean) {
     console.log(
       `The directory is not clean. There are changes that have not been committed to the Git repository.
-Clean it first and try again.`
+Clean it first and try again or use "--skipGitStatusCheck" option to skip this check.`
     );
     process.exit();
   }
@@ -346,16 +346,27 @@ export const updateAndroidFilesContentBundleID = async ({
   await updateFilesContent(filesContentOptions);
 };
 
-export const updateOtherFilesContent = async ({ newName, newPathContentStr }) => {
+export const updateOtherFilesContent = async ({
+  newName,
+  currentPathContentStr,
+  newPathContentStr,
+  currentIosName,
+  newAndroidBundleID,
+  newIosBundleID,
+}) => {
   const appJsonContent = JSON.parse(fs.readFileSync(path.join(APP_PATH, appJson), 'utf8'));
   const packageJsonContent = JSON.parse(fs.readFileSync(path.join(APP_PATH, packageJson), 'utf8'));
 
   const filesContentOptions = getOtherUpdateFilesContentOptions({
+    currentName: appJsonContent?.name || currentIosName,
     newName,
+    currentPathContentStr,
     newPathContentStr,
     appJsonName: appJsonContent?.name,
     appJsonDisplayName: appJsonContent?.displayName,
     packageJsonName: packageJsonContent?.name,
+    newAndroidBundleID,
+    newIosBundleID,
   });
 
   await updateFilesContent(filesContentOptions);
