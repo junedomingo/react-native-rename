@@ -56,9 +56,9 @@ program
     validateNewName(newName, options);
 
     const pathContentStr = options.pathContentStr;
-    const newBundleID = options.bundleID?.toLowerCase();
-    const newIosBundleID = options.iosBundleID?.toLowerCase();
-    const newAndroidBundleID = options.androidBundleID?.toLowerCase();
+    const newBundleID = options.bundleID;
+    const newIosBundleID = options.iosBundleID;
+    const newAndroidBundleID = options.androidBundleID;
 
     if (pathContentStr) {
       validateNewPathContentStr(pathContentStr);

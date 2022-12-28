@@ -346,6 +346,10 @@ export const updateAndroidFilesContentBundleID = async ({
   await updateFilesContent(filesContentOptions);
 };
 
+const getJsonContent = jsonFile => {
+  return JSON.parse(fs.readFileSync(path.join(APP_PATH, jsonFile), 'utf8'));
+};
+
 export const updateOtherFilesContent = async ({
   newName,
   currentPathContentStr,
@@ -354,8 +358,8 @@ export const updateOtherFilesContent = async ({
   newAndroidBundleID,
   newIosBundleID,
 }) => {
-  const appJsonContent = JSON.parse(fs.readFileSync(path.join(APP_PATH, appJson), 'utf8'));
-  const packageJsonContent = JSON.parse(fs.readFileSync(path.join(APP_PATH, packageJson), 'utf8'));
+  const appJsonContent = getJsonContent(appJson);
+  const packageJsonContent = getJsonContent(packageJson);
 
   const filesContentOptions = getOtherUpdateFilesContentOptions({
     currentName: appJsonContent?.name || currentIosName,
@@ -381,14 +385,26 @@ export const cleanBuilds = () => {
 };
 
 export const showSuccessMessages = newName => {
+  const appJsonContent = getJsonContent(appJson);
+  const isUsingExpo = !!appJsonContent?.expo;
+
   console.log(
     `
 ${chalk.green('SUCCESS! 🎉 🎉 🎉')} Your app has been renamed to "${chalk.yellow(newName)}".
 `
   );
 
+  if (isUsingExpo) {
+    console.log(
+      chalk.yellow(`If you need to update EXUpdatesURL in Expo.plist and EXPO_UPDATE_URL in AndroidManifest.xml, please do so manually.
+`)
+    );
+  }
+
   console.log(
-    chalk.yellow(`Please make sure to run "npx pod-install" and "watchman watch-del-all" before running the app.
+    chalk.yellow(`- Make sure to check old .xcodeproj and .xcworkspace in ios folder, please delete them manually.
+- Please make sure to run "npx pod-install" and "watchman watch-del-all" before running the app.
+
 If you like this tool, please give it a star on GitHub: https://github.com/junedomingo/react-native-rename`)
   );
 };

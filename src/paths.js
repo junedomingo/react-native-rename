@@ -265,8 +265,8 @@ export const getAndroidUpdateBundleIDOptions = ({
         'android/app/src/main/jni/MainApplicationTurboModuleManagerDelegate.h',
         'android/app/src/main/jni/MainComponentsRegistry.h',
       ],
-      from: [new RegExp(`L${currentBundleIDAsPath}`, 'g'), new RegExp(`L${currentBundleID}`, 'g')],
-      to: [`L${newBundleIDAsPath}`, `L${newBundleID}`],
+      from: [new RegExp(`L${currentBundleIDAsPath}`, 'g')],
+      to: [`L${newBundleIDAsPath}`],
     },
     {
       files: ['android/.idea/workspace.xml'],
@@ -311,6 +311,8 @@ export const getOtherUpdateFilesContentOptions = ({
         /\"scheme\"\: \"(.*)\"/,
         /\"package\"\: \"(.*)\"/,
         /\"bundleIdentifier\"\: \"(.*)\"/,
+        /\"name\"\: \"(.*)\"/,
+        /\"slug\"\: \"(.*)\"/,
       ],
       to: [
         newName,
@@ -318,6 +320,8 @@ export const getOtherUpdateFilesContentOptions = ({
         `"scheme": "${newPathContentStr.toLowerCase()}"`,
         `"package": "${newAndroidBundleID}"`,
         `"bundleIdentifier": "${newIosBundleID}"`,
+        `"name": "${newName}"`,
+        `"slug": "${newName}"`,
       ],
     },
   ];
