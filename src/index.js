@@ -44,6 +44,9 @@ program
   )
   .option('--skipGitStatusCheck', 'Skip git repo status check')
   .action(async newName => {
+    validateCreation();
+    validateGitRepo();
+
     const options = program.opts();
 
     if (!options.skipGitStatusCheck) {
@@ -135,6 +138,4 @@ if (!process.argv.slice(2).length) {
   process.exit();
 }
 
-validateCreation();
-validateGitRepo();
 program.parseAsync(process.argv);
