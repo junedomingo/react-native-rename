@@ -311,6 +311,8 @@ export const getOtherUpdateFilesContentOptions = ({
         /\"scheme\"\: \"(.*)\"/,
         /\"package\"\: \"(.*)\"/,
         /\"bundleIdentifier\"\: \"(.*)\"/,
+        /\"name\"\: \"(.*)\"/,
+        /\"slug\"\: \"(.*)\"/,
       ],
       to: [
         newName,
@@ -318,6 +320,8 @@ export const getOtherUpdateFilesContentOptions = ({
         `"scheme": "${newPathContentStr.toLowerCase()}"`,
         `"package": "${newAndroidBundleID}"`,
         `"bundleIdentifier": "${newIosBundleID}"`,
+        `"name": "${newName}"`,
+        `"slug": "${newName}"`,
       ],
     },
   ];
