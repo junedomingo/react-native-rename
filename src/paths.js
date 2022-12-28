@@ -265,8 +265,8 @@ export const getAndroidUpdateBundleIDOptions = ({
         'android/app/src/main/jni/MainApplicationTurboModuleManagerDelegate.h',
         'android/app/src/main/jni/MainComponentsRegistry.h',
       ],
-      from: [new RegExp(`L${currentBundleIDAsPath}`, 'g')],
-      to: [`L${newBundleIDAsPath}`],
+      from: [new RegExp(`L${currentBundleIDAsPath}`, 'g'), new RegExp(`L${currentBundleID}`, 'g')],
+      to: `L${newBundleIDAsPath}`,
     },
     {
       files: ['android/.idea/workspace.xml'],
