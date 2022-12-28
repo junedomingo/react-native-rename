@@ -115,7 +115,14 @@ program
     }
 
     await updateAndroidNameInStringsXml(newName);
-    await updateOtherFilesContent({ newName, newPathContentStr });
+    await updateOtherFilesContent({
+      newName,
+      currentPathContentStr,
+      newPathContentStr,
+      currentIosName,
+      newAndroidBundleID: newAndroidBundleID || newBundleID,
+      newIosBundleID: newIosBundleID || newBundleID,
+    });
 
     cleanBuilds();
     showSuccessMessages(newName);

@@ -47,11 +47,6 @@ export const getIosUpdateFilesContentOptions = ({
   // IMPORTANT: "files:" value should be in array even if there is only one file
   return [
     {
-      files: ['index.ios.js'],
-      from: [new RegExp(`\\b${currentName}\\b`, 'g'), new RegExp(`\\b'${currentName}'\\b`, 'g')],
-      to: newName,
-    },
-    {
       files: ['ios/Podfile'],
       from: [
         new RegExp(`\\b${currentPathContentStr}\\b`, 'g'),
@@ -188,7 +183,7 @@ export const getAndroidUpdateFilesContentOptions = ({
   newName,
   newBundleIDAsPath,
 }) => {
-  const modulesName = cleanString(newName).toLowerCase();
+  const newModulesName = cleanString(newName).toLowerCase();
 
   return [
     {
@@ -212,17 +207,27 @@ export const getAndroidUpdateFilesContentOptions = ({
         `android/app/src/main/java/${newBundleIDAsPath}/newarchitecture/modules/MainApplicationTurboModuleManagerDelegate.java`,
       ],
       from: /SoLoader\.loadLibrary\("(.*)"\)/g,
-      to: `SoLoader.loadLibrary("${modulesName}_appmodules")`,
+      to: `SoLoader.loadLibrary("${newModulesName}_appmodules")`,
     },
     {
       files: ['android/app/src/main/jni/CMakeLists.txt'],
       from: /project\((.*)\)/g,
-      to: `project(${modulesName}_appmodules)`,
+      to: `project(${newModulesName}_appmodules)`,
+    },
+    {
+      files: ['android/app/build.gradle'],
+      from: /targets \"(.*)_appmodules\"/,
+      to: `targets "${newModulesName}_appmodules"`,
+    },
+    {
+      files: ['android/app/src/main/jni/Android.mk'],
+      from: /LOCAL_MODULE \:\= (.*)_appmodules/,
+      to: `LOCAL_MODULE := ${newModulesName}_appmodules`,
     },
     {
       files: ['android/.idea/workspace.xml'],
       from: [/<module name="(.*)\.app\.main" \/>/, new RegExp(currentName, 'g')],
-      to: [`<module name="${modulesName}.app.main" />`, newName],
+      to: [`<module name="${newModulesName}.app.main" />`, newName],
     },
   ];
 };
@@ -237,6 +242,7 @@ export const getAndroidUpdateBundleIDOptions = ({
     {
       files: [
         'android/app/_BUCK',
+        'android/app/BUCK',
         'android/app/build.gradle',
         `android/app/src/debug/java/${newBundleIDAsPath}/ReactNativeFlipper.java`,
         `android/app/src/main/java/${newBundleIDAsPath}/MainActivity.java`,
@@ -259,8 +265,8 @@ export const getAndroidUpdateBundleIDOptions = ({
         'android/app/src/main/jni/MainApplicationTurboModuleManagerDelegate.h',
         'android/app/src/main/jni/MainComponentsRegistry.h',
       ],
-      from: new RegExp(`L${currentBundleIDAsPath}`, 'g'),
-      to: `L${newBundleIDAsPath}`,
+      from: [new RegExp(`L${currentBundleIDAsPath}`, 'g'), new RegExp(`L${currentBundleID}`, 'g')],
+      to: [`L${newBundleIDAsPath}`, `L${newBundleID}`],
     },
     {
       files: ['android/.idea/workspace.xml'],
@@ -276,22 +282,43 @@ export const getAndroidUpdateBundleIDOptions = ({
 };
 
 export const getOtherUpdateFilesContentOptions = ({
+  currentName,
   newName,
+  currentPathContentStr,
   newPathContentStr,
   appJsonName,
   appJsonDisplayName,
   packageJsonName,
+  newAndroidBundleID,
+  newIosBundleID,
 }) => {
   return [
     {
+      files: ['index.js', 'index.ios.js', 'index.android.js'],
+      from: [new RegExp(`\\b${currentName}\\b`, 'g'), new RegExp(`\\b'${currentName}'\\b`, 'g')],
+      to: newName,
+    },
+    {
       files: ['package.json'],
-      from: [new RegExp(`${packageJsonName}`, 'gi')],
-      to: cleanString(newPathContentStr).toLowerCase(),
+      from: [new RegExp(`${packageJsonName}`, 'gi'), new RegExp(`${currentPathContentStr}`, 'gi')],
+      to: newPathContentStr,
     },
     {
       files: ['app.json'],
-      from: [new RegExp(`${appJsonName}`, 'gi'), new RegExp(`${appJsonDisplayName}`, 'gi')],
-      to: newName,
+      from: [
+        new RegExp(`${appJsonName}`, 'gi'),
+        new RegExp(`${appJsonDisplayName}`, 'gi'),
+        /\"scheme\"\: \"(.*)\"/,
+        /\"package\"\: \"(.*)\"/,
+        /\"bundleIdentifier\"\: \"(.*)\"/,
+      ],
+      to: [
+        newName,
+        newName,
+        `"scheme": "${newPathContentStr.toLowerCase()}"`,
+        `"package": "${newAndroidBundleID}"`,
+        `"bundleIdentifier": "${newIosBundleID}"`,
+      ],
     },
   ];
 };
