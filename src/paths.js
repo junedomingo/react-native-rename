@@ -44,10 +44,9 @@ export const getIosUpdateFilesContentOptions = ({
   const encodedCurrentName = encodeXmlEntities(currentName);
   const cleanNewPathContentStr = cleanString(newPathContentStr);
 
-  // IMPORTANT: "files:" value should be in array even if there is only one file
   return [
     {
-      files: ['ios/Podfile'],
+      files: 'ios/Podfile',
       from: [
         new RegExp(`\\b${currentPathContentStr}\\b`, 'g'),
         new RegExp(`\\b${currentPathContentStr}Tests\\b`, 'g'),
@@ -80,7 +79,7 @@ export const getIosUpdateFilesContentOptions = ({
       to: `${cleanNewPathContentStr}Tests`,
     },
     {
-      files: ['ios/*.xcodeproj/project.pbxproj'],
+      files: 'ios/*.xcodeproj/project.pbxproj',
       from: [
         new RegExp(/INFOPLIST_KEY_CFBundleDisplayName = "(.*)"/, 'g'),
         new RegExp(`remoteInfo = ${cleanNewPathContentStr};`, 'gi'),
@@ -131,7 +130,7 @@ export const getIosUpdateFilesContentOptions = ({
       ],
     },
     {
-      files: ['ios/*.xcodeproj/project.pbxproj'],
+      files: 'ios/*.xcodeproj/project.pbxproj',
       processor: input => {
         const matchesDisplayName = input.match(/INFOPLIST_KEY_CFBundleDisplayName = "(.*)"/g);
         // If there is no display name, add it
@@ -160,7 +159,7 @@ export const getIosUpdateFilesContentOptions = ({
       },
     },
     {
-      files: ['ios/*/Base.lproj/LaunchScreen.xib'],
+      files: 'ios/*/Base.lproj/LaunchScreen.xib',
       from: [
         new RegExp(`\\b${encodedCurrentName}\\b`, 'g'),
         new RegExp(`\\b${currentName}\\b`, 'g'),
@@ -168,7 +167,7 @@ export const getIosUpdateFilesContentOptions = ({
       to: encodedNewName,
     },
     {
-      files: ['ios/*/LaunchScreen.storyboard'],
+      files: 'ios/*/LaunchScreen.storyboard',
       from: [
         new RegExp(`text="${encodedCurrentName}"`, 'g'),
         new RegExp(`text="${currentName}"`, 'g'),
@@ -187,7 +186,7 @@ export const getAndroidUpdateFilesContentOptions = ({
 
   return [
     {
-      files: ['android/settings.gradle'],
+      files: 'android/settings.gradle',
       from: [/rootProject.name = "(.*)"/g, /rootProject.name = '(.*)'/g],
       to: `rootProject.name = '${newName}'`,
     },
@@ -197,35 +196,33 @@ export const getAndroidUpdateFilesContentOptions = ({
       to: `"${newName}"`,
     },
     {
-      files: ['android/.idea/.name'],
+      files: 'android/.idea/.name',
       from: currentName,
       to: newName,
     },
     // Update *_appmodules name
     {
-      files: [
-        `android/app/src/main/java/${newBundleIDAsPath}/newarchitecture/modules/MainApplicationTurboModuleManagerDelegate.java`,
-      ],
+      files: `android/app/src/main/java/${newBundleIDAsPath}/newarchitecture/modules/MainApplicationTurboModuleManagerDelegate.java`,
       from: /SoLoader\.loadLibrary\("(.*)"\)/g,
       to: `SoLoader.loadLibrary("${newModulesName}_appmodules")`,
     },
     {
-      files: ['android/app/src/main/jni/CMakeLists.txt'],
+      files: 'android/app/src/main/jni/CMakeLists.txt',
       from: /project\((.*)\)/g,
       to: `project(${newModulesName}_appmodules)`,
     },
     {
-      files: ['android/app/build.gradle'],
+      files: 'android/app/build.gradle',
       from: /targets \"(.*)_appmodules\"/,
       to: `targets "${newModulesName}_appmodules"`,
     },
     {
-      files: ['android/app/src/main/jni/Android.mk'],
+      files: 'android/app/src/main/jni/Android.mk',
       from: /LOCAL_MODULE \:\= (.*)_appmodules/,
       to: `LOCAL_MODULE := ${newModulesName}_appmodules`,
     },
     {
-      files: ['android/.idea/workspace.xml'],
+      files: 'android/.idea/workspace.xml',
       from: [/<module name="(.*)\.app\.main" \/>/, new RegExp(currentName, 'g')],
       to: [`<module name="${newModulesName}.app.main" />`, newName],
     },
@@ -269,12 +266,12 @@ export const getAndroidUpdateBundleIDOptions = ({
       to: `L${newBundleIDAsPath}`,
     },
     {
-      files: ['android/.idea/workspace.xml'],
+      files: 'android/.idea/workspace.xml',
       from: new RegExp(`${currentBundleIDAsPath}`, 'g'),
       to: newBundleIDAsPath,
     },
     {
-      files: ['android/app/src/main/AndroidManifest.xml'],
+      files: 'android/app/src/main/AndroidManifest.xml',
       from: new RegExp(`${currentBundleID}`, 'g'),
       to: newBundleID,
     },
@@ -299,12 +296,12 @@ export const getOtherUpdateFilesContentOptions = ({
       to: newName,
     },
     {
-      files: ['package.json'],
+      files: 'package.json',
       from: [new RegExp(`${packageJsonName}`, 'gi'), new RegExp(`${currentPathContentStr}`, 'gi')],
       to: [newPathContentStr.toLowerCase(), newPathContentStr],
     },
     {
-      files: ['app.json'],
+      files: 'app.json',
       from: [
         new RegExp(`${appJsonName}`, 'gi'),
         new RegExp(`${appJsonDisplayName}`, 'gi'),

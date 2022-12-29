@@ -228,11 +228,14 @@ export const updateFilesContent = async filesContentOptions => {
   const promises = filesContentOptions.map(async (option, index) => {
     await delay(index * PROMISE_DELAY);
 
+    const isOptionFilesString = typeof option.files === 'string';
     const updatedOption = {
       ...option,
       countMatches: true,
       allowEmptyPaths: true,
-      files: option.files.map(file => path.join(APP_PATH, file)),
+      files: isOptionFilesString
+        ? path.join(APP_PATH, option.files)
+        : option.files.map(file => path.join(APP_PATH, file)),
     };
 
     try {
