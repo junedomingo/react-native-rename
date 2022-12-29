@@ -7,7 +7,9 @@ import { decode, encode } from 'html-entities';
 import path from 'path';
 import replace from 'replace-in-file';
 import shell from 'shelljs';
+import checkForUpdate from 'update-check';
 
+import pjson from '../package.json';
 import {
   androidJava,
   androidManifestXml,
@@ -422,4 +424,21 @@ If you like this tool, please give it a star on GitHub: https://github.com/juned
 export const gitStageChanges = () => {
   shell.cd(APP_PATH);
   shell.exec('git add .');
+};
+
+export const checkPackageUpdate = async () => {
+  try {
+    const res = await checkForUpdate(pjson);
+
+    if (res?.latest) {
+      console.log();
+      console.log(chalk.green.bold(`A new version of "${pjson.name}" is available.`));
+      console.log('Current version:', chalk.yellow(pjson.version));
+      console.log('Latest version:', chalk.yellow(res.latest));
+      console.log(chalk.cyan(`You can update by running: npm install -g ${pjson.name}.`));
+      console.log();
+    }
+  } catch (error) {
+    console.log('Error checking for update:\n%O', error);
+  }
 };

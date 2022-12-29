@@ -5,6 +5,7 @@ import pjson from '../package.json';
 import {
   bundleIDToPath,
   checkGitRepoStatus,
+  checkPackageUpdate,
   cleanBuilds,
   getAndroidCurrentBundleID,
   getAndroidCurrentName,
@@ -130,6 +131,7 @@ program
     cleanBuilds();
     showSuccessMessages(newName);
     gitStageChanges();
+    checkPackageUpdate();
   });
 
 // If no arguments are passed, show help
