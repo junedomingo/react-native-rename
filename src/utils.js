@@ -159,12 +159,19 @@ export const getAndroidCurrentBundleID = () => {
   return element.attr('package');
 };
 
+/**
+ * Get the name of the xcode project folder
+ * e.g. "MyApp.xcodeproj" -> "MyApp"
+ * @returns {string} The name of the xcode project folder
+ */
 export const getIosXcodeProjectPathName = () => {
   const xcodeProjectPath = globbySync(path.join(APP_PATH, iosXcodeproj), {
     onlyDirectories: true,
   });
 
-  return xcodeProjectPath[0].split('/').pop().replace('.xcodeproj', '');
+  const xcodeProjectPathName = xcodeProjectPath[0].split('/').pop();
+
+  return xcodeProjectPathName.replace('.xcodeproj', '');
 };
 
 const renameFoldersAndFiles = async ({
