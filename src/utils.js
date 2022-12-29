@@ -159,12 +159,19 @@ export const getAndroidCurrentBundleID = () => {
   return element.attr('package');
 };
 
+/**
+ * Get the name of the xcode project folder
+ * e.g. "MyApp.xcodeproj" -> "MyApp"
+ * @returns {string} The name of the xcode project folder
+ */
 export const getIosXcodeProjectPathName = () => {
   const xcodeProjectPath = globbySync(path.join(APP_PATH, iosXcodeproj), {
     onlyDirectories: true,
   });
 
-  return xcodeProjectPath[0].split('/').pop().replace('.xcodeproj', '');
+  const xcodeProjectPathName = xcodeProjectPath[0].split('/').pop();
+
+  return xcodeProjectPathName.replace('.xcodeproj', '');
 };
 
 const renameFoldersAndFiles = async ({
@@ -228,11 +235,14 @@ export const updateFilesContent = async filesContentOptions => {
   const promises = filesContentOptions.map(async (option, index) => {
     await delay(index * PROMISE_DELAY);
 
+    const isOptionFilesString = typeof option.files === 'string';
     const updatedOption = {
       ...option,
       countMatches: true,
       allowEmptyPaths: true,
-      files: option.files.map(file => path.join(APP_PATH, file)),
+      files: isOptionFilesString
+        ? path.join(APP_PATH, option.files)
+        : option.files.map(file => path.join(APP_PATH, file)),
     };
 
     try {
