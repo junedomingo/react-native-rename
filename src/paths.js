@@ -301,7 +301,7 @@ export const getOtherUpdateFilesContentOptions = ({
     {
       files: ['package.json'],
       from: [new RegExp(`${packageJsonName}`, 'gi'), new RegExp(`${currentPathContentStr}`, 'gi')],
-      to: newPathContentStr,
+      to: [newPathContentStr.toLowerCase(), newPathContentStr],
     },
     {
       files: ['app.json'],
