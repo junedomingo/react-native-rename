@@ -66,6 +66,7 @@
     "globby": "^13.1.2",
     "html-entities": "^2.3.3",
     "replace-in-file": "^6.3.5",
-    "shelljs": "^0.8.5"
+    "shelljs": "^0.8.5",
+    "update-check": "^1.5.4"
   }
 }
