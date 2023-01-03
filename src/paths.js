@@ -289,6 +289,8 @@ export const getOtherUpdateFilesContentOptions = ({
   newAndroidBundleID,
   newIosBundleID,
 }) => {
+  const cleanNewPathContentStr = newPathContentStr.replaceAll(' ', '').toLowerCase();
+
   return [
     {
       files: ['index.js', 'index.ios.js', 'index.android.js'],
@@ -298,7 +300,7 @@ export const getOtherUpdateFilesContentOptions = ({
     {
       files: 'package.json',
       from: [new RegExp(`${packageJsonName}`, 'gi'), new RegExp(`${currentPathContentStr}`, 'gi')],
-      to: [newPathContentStr.toLowerCase(), newPathContentStr],
+      to: cleanNewPathContentStr,
     },
     {
       files: 'app.json',
@@ -314,7 +316,7 @@ export const getOtherUpdateFilesContentOptions = ({
       to: [
         newName,
         newName,
-        `"scheme": "${newPathContentStr.toLowerCase()}"`,
+        `"scheme": "${cleanNewPathContentStr}"`,
         `"package": "${newAndroidBundleID}"`,
         `"bundleIdentifier": "${newIosBundleID}"`,
         `"name": "${newName}"`,
