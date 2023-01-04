@@ -43,10 +43,11 @@ export const bundleIDToPath = bundleID => bundleID.replace(/\./g, '/');
 export const decodeXmlEntities = name => decode(name, { level: 'xml' });
 export const encodeXmlEntities = name =>
   encode(name, { mode: 'nonAscii', level: 'xml', numeric: 'hexadecimal' });
+const normalizePath = process.platform === 'win32' ? require('normalize-path') : p => p;
 const androidValuesStringsFullPath = path.join(APP_PATH, androidValuesStrings);
 
 export const validateCreation = () => {
-  const iosInfoPlistFullPath = globbySync(path.join(APP_PATH, iosPlist))[0];
+  const iosInfoPlistFullPath = globbySync(normalizePath(path.join(APP_PATH, iosPlist)))[0];
   const fileExists =
     fs.existsSync(iosInfoPlistFullPath) && fs.existsSync(androidValuesStringsFullPath);
 
@@ -139,7 +140,7 @@ const getElementFromXml = ({ filepath, selector }) => {
 };
 
 export const getIosCurrentName = () => {
-  const filepath = globbySync(path.join(APP_PATH, iosPlist))[0];
+  const filepath = globbySync(normalizePath(path.join(APP_PATH, iosPlist)))[0];
   const selector = 'dict > key:contains("CFBundleDisplayName") + string';
   const element = getElementFromXml({ filepath, selector });
 
@@ -167,7 +168,7 @@ export const getAndroidCurrentBundleID = () => {
  * @returns {string} The name of the xcode project folder
  */
 export const getIosXcodeProjectPathName = () => {
-  const xcodeProjectPath = globbySync(path.join(APP_PATH, iosXcodeproj), {
+  const xcodeProjectPath = globbySync(normalizePath(path.join(APP_PATH, iosXcodeproj)), {
     onlyDirectories: true,
   });
 
@@ -185,8 +186,11 @@ const renameFoldersAndFiles = async ({
 }) => {
   const promises = foldersAndFilesPaths.map(async (filePath, index) => {
     await delay(index * PROMISE_DELAY);
-    const currentPath = path.join(APP_PATH, filePath);
-    const newPath = path.join(APP_PATH, filePath.replace(currentPathParam, newPathParam));
+    const currentPath = normalizePath(path.join(APP_PATH, filePath));
+    const newPath = normalizePath(path.join(APP_PATH, filePath)).replace(
+      currentPathParam,
+      newPathParam
+    );
 
     if (currentPath === newPath) {
       return console.log(toRelativePath(currentPath), chalk.yellow('NOT RENAMED'));
@@ -300,7 +304,7 @@ const updateElementInXml = async ({ filepath, selector, text }) => {
 
 export const updateIosNameInInfoPlist = async newName => {
   await updateElementInXml({
-    filepath: globbySync(path.join(APP_PATH, iosPlist))[0],
+    filepath: globbySync(normalizePath(path.join(APP_PATH, iosPlist)))[0],
     selector: 'dict > key:contains("CFBundleDisplayName") + string',
     text: newName,
   });
@@ -319,9 +323,9 @@ export const renameAndroidBundleIDFolders = async ({
   newBundleIDAsPath,
 }) => {
   const currentBundleIDFoldersRelativePaths = globbySync(
-    path.join(APP_PATH, `${androidJava}/${currentBundleIDAsPath}`),
+    normalizePath(path.join(APP_PATH, `${androidJava}`)),
     { onlyDirectories: true }
-  ).map(folderPath => toRelativePath(folderPath));
+  ).map(folderPath => toRelativePath(`${folderPath}/${currentBundleIDAsPath}`));
 
   await renameFoldersAndFiles({
     foldersAndFilesPaths: currentBundleIDFoldersRelativePaths,
@@ -417,7 +421,9 @@ ${chalk.green('SUCCESS! 🎉 🎉 🎉')} Your app has been renamed to "${chalk.
     chalk.yellow(`- Make sure to check old .xcodeproj and .xcworkspace in ios folder, please delete them manually.
 - Please make sure to run "npx pod-install" and "watchman watch-del-all" before running the app.
 
-If you like this tool, please give it a star on GitHub: https://github.com/junedomingo/react-native-rename`)
+If you like this tool, please give it a star on GitHub: https://github.com/junedomingo/react-native-rename
+
+`)
   );
 };
 
