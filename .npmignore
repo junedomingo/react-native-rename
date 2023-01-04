@@ -11,3 +11,4 @@ tests
 jest.config.js
 LICENSE
 package.json
+.env
