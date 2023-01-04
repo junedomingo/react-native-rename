@@ -186,11 +186,8 @@ const renameFoldersAndFiles = async ({
 }) => {
   const promises = foldersAndFilesPaths.map(async (filePath, index) => {
     await delay(index * PROMISE_DELAY);
-    const currentPath = normalizePath(path.join(APP_PATH, filePath));
-    const newPath = normalizePath(path.join(APP_PATH, filePath)).replace(
-      currentPathParam,
-      newPathParam
-    );
+    const currentPath = path.join(APP_PATH, filePath);
+    const newPath = path.join(APP_PATH, filePath.replace(currentPathParam, newPathParam));
 
     if (currentPath === newPath) {
       return console.log(toRelativePath(currentPath), chalk.yellow('NOT RENAMED'));
@@ -325,7 +322,7 @@ export const renameAndroidBundleIDFolders = async ({
   const currentBundleIDFoldersRelativePaths = globbySync(
     normalizePath(path.join(APP_PATH, `${androidJava}`)),
     { onlyDirectories: true }
-  ).map(folderPath => toRelativePath(`${folderPath}/${currentBundleIDAsPath}`));
+  ).map(folderPath => normalizePath(toRelativePath(`${folderPath}/${currentBundleIDAsPath}`)));
 
   await renameFoldersAndFiles({
     foldersAndFilesPaths: currentBundleIDFoldersRelativePaths,
