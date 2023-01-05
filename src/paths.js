@@ -289,7 +289,7 @@ export const getOtherUpdateFilesContentOptions = ({
   newAndroidBundleID,
   newIosBundleID,
 }) => {
-  const cleanNewPathContentStr = newPathContentStr.replaceAll(' ', '').toLowerCase();
+  const cleanNewPathContentStr = newPathContentStr.replace(/\s/g, '').toLowerCase();
 
   return [
     {
