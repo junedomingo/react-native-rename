@@ -1,6 +1,4 @@
-const config = {
+export default {
   verbose: true,
   testPathIgnorePatterns: ['rn-versions', 'patches'],
 };
-
-module.exports = config;

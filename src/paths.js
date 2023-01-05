@@ -135,8 +135,8 @@ export const getIosUpdateFilesContentOptions = ({
         const matchesDisplayName = input.match(/INFOPLIST_KEY_CFBundleDisplayName = "(.*)"/g);
         // If there is no display name, add it
         if (matchesDisplayName === null) {
-          input = input.replaceAll(
-            `INFOPLIST_FILE = "${cleanNewPathContentStr}/Info.plist";`,
+          input = input.replace(
+            new RegExp(`INFOPLIST_FILE = "${cleanNewPathContentStr}/Info.plist";`, 'g'),
             `INFOPLIST_FILE = "${cleanNewPathContentStr}/Info.plist";
              INFOPLIST_KEY_CFBundleDisplayName = "${newName}";`
           );
@@ -144,12 +144,12 @@ export const getIosUpdateFilesContentOptions = ({
 
         // Replace bundle ID
         if (newBundleID) {
-          input = input.replaceAll(
+          input = input.replace(
             /PRODUCT_BUNDLE_IDENTIFIER = "(.*)"/g,
             `PRODUCT_BUNDLE_IDENTIFIER = "${newBundleID}"`
           );
 
-          input = input.replaceAll(
+          input = input.replace(
             /PRODUCT_BUNDLE_IDENTIFIER = (.*)/g,
             `PRODUCT_BUNDLE_IDENTIFIER = "${newBundleID}";`
           );

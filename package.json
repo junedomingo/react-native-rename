@@ -1,12 +1,13 @@
 {
   "name": "react-native-rename",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "description": "Rename react-native app with just one command",
   "main": "lib/index.js",
+  "type": "module",
   "scripts": {
     "test": "jest",
-    "dev": "esbuild src/index.js --platform=node --bundle --outdir=lib --watch --external:shelljs",
-    "build": "esbuild src/index.js --platform=node --bundle --minify --outdir=lib --external:shelljs",
+    "dev": "esbuild src/index.js --platform=node --bundle --format=esm --packages=external --outdir=lib --watch",
+    "build": "esbuild src/index.js --platform=node --bundle --format=esm --packages=external --outdir=lib --minify --analyze",
     "prepublish": "npm run build",
     "relink": "npm unlink react-native-rename && npm run prepublish && npm link",
     "format": "prettier --write 'src/*.{js,jsx}'",
@@ -49,11 +50,11 @@
   },
   "homepage": "https://github.com/junedomingo/react-native-rename#readme",
   "devDependencies": {
-    "esbuild": "^0.16.12",
+    "esbuild": "^0.16.13",
     "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.2",
+    "husky": "^8.0.3",
     "jest": "^29.3.1",
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.1"
