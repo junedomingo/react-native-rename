@@ -2,4 +2,4 @@ lib
 package.json
 tests/patches
 tests/rn-versions
-.github
+.github/dependabot.yml

@@ -1,7 +1,7 @@
 name: Tests
 
 env:
-    FORCE_COLOR: true
+  FORCE_COLOR: true
 
 on:
   push:

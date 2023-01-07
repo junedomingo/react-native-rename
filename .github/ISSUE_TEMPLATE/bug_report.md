@@ -12,7 +12,7 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
-1. 
+1.
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
@@ -24,7 +24,7 @@ If applicable, add screenshots to help explain your problem.
  - operating system:
  - npm version:
  - node version:
- - react-native-rename version: 
+ - react-native-rename version:
  - react-native version:
 
 **Additional context**
