@@ -608,7 +608,7 @@ rename to tests/rn-versions/0.70.6/ios/DemoApp/AppDelegate.mm
 index 71edbe9..2a01461 100644
 --- a/tests/rn-versions/0.70.6/ios/AwesomeProject/AppDelegate.mm
 +++ b/tests/rn-versions/0.70.6/ios/DemoApp/AppDelegate.mm
-@@ -44,7 +44,7 @@ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(
+@@ -44,7 +44,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
  #endif
  
    NSDictionary *initProps = [self prepareInitialProps];
@@ -1512,7 +1512,7 @@ rename to tests/rn-versions/0.70.6/ios/DemoApp/AppDelegate.mm
 index 71edbe9..2a01461 100644
 --- a/tests/rn-versions/0.70.6/ios/AwesomeProject/AppDelegate.mm
 +++ b/tests/rn-versions/0.70.6/ios/DemoApp/AppDelegate.mm
-@@ -44,7 +44,7 @@ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(
+@@ -44,7 +44,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
  #endif
  
    NSDictionary *initProps = [self prepareInitialProps];
@@ -2426,7 +2426,7 @@ rename to tests/rn-versions/0.70.6/ios/DemoApp/AppDelegate.mm
 index 71edbe9..2a01461 100644
 --- a/tests/rn-versions/0.70.6/ios/AwesomeProject/AppDelegate.mm
 +++ b/tests/rn-versions/0.70.6/ios/DemoApp/AppDelegate.mm
-@@ -44,7 +44,7 @@ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(
+@@ -44,7 +44,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
  #endif
  
    NSDictionary *initProps = [self prepareInitialProps];
@@ -3167,7 +3167,7 @@ rename to tests/rn-versions/0.70.6/ios/DemoApp/AppDelegate.mm
 index 71edbe9..2a01461 100644
 --- a/tests/rn-versions/0.70.6/ios/AwesomeProject/AppDelegate.mm
 +++ b/tests/rn-versions/0.70.6/ios/DemoApp/AppDelegate.mm
-@@ -44,7 +44,7 @@ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(
+@@ -44,7 +44,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
  #endif
  
    NSDictionary *initProps = [self prepareInitialProps];
