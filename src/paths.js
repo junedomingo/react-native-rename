@@ -21,6 +21,7 @@ export const getIosFoldersAndFilesPaths = ({ currentPathContentStr, newPathConte
   return [
     `ios/${currentPathContentStr}`,
     `ios/${cleanNewPathContentStr}/${currentPathContentStr}.entitlements`,
+    `ios/${cleanNewPathContentStr}/${currentPathContentStr}Release.entitlements`,
     `ios/${currentPathContentStr}-tvOS`,
     `ios/${currentPathContentStr}-tvOSTests`,
     `ios/${currentPathContentStr}.xcworkspace`,
