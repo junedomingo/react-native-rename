@@ -49,14 +49,14 @@
   },
   "homepage": "https://github.com/junedomingo/react-native-rename#readme",
   "devDependencies": {
-    "esbuild": "^0.16.13",
+    "esbuild": "^0.16.16",
     "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
     "jest": "^29.3.1",
     "lint-staged": "^13.1.0",
-    "prettier": "^2.8.1"
+    "prettier": "^2.8.2"
   },
   "dependencies": {
     "chalk": "^5.2.0",
