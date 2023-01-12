@@ -104,6 +104,7 @@ export const getIosUpdateFilesContentOptions = ({
         new RegExp(`INFOPLIST_FILE = ${cleanNewPathContentStr}/Info.plist;`, 'g'),
         new RegExp(`PRODUCT_NAME = "${currentName}";`, 'gi'),
         new RegExp(`PRODUCT_NAME = ${cleanNewPathContentStr};`, 'gi'),
+        new RegExp(`${currentPathContentStr}Release.entitlements`, 'gi'),
       ],
       to: [
         `INFOPLIST_KEY_CFBundleDisplayName = "${newName}"`,
@@ -128,6 +129,7 @@ export const getIosUpdateFilesContentOptions = ({
         `INFOPLIST_FILE = "${cleanNewPathContentStr}/Info.plist";`,
         `PRODUCT_NAME = "${cleanNewPathContentStr}";`,
         `PRODUCT_NAME = "${cleanNewPathContentStr}";`,
+        `${cleanNewPathContentStr}Release.entitlements`,
       ],
     },
     {
