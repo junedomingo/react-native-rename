@@ -51,6 +51,10 @@ export const validateCreation = () => {
   const fileExists =
     fs.existsSync(iosInfoPlistFullPath) && fs.existsSync(androidValuesStringsFullPath);
 
+  if (!fs.existsSync(iosInfoPlistFullPath)) {
+    console.log(`Unable to find iOS project files at ${iosInfoPlistFullPath}. Make sure you're in the project root.`);
+  }
+
   if (!fileExists) {
     console.log('Directory should be created using "react-native init".');
     process.exit();
@@ -159,7 +163,22 @@ export const getAndroidCurrentBundleID = () => {
   const selector = 'manifest';
   const element = getElementFromXml({ filepath, selector });
 
-  return element.attr('package');
+  // parse AndroidManifest.xml
+  const packageFromManifest = element.attr('package');
+  if (packageFromManifest) {
+    return packageFromManifest;
+  }
+
+  // parse android/app/build.gradle
+  const gradleFile = path.join(APP_PATH, 'android', 'app', 'build.gradle');
+  const gradleFileContent = fs.readFileSync(gradleFile, 'utf8');
+  const packageFromGradle = gradleFileContent.match(/applicationId\s+['"](.+)['"]/)[1];
+
+  if (packageFromGradle) {
+    return packageFromGradle;
+  }
+
+  throw new Error(`Unable to get packageId from manifest or gradle file for project ${APP_PATH}`);
 };
 
 /**
