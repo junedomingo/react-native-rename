@@ -160,21 +160,21 @@ export const getAndroidCurrentBundleID = () => {
   const element = getElementFromXml({ filepath, selector });
 
   // parse AndroidManifest.xml
-  const packageFromManifest = element.attr('package');
-  if (packageFromManifest) {
-    return packageFromManifest;
+  const bundleIDFromManifest = element.attr('package');
+  if (bundleIDFromManifest) {
+    return bundleIDFromManifest;
   }
 
   // parse android/app/build.gradle
   const gradleFile = path.join(APP_PATH, 'android', 'app', 'build.gradle');
   const gradleFileContent = fs.readFileSync(gradleFile, 'utf8');
-  const packageFromGradle = gradleFileContent.match(/applicationId\s+['"](.+)['"]/)[1];
+  const bundleIDFromGradle = gradleFileContent.match(/applicationId\s+['"](.+)['"]/)[1];
 
-  if (packageFromGradle) {
-    return packageFromGradle;
+  if (bundleIDFromGradle) {
+    return bundleIDFromGradle;
   }
 
-  throw new Error(`Unable to get packageId from manifest or gradle file for project ${APP_PATH}`);
+  throw new Error(`Unable to get bundleID from manifest or gradle file for project ${APP_PATH}`);
 };
 
 /**
