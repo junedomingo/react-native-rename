@@ -51,10 +51,6 @@ export const validateCreation = () => {
   const fileExists =
     fs.existsSync(iosInfoPlistFullPath) && fs.existsSync(androidValuesStringsFullPath);
 
-  if (!fs.existsSync(iosInfoPlistFullPath)) {
-    console.log(`Unable to find iOS project files at ${iosInfoPlistFullPath}. Make sure you're in the project root.`);
-  }
-
   if (!fileExists) {
     console.log('Directory should be created using "react-native init".');
     process.exit();
