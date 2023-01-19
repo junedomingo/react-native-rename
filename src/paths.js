@@ -243,6 +243,7 @@ export const getAndroidUpdateBundleIDOptions = ({
         'android/app/BUCK',
         'android/app/build.gradle',
         `android/app/src/debug/java/${newBundleIDAsPath}/ReactNativeFlipper.java`,
+        `android/app/src/release/java/${newBundleIDAsPath}/ReactNativeFlipper.java`,
         `android/app/src/main/java/${newBundleIDAsPath}/MainActivity.java`,
         `android/app/src/main/java/${newBundleIDAsPath}/MainApplication.java`,
       ],
