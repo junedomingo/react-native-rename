@@ -52,7 +52,7 @@ $ yarn global add react-native-rename
 ```
 With **npm**:
 ```
-$ npm install react-native-rename -g
+$ npm install --location=global react-native-rename
 ```
 
 ### Support
