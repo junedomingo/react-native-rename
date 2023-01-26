@@ -66,15 +66,15 @@ program
     }
 
     if (newBundleID) {
-      validateNewBundleID(newBundleID);
+      validateNewBundleID(newBundleID, ['ios', 'android']);
     }
 
     if (newIosBundleID) {
-      validateNewBundleID(newIosBundleID);
+      validateNewBundleID(newIosBundleID, ['ios']);
     }
 
     if (newAndroidBundleID) {
-      validateNewBundleID(newAndroidBundleID);
+      validateNewBundleID(newAndroidBundleID, ['android']);
     }
 
     const currentAndroidName = getAndroidCurrentName();

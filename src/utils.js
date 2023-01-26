@@ -33,7 +33,8 @@ const PROMISE_DELAY = 200;
 const MAX_NAME_LENGTH = 30;
 const NON_LANGUAGE_ALPHANUMERIC_REGEX = /[^\p{L}\p{N}]+/gu;
 const MIN_LANGUAGE_ALPHANUMERIC_NAME_LENGTH = 4;
-const VALID_BUNDLE_ID_REGEX = /^([a-zA-Z]([a-zA-Z0-9_])*\.)+[a-zA-Z]([a-zA-Z0-9_])*$/u;
+const VALID_ANDROID_BUNDLE_ID_REGEX = /^[a-zA-Z]{1}[a-zA-Z0-9\.]{1,}$/;
+const VALID_IOS_BUNDLE_ID_REGEX = /^[a-zA-Z]{1}[a-zA-Z0-9\.\-]{1,}$/;
 
 const pluralize = (count, noun, suffix = 'es') => `${count} ${noun}${count !== 1 ? suffix : ''}`;
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -114,11 +115,39 @@ export const validateNewPathContentStr = value => {
   }
 };
 
-export const validateNewBundleID = newBundleID => {
-  if (!VALID_BUNDLE_ID_REGEX.test(newBundleID)) {
-    console.log(
-      `The bundle identifier "${newBundleID}" is not valid. It should contain only alphanumeric characters and dots, e.g. com.example.app or com.example`
-    );
+export const validateNewBundleID = (newBundleID, platforms = []) => {
+  const isIosBundleIdValid = VALID_IOS_BUNDLE_ID_REGEX.test(newBundleID);
+  const isAndroidBundleIdValid = VALID_ANDROID_BUNDLE_ID_REGEX.test(newBundleID);
+  const androidErrorMessage = `The bundle identifier "${newBundleID}" for ${chalk.bold(
+    'Android'
+  )} is not valid. It should contain only alphanumeric characters and dots.`;
+  const iosErrorMessage = `The bundle identifier "${newBundleID}" for ${chalk.bold(
+    'iOS'
+  )} is not valid. It should contain only alphanumeric characters, dots and dashes.`;
+  const additionalMessage =
+    '\nNote: You can also specify a custom bundle identifier for each platform using "--iosBundleID [value]" and "--androidBundleID [value]" options.';
+  const errorMessage = `${androidErrorMessage} \n${iosErrorMessage}`;
+
+  if (
+    platforms.includes('ios') &&
+    platforms.includes('android') &&
+    !isIosBundleIdValid &&
+    !isAndroidBundleIdValid
+  ) {
+    console.log(errorMessage);
+    console.log(chalk.yellow(additionalMessage));
+    process.exit();
+  }
+
+  if (platforms.includes('ios') && !isIosBundleIdValid) {
+    console.log(iosErrorMessage);
+    console.log(chalk.yellow(additionalMessage));
+    process.exit();
+  }
+
+  if (platforms.includes('android') && !isAndroidBundleIdValid) {
+    console.log(androidErrorMessage);
+    console.log(chalk.yellow(additionalMessage));
     process.exit();
   }
 
