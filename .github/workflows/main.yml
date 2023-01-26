@@ -9,8 +9,6 @@ on:
   pull_request:
     branches: [master]
 
-  workflow_dispatch:
-
 jobs:
   build:
     runs-on: ${{matrix.os}}
@@ -21,16 +19,16 @@ jobs:
         node-version: [16.x]
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Setup deps
+      - name: Install dependencies
         run: npm install
 
       - name: Build lib
-        run: npm run build
+        run: npm run build --if-present
 
       - name: Run test
-        run: npm run test
+        run: npm test
