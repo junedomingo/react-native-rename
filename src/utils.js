@@ -71,8 +71,8 @@ export const validateGitRepo = () => {
 
 export const checkGitRepoStatus = () => {
   shell.cd(APP_PATH);
-  const output = shell.exec('git status', { silent: true }).stdout;
-  const isClean = output.includes('nothing to commit, working tree clean');
+  const output = shell.exec('git status --porcelain', { silent: true }).stdout;
+  const isClean = output === '';
 
   if (!isClean) {
     console.log(
