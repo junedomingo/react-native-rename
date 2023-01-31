@@ -13,12 +13,12 @@ Rename react-native app with just one command
 
 ### Usage
 ```
-$ npx react-native-rename "new_name"
+$ npx react-native-rename@latest "new_name"
 ```
 
 > With custom Bundle Identifier
 ```
-$ npx react-native-rename "new_name" -b "bundle_identifier"
+$ npx react-native-rename@latest "new_name" -b "bundle_identifier"
 ```
 
 ### Example
