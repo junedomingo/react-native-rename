@@ -177,10 +177,16 @@ export const getIosCurrentName = () => {
 };
 
 export const getAndroidCurrentName = () => {
-  const selector = 'resources > string[name="app_name"]';
-  const element = getElementFromXml({ filepath: androidValuesStringsFullPath, selector });
+  const gradleFile = path.join(APP_PATH, 'android', 'settings.gradle');
+  const gradleFileContent = fs.readFileSync(gradleFile, 'utf8');
 
-  return decodeXmlEntities(element.text());
+  const projectName = gradleFileContent.match(/rootProject.name\s+=\s+['"](.*)['"]/)[1];
+
+  if (projectName) {
+    return projectName;
+  }
+
+  throw new Error(`Unable to get project name from settings.gradle for project ${APP_PATH}`);
 };
 
 export const getAndroidCurrentBundleID = () => {
