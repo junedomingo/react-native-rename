@@ -21,7 +21,7 @@ import {
   getIosFoldersAndFilesPaths,
   getIosUpdateFilesContentOptions,
   getOtherUpdateFilesContentOptions,
-  iosPlist,
+  iosAppDelegate,
   iosXcodeproj,
   packageJson,
 } from './paths';
@@ -48,7 +48,7 @@ const normalizePath = process.platform === 'win32' ? require('normalize-path') :
 const androidValuesStringsFullPath = path.join(APP_PATH, androidValuesStrings);
 
 export const validateCreation = () => {
-  const iosInfoPlistFullPath = globbySync(normalizePath(path.join(APP_PATH, iosPlist)))[0];
+  const iosInfoPlistFullPath = globbySync(normalizePath(path.join(APP_PATH, iosAppDelegate)))[0].replace('AppDelegate.h','Info.plist');
   const fileExists =
     fs.existsSync(iosInfoPlistFullPath) && fs.existsSync(androidValuesStringsFullPath);
 
@@ -169,7 +169,7 @@ const getElementFromXml = ({ filepath, selector }) => {
 };
 
 export const getIosCurrentName = () => {
-  const filepath = globbySync(normalizePath(path.join(APP_PATH, iosPlist)))[0];
+  const filepath = globbySync(normalizePath(path.join(APP_PATH, iosAppDelegate)))[0].replace('AppDelegate.h','Info.plist');
   const selector = 'dict > key:contains("CFBundleDisplayName") + string';
   const element = getElementFromXml({ filepath, selector });
 
@@ -345,7 +345,7 @@ const updateElementInXml = async ({ filepath, selector, text }) => {
 
 export const updateIosNameInInfoPlist = async newName => {
   await updateElementInXml({
-    filepath: globbySync(normalizePath(path.join(APP_PATH, iosPlist)))[0],
+    filepath: globbySync(normalizePath(path.join(APP_PATH, iosAppDelegate)))[0].replace('AppDelegate.h','Info.plist'),
     selector: 'dict > key:contains("CFBundleDisplayName") + string',
     text: newName,
   });
