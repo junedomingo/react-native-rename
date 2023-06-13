@@ -62,7 +62,7 @@
     "chalk": "^5.2.0",
     "cheerio": "^1.0.0-rc.12",
     "commander": "^10.0.1",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.1.4",
     "globby": "^13.1.4",
     "html-entities": "^2.3.5",
     "normalize-path": "^3.0.0",
