@@ -63,7 +63,7 @@
     "cheerio": "^1.0.0-rc.12",
     "commander": "^10.0.1",
     "dotenv": "^16.3.1",
-    "globby": "^13.1.4",
+    "globby": "^13.2.0",
     "html-entities": "^2.3.5",
     "normalize-path": "^3.0.0",
     "replace-in-file": "^7.0.1",
