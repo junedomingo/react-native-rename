@@ -199,6 +199,11 @@ export const getAndroidUpdateFilesContentOptions = ({
       to: `"${newName}"`,
     },
     {
+      files: [`android/app/src/main/java/${newBundleIDAsPath}/MainActivity.kt`],
+      from: [`= "${currentName}"`],
+      to: `= "${newName}"`,
+    },
+    {
       files: 'android/.idea/.name',
       from: currentName,
       to: newName,
@@ -248,6 +253,8 @@ export const getAndroidUpdateBundleIDOptions = ({
         `android/app/src/release/java/${newBundleIDAsPath}/ReactNativeFlipper.java`,
         `android/app/src/main/java/${newBundleIDAsPath}/MainActivity.java`,
         `android/app/src/main/java/${newBundleIDAsPath}/MainApplication.java`,
+        `android/app/src/main/java/${newBundleIDAsPath}/MainActivity.kt`,
+        `android/app/src/main/java/${newBundleIDAsPath}/MainApplication.kt`,
       ],
       from: new RegExp(`${currentBundleID}`, 'g'),
       to: newBundleID,
