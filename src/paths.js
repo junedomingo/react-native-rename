@@ -191,7 +191,7 @@ export const getAndroidUpdateFilesContentOptions = ({
     {
       files: 'android/settings.gradle',
       from: [/rootProject.name = "(.*)"/g, /rootProject.name = '(.*)'/g],
-      to: `rootProject.name = '${newName}'`,
+      to: `rootProject.name = "${newName}"`,
     },
     {
       files: [`android/app/src/main/java/${newBundleIDAsPath}/MainActivity.java`],
