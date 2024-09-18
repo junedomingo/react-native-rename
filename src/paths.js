@@ -40,6 +40,7 @@ export const getIosUpdateFilesContentOptions = ({
   currentPathContentStr,
   newPathContentStr,
   newBundleID,
+  iosPreviousBundleID,
 }) => {
   const encodedNewName = encodeXmlEntities(newName);
   const encodedCurrentName = encodeXmlEntities(currentName);
@@ -146,7 +147,8 @@ export const getIosUpdateFilesContentOptions = ({
         }
 
         // Replace bundle ID
-        if (newBundleID) {
+        if (newBundleID && !iosPreviousBundleID) {
+
           input = input.replace(
             /PRODUCT_BUNDLE_IDENTIFIER = "(.*)"/g,
             `PRODUCT_BUNDLE_IDENTIFIER = "${newBundleID}"`
@@ -156,6 +158,15 @@ export const getIosUpdateFilesContentOptions = ({
             /PRODUCT_BUNDLE_IDENTIFIER = (.*)/g,
             `PRODUCT_BUNDLE_IDENTIFIER = "${newBundleID}";`
           );
+
+        } else
+        if (newBundleID && iosPreviousBundleID) {
+
+          input = input.replace(
+            new RegExp(iosPreviousBundleID, 'g'),
+            newBundleID
+          );
+
         }
 
         return input;

@@ -37,6 +37,10 @@ program
     '-b, --bundleID [value]',
     'Set custom bundle identifier for both ios and android eg. "com.example.app" or "com.example".'
   )
+  .option(
+    '--iosPreviousBundleID [value]',
+    'Provide the previous bundle identifier in case you encounter problems with iOS Service Extensions'
+  )
   .option('--iosBundleID [value]', 'Set custom bundle identifier specifically for ios')
   .option('--androidBundleID [value]', 'Set custom bundle identifier specifically for android')
   .option(
@@ -60,6 +64,7 @@ program
     const newBundleID = options.bundleID;
     const newIosBundleID = options.iosBundleID;
     const newAndroidBundleID = options.androidBundleID;
+    const iosPreviousBundleID = options.iosPreviousBundleID;
 
     if (pathContentStr) {
       validateNewPathContentStr(pathContentStr);
@@ -90,6 +95,7 @@ program
       currentPathContentStr,
       newPathContentStr,
       newBundleID: newIosBundleID || newBundleID,
+      iosPreviousBundleID,
     });
 
     await updateIosNameInInfoPlist(newName);

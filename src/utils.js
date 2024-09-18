@@ -331,6 +331,7 @@ export const updateIosFilesContent = async ({
   currentPathContentStr,
   newPathContentStr,
   newBundleID,
+  iosPreviousBundleID,
 }) => {
   const filesContentOptions = getIosUpdateFilesContentOptions({
     currentName,
@@ -338,6 +339,7 @@ export const updateIosFilesContent = async ({
     currentPathContentStr,
     newPathContentStr,
     newBundleID,
+    iosPreviousBundleID,
   });
   await updateFilesContent(filesContentOptions);
 };
