@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import * as dotenv from 'dotenv';
 import fs from 'fs';
 import { globbySync } from 'globby';
@@ -50,7 +50,7 @@ const androidValuesStringsFullPath = path.join(APP_PATH, androidValuesStrings);
 export const validateCreation = () => {
   const iosInfoPlistFullPath = globbySync(
     normalizePath(path.join(APP_PATH, iosAppDelegate))
-  )[0].replace('AppDelegate.h', 'Info.plist');
+  )[0].replace('AppDelegate.swift', 'Info.plist');
   const fileExists =
     fs.existsSync(iosInfoPlistFullPath) && fs.existsSync(androidValuesStringsFullPath);
 
@@ -172,7 +172,7 @@ const getElementFromXml = ({ filepath, selector }) => {
 
 export const getIosCurrentName = () => {
   const filepath = globbySync(normalizePath(path.join(APP_PATH, iosAppDelegate)))[0].replace(
-    'AppDelegate.h',
+    'AppDelegate.swift',
     'Info.plist'
   );
   const selector = 'dict > key:contains("CFBundleDisplayName") + string';
@@ -357,7 +357,7 @@ const updateElementInXml = async ({ filepath, selector, text }) => {
 export const updateIosNameInInfoPlist = async newName => {
   await updateElementInXml({
     filepath: globbySync(normalizePath(path.join(APP_PATH, iosAppDelegate)))[0].replace(
-      'AppDelegate.h',
+      'AppDelegate.swift',
       'Info.plist'
     ),
     selector: 'dict > key:contains("CFBundleDisplayName") + string',
