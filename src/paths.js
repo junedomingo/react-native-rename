@@ -1,4 +1,6 @@
 import { cleanString, encodeXmlEntities } from './utils';
+import fs from 'fs';
+import path from 'path';
 
 export const androidManifestXml = 'android/app/src/main/AndroidManifest.xml';
 export const androidValuesStrings = 'android/app/src/main/res/values/strings.xml';
@@ -237,13 +239,61 @@ export const getAndroidUpdateFilesContentOptions = ({
   ];
 };
 
+const getAllProjectFiles = options => {
+  const files = fs.readdirSync(
+    path.join(process.cwd(), `android/app/src/main/java/${options.newBundleIDAsPath}`)
+  );
+  let result = [];
+  const dirFiles = [];
+
+  for (const file of files) {
+    if (
+      fs
+        .lstatSync(
+          path.join(process.cwd(), `android/app/src/main/java/${options.newBundleIDAsPath}/${file}`)
+        )
+        .isDirectory()
+    ) {
+      result.push(
+        ...getAllProjectFiles({
+          currentBundleID: [options.currentBundleID, file].join('.'),
+          newBundleID: [options.newBundleID, file].join('.'),
+          currentBundleIDAsPath: [options.currentBundleIDAsPath, file].join('/'),
+          newBundleIDAsPath: [options.newBundleIDAsPath, file].join('/'),
+        })
+      );
+    } else {
+      dirFiles.push(`android/app/src/main/java/${options.newBundleIDAsPath}/${file}`);
+    }
+  }
+
+  result = [
+    {
+      files: dirFiles,
+      from: new RegExp(`${options.currentBundleID}`, 'g'),
+      to: options.newBundleID,
+    },
+    ...result,
+  ];
+
+  return result;
+};
+
 export const getAndroidUpdateBundleIDOptions = ({
   currentBundleID,
   newBundleID,
   currentBundleIDAsPath,
   newBundleIDAsPath,
 }) => {
+  const result = getAllProjectFiles({
+    currentBundleID,
+    newBundleID,
+    currentBundleIDAsPath,
+    newBundleIDAsPath,
+  });
+
   return [
+    ...result,
     {
       files: [
         'android/app/_BUCK',
