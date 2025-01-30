@@ -55,7 +55,9 @@ const normalizePath = (left, right, file) => {
 
       result = globbySync(result, parts[1])?.[0]?.replace(parts[1], file);
 
-      return result;
+      if (result) {
+        return result;
+      }
     }
   }
 
