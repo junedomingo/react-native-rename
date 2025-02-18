@@ -33,6 +33,11 @@ const resetGit = cwd => {
   });
 };
 
+expect.addSnapshotSerializer({
+  test: val => typeof val === 'string',
+  print: val => val.replace(/\r\n/g, '\n').replace(/\\/g, '/'),
+});
+
 describe('rn-versions/0.77.1', () => {
   const cwd = path.join(__dirname, 'rn-versions/0.77.1');
 
