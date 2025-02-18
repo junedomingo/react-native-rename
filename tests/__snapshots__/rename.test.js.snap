@@ -2,8 +2,1526 @@
 
 exports[`rn-versions/0.77.1 Change app name 1`] = `""`;
 
-exports[`rn-versions/0.77.1 Change app name and bundle id for android only 1`] = `""`;
+exports[`rn-versions/0.77.1 Change app name and bundle id for android only 1`] = `
+"diff --git a/tests/rn-versions/0.77.1/android/app/build.gradle b/tests/rn-versions/0.77.1/android/app/build.gradle
+index 4d876c2..873d48b 100644
+--- a/tests/rn-versions/0.77.1/android/app/build.gradle
++++ b/tests/rn-versions/0.77.1/android/app/build.gradle
+@@ -77,9 +77,9 @@ android {
+     buildToolsVersion rootProject.ext.buildToolsVersion
+     compileSdk rootProject.ext.compileSdkVersion
+ 
+-    namespace "com.awesomeproject"
++    namespace "com.example.travelapp"
+     defaultConfig {
+-        applicationId "com.awesomeproject"
++        applicationId "com.example.travelapp"
+         minSdkVersion rootProject.ext.minSdkVersion
+         targetSdkVersion rootProject.ext.targetSdkVersion
+         versionCode 1
+diff --git a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt b/tests/rn-versions/0.77.1/android/app/src/main/java/com/example/travelapp/MainActivity.kt
+similarity index 89%
+rename from tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
+rename to tests/rn-versions/0.77.1/android/app/src/main/java/com/example/travelapp/MainActivity.kt
+index 390f6ba..d0b3e72 100644
+--- a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
++++ b/tests/rn-versions/0.77.1/android/app/src/main/java/com/example/travelapp/MainActivity.kt
+@@ -1,4 +1,4 @@
+-package com.awesomeproject
++package com.example.travelapp
+ 
+ import com.facebook.react.ReactActivity
+ import com.facebook.react.ReactActivityDelegate
+@@ -11,7 +11,7 @@ class MainActivity : ReactActivity() {
+    * Returns the name of the main component registered from JavaScript. This is used to schedule
+    * rendering of the component.
+    */
+-  override fun getMainComponentName(): String = "AwesomeProject"
++  override fun getMainComponentName(): String = "Travel App"
+ 
+   /**
+    * Returns the instance of the [ReactActivityDelegate]. We use [DefaultReactActivityDelegate]
+diff --git a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainApplication.kt b/tests/rn-versions/0.77.1/android/app/src/main/java/com/example/travelapp/MainApplication.kt
+similarity index 98%
+rename from tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainApplication.kt
+rename to tests/rn-versions/0.77.1/android/app/src/main/java/com/example/travelapp/MainApplication.kt
+index e61ba7e..b047b2f 100644
+--- a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainApplication.kt
++++ b/tests/rn-versions/0.77.1/android/app/src/main/java/com/example/travelapp/MainApplication.kt
+@@ -1,4 +1,4 @@
+-package com.awesomeproject
++package com.example.travelapp
+ 
+ import android.app.Application
+ import com.facebook.react.PackageList
+diff --git a/tests/rn-versions/0.77.1/android/app/src/main/res/values/strings.xml b/tests/rn-versions/0.77.1/android/app/src/main/res/values/strings.xml
+index cad480c..def42cc 100644
+--- a/tests/rn-versions/0.77.1/android/app/src/main/res/values/strings.xml
++++ b/tests/rn-versions/0.77.1/android/app/src/main/res/values/strings.xml
+@@ -1,3 +1,3 @@
+ <resources>
+-    <string name="app_name">AwesomeProject</string>
++    <string name="app_name">Travel App</string>
+ </resources>
+diff --git a/tests/rn-versions/0.77.1/android/settings.gradle b/tests/rn-versions/0.77.1/android/settings.gradle
+index e078236..10d4c83 100644
+--- a/tests/rn-versions/0.77.1/android/settings.gradle
++++ b/tests/rn-versions/0.77.1/android/settings.gradle
+@@ -1,6 +1,6 @@
+ pluginManagement { includeBuild("../node_modules/@react-native/gradle-plugin") }
+ plugins { id("com.facebook.react.settings") }
+ extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autolinkLibrariesFromCommand() }
+-rootProject.name = 'AwesomeProject'
++rootProject.name = 'Travel App'
+ include ':app'
+ includeBuild('../node_modules/@react-native/gradle-plugin')
+diff --git a/tests/rn-versions/0.77.1/app.json b/tests/rn-versions/0.77.1/app.json
+index 227dd75..5ced50c 100644
+--- a/tests/rn-versions/0.77.1/app.json
++++ b/tests/rn-versions/0.77.1/app.json
+@@ -1,4 +1,4 @@
+ {
+-  "name": "AwesomeProject",
+-  "displayName": "AwesomeProject"
++  "name": "Travel App",
++  "displayName": "Travel App"
+ }
+diff --git a/tests/rn-versions/0.77.1/ios/Podfile b/tests/rn-versions/0.77.1/ios/Podfile
+index 72fa3e7..311247c 100644
+--- a/tests/rn-versions/0.77.1/ios/Podfile
++++ b/tests/rn-versions/0.77.1/ios/Podfile
+@@ -14,7 +14,7 @@ if linkage != nil
+   use_frameworks! :linkage => linkage.to_sym
+ end
+ 
+-target 'AwesomeProject' do
++target 'TravelApp' do
+   config = use_native_modules!
+ 
+   use_react_native!(
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/project.pbxproj b/tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/project.pbxproj
+similarity index 81%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/project.pbxproj
+rename to tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/project.pbxproj
+index 77efb8f..5ac7d31 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/project.pbxproj
++++ b/tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/project.pbxproj
+@@ -7,7 +7,7 @@
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
+-		0C80B921A6F3F58F76C31292 /* libPods-AwesomeProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-AwesomeProject.a */; };
++		0C80B921A6F3F58F76C31292 /* libPods-TravelApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-TravelApp.a */; };
+ 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+ 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
+ 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+@@ -15,15 +15,15 @@
+ /* End PBXBuildFile section */
+ 
+ /* Begin PBXFileReference section */
+-		13B07F961A680F5B00A75B9A /* AwesomeProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AwesomeProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AwesomeProject/Images.xcassets; sourceTree = "<group>"; };
+-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AwesomeProject/Info.plist; sourceTree = "<group>"; };
+-		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = AwesomeProject/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+-		3B4392A12AC88292D35C810B /* Pods-AwesomeProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject.debug.xcconfig"; path = "Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject.debug.xcconfig"; sourceTree = "<group>"; };
+-		5709B34CF0A7D63546082F79 /* Pods-AwesomeProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject.release.xcconfig"; path = "Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject.release.xcconfig"; sourceTree = "<group>"; };
+-		5DCACB8F33CDC322A6C60F78 /* libPods-AwesomeProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AwesomeProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+-		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = AwesomeProject/AppDelegate.swift; sourceTree = "<group>"; };
+-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AwesomeProject/LaunchScreen.storyboard; sourceTree = "<group>"; };
++		13B07F961A680F5B00A75B9A /* TravelApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TravelApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
++		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "TravelApp/Images.xcassets"; sourceTree = "<group>"; };
++		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "TravelApp/Info.plist"; sourceTree = "<group>"; };
++		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = TravelApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
++		3B4392A12AC88292D35C810B /* Pods-TravelApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelApp.debug.xcconfig"; path = "Target Support Files/Pods-TravelApp/Pods-TravelApp.debug.xcconfig"; sourceTree = "<group>"; };
++		5709B34CF0A7D63546082F79 /* Pods-TravelApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelApp.release.xcconfig"; path = "Target Support Files/Pods-TravelApp/Pods-TravelApp.release.xcconfig"; sourceTree = "<group>"; };
++		5DCACB8F33CDC322A6C60F78 /* libPods-TravelApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TravelApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
++		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = TravelApp/AppDelegate.swift; sourceTree = "<group>"; };
++		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "TravelApp/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+ 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+ /* End PBXFileReference section */
+ 
+@@ -32,14 +32,14 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				0C80B921A6F3F58F76C31292 /* libPods-AwesomeProject.a in Frameworks */,
++				0C80B921A6F3F58F76C31292 /* libPods-TravelApp.a in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+ /* End PBXFrameworksBuildPhase section */
+ 
+ /* Begin PBXGroup section */
+-		13B07FAE1A68108700A75B9A /* AwesomeProject */ = {
++		13B07FAE1A68108700A75B9A /* TravelApp */ = {
+ 			isa = PBXGroup;
+ 			children = (
+ 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+@@ -48,14 +48,14 @@
+ 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+ 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+ 			);
+-			name = AwesomeProject;
++			name = "TravelApp";
+ 			sourceTree = "<group>";
+ 		};
+ 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
+ 			isa = PBXGroup;
+ 			children = (
+ 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+-				5DCACB8F33CDC322A6C60F78 /* libPods-AwesomeProject.a */,
++				5DCACB8F33CDC322A6C60F78 /* libPods-TravelApp.a */,
+ 			);
+ 			name = Frameworks;
+ 			sourceTree = "<group>";
+@@ -70,7 +70,7 @@
+ 		83CBB9F61A601CBA00E9B192 = {
+ 			isa = PBXGroup;
+ 			children = (
+-				13B07FAE1A68108700A75B9A /* AwesomeProject */,
++				13B07FAE1A68108700A75B9A /* TravelApp */,
+ 				832341AE1AAA6A7D00B99B32 /* Libraries */,
+ 				83CBBA001A601CBA00E9B192 /* Products */,
+ 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+@@ -84,7 +84,7 @@
+ 		83CBBA001A601CBA00E9B192 /* Products */ = {
+ 			isa = PBXGroup;
+ 			children = (
+-				13B07F961A680F5B00A75B9A /* AwesomeProject.app */,
++				13B07F961A680F5B00A75B9A /* TravelApp.app */,
+ 			);
+ 			name = Products;
+ 			sourceTree = "<group>";
+@@ -92,8 +92,8 @@
+ 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
+ 			isa = PBXGroup;
+ 			children = (
+-				3B4392A12AC88292D35C810B /* Pods-AwesomeProject.debug.xcconfig */,
+-				5709B34CF0A7D63546082F79 /* Pods-AwesomeProject.release.xcconfig */,
++				3B4392A12AC88292D35C810B /* Pods-TravelApp.debug.xcconfig */,
++				5709B34CF0A7D63546082F79 /* Pods-TravelApp.release.xcconfig */,
+ 			);
+ 			path = Pods;
+ 			sourceTree = "<group>";
+@@ -101,9 +101,9 @@
+ /* End PBXGroup section */
+ 
+ /* Begin PBXNativeTarget section */
+-		13B07F861A680F5B00A75B9A /* AwesomeProject */ = {
++		13B07F861A680F5B00A75B9A /* TravelApp */ = {
+ 			isa = PBXNativeTarget;
+-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AwesomeProject" */;
++			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "TravelApp" */;
+ 			buildPhases = (
+ 				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+ 				13B07F871A680F5B00A75B9A /* Sources */,
+@@ -117,9 +117,9 @@
+ 			);
+ 			dependencies = (
+ 			);
+-			name = AwesomeProject;
+-			productName = AwesomeProject;
+-			productReference = 13B07F961A680F5B00A75B9A /* AwesomeProject.app */;
++			name = "TravelApp";
++			productName = "TravelApp";
++			productReference = 13B07F961A680F5B00A75B9A /* TravelApp.app */;
+ 			productType = "com.apple.product-type.application";
+ 		};
+ /* End PBXNativeTarget section */
+@@ -135,7 +135,7 @@
+ 					};
+ 				};
+ 			};
+-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "AwesomeProject" */;
++			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "TravelApp" */;
+ 			compatibilityVersion = "Xcode 12.0";
+ 			developmentRegion = en;
+ 			hasScannedForEncodings = 0;
+@@ -148,7 +148,7 @@
+ 			projectDirPath = "";
+ 			projectRoot = "";
+ 			targets = (
+-				13B07F861A680F5B00A75B9A /* AwesomeProject */,
++				13B07F861A680F5B00A75B9A /* TravelApp */,
+ 			);
+ 		};
+ /* End PBXProject section */
+@@ -189,15 +189,15 @@
+ 			files = (
+ 			);
+ 			inputFileListPaths = (
+-				"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks-\${CONFIGURATION}-input-files.xcfilelist",
++				"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks-\${CONFIGURATION}-input-files.xcfilelist",
+ 			);
+ 			name = "[CP] Embed Pods Frameworks";
+ 			outputFileListPaths = (
+-				"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks-\${CONFIGURATION}-output-files.xcfilelist",
++				"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks-\${CONFIGURATION}-output-files.xcfilelist",
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+-			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks.sh\\"\\n";
++			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks.sh\\"\\n";
+ 			showEnvVarsInLog = 0;
+ 		};
+ 		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+@@ -215,7 +215,7 @@
+ 			outputFileListPaths = (
+ 			);
+ 			outputPaths = (
+-				"$(DERIVED_FILE_DIR)/Pods-AwesomeProject-checkManifestLockResult.txt",
++				"$(DERIVED_FILE_DIR)/Pods-TravelApp-checkManifestLockResult.txt",
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+@@ -228,15 +228,15 @@
+ 			files = (
+ 			);
+ 			inputFileListPaths = (
+-				"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources-\${CONFIGURATION}-input-files.xcfilelist",
++				"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources-\${CONFIGURATION}-input-files.xcfilelist",
+ 			);
+ 			name = "[CP] Copy Pods Resources";
+ 			outputFileListPaths = (
+-				"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources-\${CONFIGURATION}-output-files.xcfilelist",
++				"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources-\${CONFIGURATION}-output-files.xcfilelist",
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+-			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources.sh\\"\\n";
++			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources.sh\\"\\n";
+ 			showEnvVarsInLog = 0;
+ 		};
+ /* End PBXShellScriptBuildPhase section */
+@@ -255,13 +255,14 @@
+ /* Begin XCBuildConfiguration section */
+ 		13B07F941A680F5B00A75B9A /* Debug */ = {
+ 			isa = XCBuildConfiguration;
+-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-AwesomeProject.debug.xcconfig */;
++			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-TravelApp.debug.xcconfig */;
+ 			buildSettings = {
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+ 				CLANG_ENABLE_MODULES = YES;
+ 				CURRENT_PROJECT_VERSION = 1;
+ 				ENABLE_BITCODE = NO;
+-				INFOPLIST_FILE = AwesomeProject/Info.plist;
++				INFOPLIST_FILE = "TravelApp/Info.plist";
++             INFOPLIST_KEY_CFBundleDisplayName = "Travel App";
+ 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+@@ -274,7 +275,7 @@
+ 					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+-				PRODUCT_NAME = AwesomeProject;
++				PRODUCT_NAME = "TravelApp";
+ 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+ 				SWIFT_VERSION = 5.0;
+ 				VERSIONING_SYSTEM = "apple-generic";
+@@ -283,12 +284,13 @@
+ 		};
+ 		13B07F951A680F5B00A75B9A /* Release */ = {
+ 			isa = XCBuildConfiguration;
+-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-AwesomeProject.release.xcconfig */;
++			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-TravelApp.release.xcconfig */;
+ 			buildSettings = {
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+ 				CLANG_ENABLE_MODULES = YES;
+ 				CURRENT_PROJECT_VERSION = 1;
+-				INFOPLIST_FILE = AwesomeProject/Info.plist;
++				INFOPLIST_FILE = "TravelApp/Info.plist";
++             INFOPLIST_KEY_CFBundleDisplayName = "Travel App";
+ 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+@@ -301,7 +303,7 @@
+ 					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+-				PRODUCT_NAME = AwesomeProject;
++				PRODUCT_NAME = "TravelApp";
+ 				SWIFT_VERSION = 5.0;
+ 				VERSIONING_SYSTEM = "apple-generic";
+ 			};
+@@ -462,7 +464,7 @@
+ /* End XCBuildConfiguration section */
+ 
+ /* Begin XCConfigurationList section */
+-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AwesomeProject" */ = {
++		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "TravelApp" */ = {
+ 			isa = XCConfigurationList;
+ 			buildConfigurations = (
+ 				13B07F941A680F5B00A75B9A /* Debug */,
+@@ -471,7 +473,7 @@
+ 			defaultConfigurationIsVisible = 0;
+ 			defaultConfigurationName = Release;
+ 		};
+-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "AwesomeProject" */ = {
++		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "TravelApp" */ = {
+ 			isa = XCConfigurationList;
+ 			buildConfigurations = (
+ 				83CBBA201A601CBA00E9B192 /* Debug */,
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/xcshareddata/xcschemes/AwesomeProject.xcscheme b/tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/xcshareddata/xcschemes/TravelApp.xcscheme
+similarity index 79%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/xcshareddata/xcschemes/AwesomeProject.xcscheme
+rename to tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/xcshareddata/xcschemes/TravelApp.xcscheme
+index 20f13d1..c956876 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/xcshareddata/xcschemes/AwesomeProject.xcscheme
++++ b/tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/xcshareddata/xcschemes/TravelApp.xcscheme
+@@ -15,9 +15,9 @@
+             <BuildableReference
+                BuildableIdentifier = "primary"
+                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+-               BuildableName = "AwesomeProject.app"
+-               BlueprintName = "AwesomeProject"
+-               ReferencedContainer = "container:AwesomeProject.xcodeproj">
++               BuildableName = "TravelApp.app"
++               BlueprintName = "TravelApp"
++               ReferencedContainer = "container:TravelApp.xcodeproj">
+             </BuildableReference>
+          </BuildActionEntry>
+       </BuildActionEntries>
+@@ -33,9 +33,9 @@
+             <BuildableReference
+                BuildableIdentifier = "primary"
+                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
+-               BuildableName = "AwesomeProjectTests.xctest"
+-               BlueprintName = "AwesomeProjectTests"
+-               ReferencedContainer = "container:AwesomeProject.xcodeproj">
++               BuildableName = "TravelAppTests.xctest"
++               BlueprintName = "TravelAppTests"
++               ReferencedContainer = "container:TravelApp.xcodeproj">
+             </BuildableReference>
+          </TestableReference>
+       </Testables>
+@@ -55,9 +55,9 @@
+          <BuildableReference
+             BuildableIdentifier = "primary"
+             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+-            BuildableName = "AwesomeProject.app"
+-            BlueprintName = "AwesomeProject"
+-            ReferencedContainer = "container:AwesomeProject.xcodeproj">
++            BuildableName = "TravelApp.app"
++            BlueprintName = "TravelApp"
++            ReferencedContainer = "container:TravelApp.xcodeproj">
+          </BuildableReference>
+       </BuildableProductRunnable>
+    </LaunchAction>
+@@ -72,9 +72,9 @@
+          <BuildableReference
+             BuildableIdentifier = "primary"
+             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+-            BuildableName = "AwesomeProject.app"
+-            BlueprintName = "AwesomeProject"
+-            ReferencedContainer = "container:AwesomeProject.xcodeproj">
++            BuildableName = "TravelApp.app"
++            BlueprintName = "TravelApp"
++            ReferencedContainer = "container:TravelApp.xcodeproj">
+          </BuildableReference>
+       </BuildableProductRunnable>
+    </ProfileAction>
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcworkspace/contents.xcworkspacedata b/tests/rn-versions/0.77.1/ios/TravelApp.xcworkspace/contents.xcworkspacedata
+similarity index 78%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject.xcworkspace/contents.xcworkspacedata
+rename to tests/rn-versions/0.77.1/ios/TravelApp.xcworkspace/contents.xcworkspacedata
+index 575b862..f5b74b9 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcworkspace/contents.xcworkspacedata
++++ b/tests/rn-versions/0.77.1/ios/TravelApp.xcworkspace/contents.xcworkspacedata
+@@ -2,7 +2,7 @@
+ <Workspace
+    version = "1.0">
+    <FileRef
+-      location = "group:AwesomeProject.xcodeproj">
++      location = "group:TravelApp.xcodeproj">
+    </FileRef>
+    <FileRef
+       location = "group:Pods/Pods.xcodeproj">
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/AppDelegate.swift b/tests/rn-versions/0.77.1/ios/TravelApp/AppDelegate.swift
+similarity index 95%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/AppDelegate.swift
+rename to tests/rn-versions/0.77.1/ios/TravelApp/AppDelegate.swift
+index 67070ab..a0d39f0 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject/AppDelegate.swift
++++ b/tests/rn-versions/0.77.1/ios/TravelApp/AppDelegate.swift
+@@ -6,7 +6,7 @@ import ReactAppDependencyProvider
+ @main
+ class AppDelegate: RCTAppDelegate {
+   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+-    self.moduleName = "AwesomeProject"
++    self.moduleName = "Travel App"
+     self.dependencyProvider = RCTAppDependencyProvider()
+ 
+     // You can add your custom initial props in the dictionary below.
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/Images.xcassets/AppIcon.appiconset/Contents.json b/tests/rn-versions/0.77.1/ios/TravelApp/Images.xcassets/AppIcon.appiconset/Contents.json
+similarity index 100%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/Images.xcassets/AppIcon.appiconset/Contents.json
+rename to tests/rn-versions/0.77.1/ios/TravelApp/Images.xcassets/AppIcon.appiconset/Contents.json
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/Images.xcassets/Contents.json b/tests/rn-versions/0.77.1/ios/TravelApp/Images.xcassets/Contents.json
+similarity index 100%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/Images.xcassets/Contents.json
+rename to tests/rn-versions/0.77.1/ios/TravelApp/Images.xcassets/Contents.json
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/Info.plist b/tests/rn-versions/0.77.1/ios/TravelApp/Info.plist
+similarity index 96%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/Info.plist
+rename to tests/rn-versions/0.77.1/ios/TravelApp/Info.plist
+index d636c9e..fdceb7d 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject/Info.plist
++++ b/tests/rn-versions/0.77.1/ios/TravelApp/Info.plist
+@@ -5,7 +5,7 @@
+ 	<key>CFBundleDevelopmentRegion</key>
+ 	<string>en</string>
+ 	<key>CFBundleDisplayName</key>
+-	<string>AwesomeProject</string>
++	<string>Travel App</string>
+ 	<key>CFBundleExecutable</key>
+ 	<string>$(EXECUTABLE_NAME)</string>
+ 	<key>CFBundleIdentifier</key>
+@@ -33,7 +33,7 @@
+ 		<true/>
+ 	</dict>
+ 	<key>NSLocationWhenInUseUsageDescription</key>
+-	<string></string>
++	<string/>
+ 	<key>UILaunchStoryboardName</key>
+ 	<string>LaunchScreen</string>
+ 	<key>UIRequiredDeviceCapabilities</key>
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/LaunchScreen.storyboard b/tests/rn-versions/0.77.1/ios/TravelApp/LaunchScreen.storyboard
+similarity index 94%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/LaunchScreen.storyboard
+rename to tests/rn-versions/0.77.1/ios/TravelApp/LaunchScreen.storyboard
+index 1ba1a64..a5e5fb9 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject/LaunchScreen.storyboard
++++ b/tests/rn-versions/0.77.1/ios/TravelApp/LaunchScreen.storyboard
+@@ -16,7 +16,7 @@
+                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                         <subviews>
+-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AwesomeProject" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="GJd-Yh-RWb">
++                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Travel App" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="GJd-Yh-RWb">
+                                 <rect key="frame" x="0.0" y="202" width="375" height="43"/>
+                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
+                                 <nil key="highlightedColor"/>
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/PrivacyInfo.xcprivacy b/tests/rn-versions/0.77.1/ios/TravelApp/PrivacyInfo.xcprivacy
+similarity index 100%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/PrivacyInfo.xcprivacy
+rename to tests/rn-versions/0.77.1/ios/TravelApp/PrivacyInfo.xcprivacy
+diff --git a/tests/rn-versions/0.77.1/package.json b/tests/rn-versions/0.77.1/package.json
+index 9531f71..f9194e9 100644
+--- a/tests/rn-versions/0.77.1/package.json
++++ b/tests/rn-versions/0.77.1/package.json
+@@ -1,5 +1,5 @@
+ {
+-  "name": "AwesomeProject",
++  "name": "travelapp",
+   "version": "0.0.1",
+   "private": true,
+   "scripts": {
+"
+`;
 
-exports[`rn-versions/0.77.1 Change app name and bundle id for both ios and android 1`] = `""`;
+exports[`rn-versions/0.77.1 Change app name and bundle id for both ios and android 1`] = `
+"diff --git a/tests/rn-versions/0.77.1/android/app/build.gradle b/tests/rn-versions/0.77.1/android/app/build.gradle
+index 4d876c2..873d48b 100644
+--- a/tests/rn-versions/0.77.1/android/app/build.gradle
++++ b/tests/rn-versions/0.77.1/android/app/build.gradle
+@@ -77,9 +77,9 @@ android {
+     buildToolsVersion rootProject.ext.buildToolsVersion
+     compileSdk rootProject.ext.compileSdkVersion
+ 
+-    namespace "com.awesomeproject"
++    namespace "com.example.travelapp"
+     defaultConfig {
+-        applicationId "com.awesomeproject"
++        applicationId "com.example.travelapp"
+         minSdkVersion rootProject.ext.minSdkVersion
+         targetSdkVersion rootProject.ext.targetSdkVersion
+         versionCode 1
+diff --git a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt b/tests/rn-versions/0.77.1/android/app/src/main/java/com/example/travelapp/MainActivity.kt
+similarity index 89%
+rename from tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
+rename to tests/rn-versions/0.77.1/android/app/src/main/java/com/example/travelapp/MainActivity.kt
+index 390f6ba..d0b3e72 100644
+--- a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
++++ b/tests/rn-versions/0.77.1/android/app/src/main/java/com/example/travelapp/MainActivity.kt
+@@ -1,4 +1,4 @@
+-package com.awesomeproject
++package com.example.travelapp
+ 
+ import com.facebook.react.ReactActivity
+ import com.facebook.react.ReactActivityDelegate
+@@ -11,7 +11,7 @@ class MainActivity : ReactActivity() {
+    * Returns the name of the main component registered from JavaScript. This is used to schedule
+    * rendering of the component.
+    */
+-  override fun getMainComponentName(): String = "AwesomeProject"
++  override fun getMainComponentName(): String = "Travel App"
+ 
+   /**
+    * Returns the instance of the [ReactActivityDelegate]. We use [DefaultReactActivityDelegate]
+diff --git a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainApplication.kt b/tests/rn-versions/0.77.1/android/app/src/main/java/com/example/travelapp/MainApplication.kt
+similarity index 98%
+rename from tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainApplication.kt
+rename to tests/rn-versions/0.77.1/android/app/src/main/java/com/example/travelapp/MainApplication.kt
+index e61ba7e..b047b2f 100644
+--- a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainApplication.kt
++++ b/tests/rn-versions/0.77.1/android/app/src/main/java/com/example/travelapp/MainApplication.kt
+@@ -1,4 +1,4 @@
+-package com.awesomeproject
++package com.example.travelapp
+ 
+ import android.app.Application
+ import com.facebook.react.PackageList
+diff --git a/tests/rn-versions/0.77.1/android/app/src/main/res/values/strings.xml b/tests/rn-versions/0.77.1/android/app/src/main/res/values/strings.xml
+index cad480c..def42cc 100644
+--- a/tests/rn-versions/0.77.1/android/app/src/main/res/values/strings.xml
++++ b/tests/rn-versions/0.77.1/android/app/src/main/res/values/strings.xml
+@@ -1,3 +1,3 @@
+ <resources>
+-    <string name="app_name">AwesomeProject</string>
++    <string name="app_name">Travel App</string>
+ </resources>
+diff --git a/tests/rn-versions/0.77.1/android/settings.gradle b/tests/rn-versions/0.77.1/android/settings.gradle
+index e078236..10d4c83 100644
+--- a/tests/rn-versions/0.77.1/android/settings.gradle
++++ b/tests/rn-versions/0.77.1/android/settings.gradle
+@@ -1,6 +1,6 @@
+ pluginManagement { includeBuild("../node_modules/@react-native/gradle-plugin") }
+ plugins { id("com.facebook.react.settings") }
+ extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autolinkLibrariesFromCommand() }
+-rootProject.name = 'AwesomeProject'
++rootProject.name = 'Travel App'
+ include ':app'
+ includeBuild('../node_modules/@react-native/gradle-plugin')
+diff --git a/tests/rn-versions/0.77.1/app.json b/tests/rn-versions/0.77.1/app.json
+index 227dd75..5ced50c 100644
+--- a/tests/rn-versions/0.77.1/app.json
++++ b/tests/rn-versions/0.77.1/app.json
+@@ -1,4 +1,4 @@
+ {
+-  "name": "AwesomeProject",
+-  "displayName": "AwesomeProject"
++  "name": "Travel App",
++  "displayName": "Travel App"
+ }
+diff --git a/tests/rn-versions/0.77.1/ios/Podfile b/tests/rn-versions/0.77.1/ios/Podfile
+index 72fa3e7..311247c 100644
+--- a/tests/rn-versions/0.77.1/ios/Podfile
++++ b/tests/rn-versions/0.77.1/ios/Podfile
+@@ -14,7 +14,7 @@ if linkage != nil
+   use_frameworks! :linkage => linkage.to_sym
+ end
+ 
+-target 'AwesomeProject' do
++target 'TravelApp' do
+   config = use_native_modules!
+ 
+   use_react_native!(
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/project.pbxproj b/tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/project.pbxproj
+similarity index 80%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/project.pbxproj
+rename to tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/project.pbxproj
+index 77efb8f..c368bc9 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/project.pbxproj
++++ b/tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/project.pbxproj
+@@ -7,7 +7,7 @@
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
+-		0C80B921A6F3F58F76C31292 /* libPods-AwesomeProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-AwesomeProject.a */; };
++		0C80B921A6F3F58F76C31292 /* libPods-TravelApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-TravelApp.a */; };
+ 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+ 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
+ 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+@@ -15,15 +15,15 @@
+ /* End PBXBuildFile section */
+ 
+ /* Begin PBXFileReference section */
+-		13B07F961A680F5B00A75B9A /* AwesomeProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AwesomeProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AwesomeProject/Images.xcassets; sourceTree = "<group>"; };
+-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AwesomeProject/Info.plist; sourceTree = "<group>"; };
+-		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = AwesomeProject/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+-		3B4392A12AC88292D35C810B /* Pods-AwesomeProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject.debug.xcconfig"; path = "Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject.debug.xcconfig"; sourceTree = "<group>"; };
+-		5709B34CF0A7D63546082F79 /* Pods-AwesomeProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject.release.xcconfig"; path = "Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject.release.xcconfig"; sourceTree = "<group>"; };
+-		5DCACB8F33CDC322A6C60F78 /* libPods-AwesomeProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AwesomeProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+-		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = AwesomeProject/AppDelegate.swift; sourceTree = "<group>"; };
+-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AwesomeProject/LaunchScreen.storyboard; sourceTree = "<group>"; };
++		13B07F961A680F5B00A75B9A /* TravelApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TravelApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
++		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "TravelApp/Images.xcassets"; sourceTree = "<group>"; };
++		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "TravelApp/Info.plist"; sourceTree = "<group>"; };
++		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = TravelApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
++		3B4392A12AC88292D35C810B /* Pods-TravelApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelApp.debug.xcconfig"; path = "Target Support Files/Pods-TravelApp/Pods-TravelApp.debug.xcconfig"; sourceTree = "<group>"; };
++		5709B34CF0A7D63546082F79 /* Pods-TravelApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelApp.release.xcconfig"; path = "Target Support Files/Pods-TravelApp/Pods-TravelApp.release.xcconfig"; sourceTree = "<group>"; };
++		5DCACB8F33CDC322A6C60F78 /* libPods-TravelApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TravelApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
++		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = TravelApp/AppDelegate.swift; sourceTree = "<group>"; };
++		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "TravelApp/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+ 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+ /* End PBXFileReference section */
+ 
+@@ -32,14 +32,14 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				0C80B921A6F3F58F76C31292 /* libPods-AwesomeProject.a in Frameworks */,
++				0C80B921A6F3F58F76C31292 /* libPods-TravelApp.a in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+ /* End PBXFrameworksBuildPhase section */
+ 
+ /* Begin PBXGroup section */
+-		13B07FAE1A68108700A75B9A /* AwesomeProject */ = {
++		13B07FAE1A68108700A75B9A /* TravelApp */ = {
+ 			isa = PBXGroup;
+ 			children = (
+ 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+@@ -48,14 +48,14 @@
+ 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+ 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+ 			);
+-			name = AwesomeProject;
++			name = "TravelApp";
+ 			sourceTree = "<group>";
+ 		};
+ 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
+ 			isa = PBXGroup;
+ 			children = (
+ 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+-				5DCACB8F33CDC322A6C60F78 /* libPods-AwesomeProject.a */,
++				5DCACB8F33CDC322A6C60F78 /* libPods-TravelApp.a */,
+ 			);
+ 			name = Frameworks;
+ 			sourceTree = "<group>";
+@@ -70,7 +70,7 @@
+ 		83CBB9F61A601CBA00E9B192 = {
+ 			isa = PBXGroup;
+ 			children = (
+-				13B07FAE1A68108700A75B9A /* AwesomeProject */,
++				13B07FAE1A68108700A75B9A /* TravelApp */,
+ 				832341AE1AAA6A7D00B99B32 /* Libraries */,
+ 				83CBBA001A601CBA00E9B192 /* Products */,
+ 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+@@ -84,7 +84,7 @@
+ 		83CBBA001A601CBA00E9B192 /* Products */ = {
+ 			isa = PBXGroup;
+ 			children = (
+-				13B07F961A680F5B00A75B9A /* AwesomeProject.app */,
++				13B07F961A680F5B00A75B9A /* TravelApp.app */,
+ 			);
+ 			name = Products;
+ 			sourceTree = "<group>";
+@@ -92,8 +92,8 @@
+ 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
+ 			isa = PBXGroup;
+ 			children = (
+-				3B4392A12AC88292D35C810B /* Pods-AwesomeProject.debug.xcconfig */,
+-				5709B34CF0A7D63546082F79 /* Pods-AwesomeProject.release.xcconfig */,
++				3B4392A12AC88292D35C810B /* Pods-TravelApp.debug.xcconfig */,
++				5709B34CF0A7D63546082F79 /* Pods-TravelApp.release.xcconfig */,
+ 			);
+ 			path = Pods;
+ 			sourceTree = "<group>";
+@@ -101,9 +101,9 @@
+ /* End PBXGroup section */
+ 
+ /* Begin PBXNativeTarget section */
+-		13B07F861A680F5B00A75B9A /* AwesomeProject */ = {
++		13B07F861A680F5B00A75B9A /* TravelApp */ = {
+ 			isa = PBXNativeTarget;
+-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AwesomeProject" */;
++			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "TravelApp" */;
+ 			buildPhases = (
+ 				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+ 				13B07F871A680F5B00A75B9A /* Sources */,
+@@ -117,9 +117,9 @@
+ 			);
+ 			dependencies = (
+ 			);
+-			name = AwesomeProject;
+-			productName = AwesomeProject;
+-			productReference = 13B07F961A680F5B00A75B9A /* AwesomeProject.app */;
++			name = "TravelApp";
++			productName = "TravelApp";
++			productReference = 13B07F961A680F5B00A75B9A /* TravelApp.app */;
+ 			productType = "com.apple.product-type.application";
+ 		};
+ /* End PBXNativeTarget section */
+@@ -135,7 +135,7 @@
+ 					};
+ 				};
+ 			};
+-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "AwesomeProject" */;
++			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "TravelApp" */;
+ 			compatibilityVersion = "Xcode 12.0";
+ 			developmentRegion = en;
+ 			hasScannedForEncodings = 0;
+@@ -148,7 +148,7 @@
+ 			projectDirPath = "";
+ 			projectRoot = "";
+ 			targets = (
+-				13B07F861A680F5B00A75B9A /* AwesomeProject */,
++				13B07F861A680F5B00A75B9A /* TravelApp */,
+ 			);
+ 		};
+ /* End PBXProject section */
+@@ -189,15 +189,15 @@
+ 			files = (
+ 			);
+ 			inputFileListPaths = (
+-				"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks-\${CONFIGURATION}-input-files.xcfilelist",
++				"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks-\${CONFIGURATION}-input-files.xcfilelist",
+ 			);
+ 			name = "[CP] Embed Pods Frameworks";
+ 			outputFileListPaths = (
+-				"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks-\${CONFIGURATION}-output-files.xcfilelist",
++				"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks-\${CONFIGURATION}-output-files.xcfilelist",
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+-			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks.sh\\"\\n";
++			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks.sh\\"\\n";
+ 			showEnvVarsInLog = 0;
+ 		};
+ 		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+@@ -215,7 +215,7 @@
+ 			outputFileListPaths = (
+ 			);
+ 			outputPaths = (
+-				"$(DERIVED_FILE_DIR)/Pods-AwesomeProject-checkManifestLockResult.txt",
++				"$(DERIVED_FILE_DIR)/Pods-TravelApp-checkManifestLockResult.txt",
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+@@ -228,15 +228,15 @@
+ 			files = (
+ 			);
+ 			inputFileListPaths = (
+-				"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources-\${CONFIGURATION}-input-files.xcfilelist",
++				"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources-\${CONFIGURATION}-input-files.xcfilelist",
+ 			);
+ 			name = "[CP] Copy Pods Resources";
+ 			outputFileListPaths = (
+-				"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources-\${CONFIGURATION}-output-files.xcfilelist",
++				"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources-\${CONFIGURATION}-output-files.xcfilelist",
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+-			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources.sh\\"\\n";
++			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources.sh\\"\\n";
+ 			showEnvVarsInLog = 0;
+ 		};
+ /* End PBXShellScriptBuildPhase section */
+@@ -255,13 +255,14 @@
+ /* Begin XCBuildConfiguration section */
+ 		13B07F941A680F5B00A75B9A /* Debug */ = {
+ 			isa = XCBuildConfiguration;
+-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-AwesomeProject.debug.xcconfig */;
++			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-TravelApp.debug.xcconfig */;
+ 			buildSettings = {
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+ 				CLANG_ENABLE_MODULES = YES;
+ 				CURRENT_PROJECT_VERSION = 1;
+ 				ENABLE_BITCODE = NO;
+-				INFOPLIST_FILE = AwesomeProject/Info.plist;
++				INFOPLIST_FILE = "TravelApp/Info.plist";
++             INFOPLIST_KEY_CFBundleDisplayName = "Travel App";
+ 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+@@ -273,8 +274,8 @@
+ 					"-ObjC",
+ 					"-lc++",
+ 				);
+-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+-				PRODUCT_NAME = AwesomeProject;
++				PRODUCT_BUNDLE_IDENTIFIER = "com.example.travelapp";
++				PRODUCT_NAME = "TravelApp";
+ 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+ 				SWIFT_VERSION = 5.0;
+ 				VERSIONING_SYSTEM = "apple-generic";
+@@ -283,12 +284,13 @@
+ 		};
+ 		13B07F951A680F5B00A75B9A /* Release */ = {
+ 			isa = XCBuildConfiguration;
+-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-AwesomeProject.release.xcconfig */;
++			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-TravelApp.release.xcconfig */;
+ 			buildSettings = {
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+ 				CLANG_ENABLE_MODULES = YES;
+ 				CURRENT_PROJECT_VERSION = 1;
+-				INFOPLIST_FILE = AwesomeProject/Info.plist;
++				INFOPLIST_FILE = "TravelApp/Info.plist";
++             INFOPLIST_KEY_CFBundleDisplayName = "Travel App";
+ 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+@@ -300,8 +302,8 @@
+ 					"-ObjC",
+ 					"-lc++",
+ 				);
+-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+-				PRODUCT_NAME = AwesomeProject;
++				PRODUCT_BUNDLE_IDENTIFIER = "com.example.travelapp";
++				PRODUCT_NAME = "TravelApp";
+ 				SWIFT_VERSION = 5.0;
+ 				VERSIONING_SYSTEM = "apple-generic";
+ 			};
+@@ -462,7 +464,7 @@
+ /* End XCBuildConfiguration section */
+ 
+ /* Begin XCConfigurationList section */
+-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AwesomeProject" */ = {
++		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "TravelApp" */ = {
+ 			isa = XCConfigurationList;
+ 			buildConfigurations = (
+ 				13B07F941A680F5B00A75B9A /* Debug */,
+@@ -471,7 +473,7 @@
+ 			defaultConfigurationIsVisible = 0;
+ 			defaultConfigurationName = Release;
+ 		};
+-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "AwesomeProject" */ = {
++		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "TravelApp" */ = {
+ 			isa = XCConfigurationList;
+ 			buildConfigurations = (
+ 				83CBBA201A601CBA00E9B192 /* Debug */,
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/xcshareddata/xcschemes/AwesomeProject.xcscheme b/tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/xcshareddata/xcschemes/TravelApp.xcscheme
+similarity index 79%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/xcshareddata/xcschemes/AwesomeProject.xcscheme
+rename to tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/xcshareddata/xcschemes/TravelApp.xcscheme
+index 20f13d1..c956876 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/xcshareddata/xcschemes/AwesomeProject.xcscheme
++++ b/tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/xcshareddata/xcschemes/TravelApp.xcscheme
+@@ -15,9 +15,9 @@
+             <BuildableReference
+                BuildableIdentifier = "primary"
+                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+-               BuildableName = "AwesomeProject.app"
+-               BlueprintName = "AwesomeProject"
+-               ReferencedContainer = "container:AwesomeProject.xcodeproj">
++               BuildableName = "TravelApp.app"
++               BlueprintName = "TravelApp"
++               ReferencedContainer = "container:TravelApp.xcodeproj">
+             </BuildableReference>
+          </BuildActionEntry>
+       </BuildActionEntries>
+@@ -33,9 +33,9 @@
+             <BuildableReference
+                BuildableIdentifier = "primary"
+                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
+-               BuildableName = "AwesomeProjectTests.xctest"
+-               BlueprintName = "AwesomeProjectTests"
+-               ReferencedContainer = "container:AwesomeProject.xcodeproj">
++               BuildableName = "TravelAppTests.xctest"
++               BlueprintName = "TravelAppTests"
++               ReferencedContainer = "container:TravelApp.xcodeproj">
+             </BuildableReference>
+          </TestableReference>
+       </Testables>
+@@ -55,9 +55,9 @@
+          <BuildableReference
+             BuildableIdentifier = "primary"
+             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+-            BuildableName = "AwesomeProject.app"
+-            BlueprintName = "AwesomeProject"
+-            ReferencedContainer = "container:AwesomeProject.xcodeproj">
++            BuildableName = "TravelApp.app"
++            BlueprintName = "TravelApp"
++            ReferencedContainer = "container:TravelApp.xcodeproj">
+          </BuildableReference>
+       </BuildableProductRunnable>
+    </LaunchAction>
+@@ -72,9 +72,9 @@
+          <BuildableReference
+             BuildableIdentifier = "primary"
+             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+-            BuildableName = "AwesomeProject.app"
+-            BlueprintName = "AwesomeProject"
+-            ReferencedContainer = "container:AwesomeProject.xcodeproj">
++            BuildableName = "TravelApp.app"
++            BlueprintName = "TravelApp"
++            ReferencedContainer = "container:TravelApp.xcodeproj">
+          </BuildableReference>
+       </BuildableProductRunnable>
+    </ProfileAction>
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcworkspace/contents.xcworkspacedata b/tests/rn-versions/0.77.1/ios/TravelApp.xcworkspace/contents.xcworkspacedata
+similarity index 78%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject.xcworkspace/contents.xcworkspacedata
+rename to tests/rn-versions/0.77.1/ios/TravelApp.xcworkspace/contents.xcworkspacedata
+index 575b862..f5b74b9 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcworkspace/contents.xcworkspacedata
++++ b/tests/rn-versions/0.77.1/ios/TravelApp.xcworkspace/contents.xcworkspacedata
+@@ -2,7 +2,7 @@
+ <Workspace
+    version = "1.0">
+    <FileRef
+-      location = "group:AwesomeProject.xcodeproj">
++      location = "group:TravelApp.xcodeproj">
+    </FileRef>
+    <FileRef
+       location = "group:Pods/Pods.xcodeproj">
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/AppDelegate.swift b/tests/rn-versions/0.77.1/ios/TravelApp/AppDelegate.swift
+similarity index 95%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/AppDelegate.swift
+rename to tests/rn-versions/0.77.1/ios/TravelApp/AppDelegate.swift
+index 67070ab..a0d39f0 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject/AppDelegate.swift
++++ b/tests/rn-versions/0.77.1/ios/TravelApp/AppDelegate.swift
+@@ -6,7 +6,7 @@ import ReactAppDependencyProvider
+ @main
+ class AppDelegate: RCTAppDelegate {
+   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+-    self.moduleName = "AwesomeProject"
++    self.moduleName = "Travel App"
+     self.dependencyProvider = RCTAppDependencyProvider()
+ 
+     // You can add your custom initial props in the dictionary below.
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/Images.xcassets/AppIcon.appiconset/Contents.json b/tests/rn-versions/0.77.1/ios/TravelApp/Images.xcassets/AppIcon.appiconset/Contents.json
+similarity index 100%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/Images.xcassets/AppIcon.appiconset/Contents.json
+rename to tests/rn-versions/0.77.1/ios/TravelApp/Images.xcassets/AppIcon.appiconset/Contents.json
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/Images.xcassets/Contents.json b/tests/rn-versions/0.77.1/ios/TravelApp/Images.xcassets/Contents.json
+similarity index 100%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/Images.xcassets/Contents.json
+rename to tests/rn-versions/0.77.1/ios/TravelApp/Images.xcassets/Contents.json
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/Info.plist b/tests/rn-versions/0.77.1/ios/TravelApp/Info.plist
+similarity index 96%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/Info.plist
+rename to tests/rn-versions/0.77.1/ios/TravelApp/Info.plist
+index d636c9e..fdceb7d 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject/Info.plist
++++ b/tests/rn-versions/0.77.1/ios/TravelApp/Info.plist
+@@ -5,7 +5,7 @@
+ 	<key>CFBundleDevelopmentRegion</key>
+ 	<string>en</string>
+ 	<key>CFBundleDisplayName</key>
+-	<string>AwesomeProject</string>
++	<string>Travel App</string>
+ 	<key>CFBundleExecutable</key>
+ 	<string>$(EXECUTABLE_NAME)</string>
+ 	<key>CFBundleIdentifier</key>
+@@ -33,7 +33,7 @@
+ 		<true/>
+ 	</dict>
+ 	<key>NSLocationWhenInUseUsageDescription</key>
+-	<string></string>
++	<string/>
+ 	<key>UILaunchStoryboardName</key>
+ 	<string>LaunchScreen</string>
+ 	<key>UIRequiredDeviceCapabilities</key>
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/LaunchScreen.storyboard b/tests/rn-versions/0.77.1/ios/TravelApp/LaunchScreen.storyboard
+similarity index 94%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/LaunchScreen.storyboard
+rename to tests/rn-versions/0.77.1/ios/TravelApp/LaunchScreen.storyboard
+index 1ba1a64..a5e5fb9 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject/LaunchScreen.storyboard
++++ b/tests/rn-versions/0.77.1/ios/TravelApp/LaunchScreen.storyboard
+@@ -16,7 +16,7 @@
+                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                         <subviews>
+-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AwesomeProject" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="GJd-Yh-RWb">
++                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Travel App" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="GJd-Yh-RWb">
+                                 <rect key="frame" x="0.0" y="202" width="375" height="43"/>
+                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
+                                 <nil key="highlightedColor"/>
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/PrivacyInfo.xcprivacy b/tests/rn-versions/0.77.1/ios/TravelApp/PrivacyInfo.xcprivacy
+similarity index 100%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/PrivacyInfo.xcprivacy
+rename to tests/rn-versions/0.77.1/ios/TravelApp/PrivacyInfo.xcprivacy
+diff --git a/tests/rn-versions/0.77.1/package.json b/tests/rn-versions/0.77.1/package.json
+index 9531f71..f9194e9 100644
+--- a/tests/rn-versions/0.77.1/package.json
++++ b/tests/rn-versions/0.77.1/package.json
+@@ -1,5 +1,5 @@
+ {
+-  "name": "AwesomeProject",
++  "name": "travelapp",
+   "version": "0.0.1",
+   "private": true,
+   "scripts": {
+"
+`;
 
-exports[`rn-versions/0.77.1 Change app name and bundle id for ios only 1`] = `""`;
+exports[`rn-versions/0.77.1 Change app name and bundle id for ios only 1`] = `
+"diff --git a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt b/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
+index 390f6ba..23f425a 100644
+--- a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
++++ b/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
+@@ -11,7 +11,7 @@ class MainActivity : ReactActivity() {
+    * Returns the name of the main component registered from JavaScript. This is used to schedule
+    * rendering of the component.
+    */
+-  override fun getMainComponentName(): String = "AwesomeProject"
++  override fun getMainComponentName(): String = "Travel App"
+ 
+   /**
+    * Returns the instance of the [ReactActivityDelegate]. We use [DefaultReactActivityDelegate]
+diff --git a/tests/rn-versions/0.77.1/android/app/src/main/res/values/strings.xml b/tests/rn-versions/0.77.1/android/app/src/main/res/values/strings.xml
+index cad480c..def42cc 100644
+--- a/tests/rn-versions/0.77.1/android/app/src/main/res/values/strings.xml
++++ b/tests/rn-versions/0.77.1/android/app/src/main/res/values/strings.xml
+@@ -1,3 +1,3 @@
+ <resources>
+-    <string name="app_name">AwesomeProject</string>
++    <string name="app_name">Travel App</string>
+ </resources>
+diff --git a/tests/rn-versions/0.77.1/android/settings.gradle b/tests/rn-versions/0.77.1/android/settings.gradle
+index e078236..10d4c83 100644
+--- a/tests/rn-versions/0.77.1/android/settings.gradle
++++ b/tests/rn-versions/0.77.1/android/settings.gradle
+@@ -1,6 +1,6 @@
+ pluginManagement { includeBuild("../node_modules/@react-native/gradle-plugin") }
+ plugins { id("com.facebook.react.settings") }
+ extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autolinkLibrariesFromCommand() }
+-rootProject.name = 'AwesomeProject'
++rootProject.name = 'Travel App'
+ include ':app'
+ includeBuild('../node_modules/@react-native/gradle-plugin')
+diff --git a/tests/rn-versions/0.77.1/app.json b/tests/rn-versions/0.77.1/app.json
+index 227dd75..5ced50c 100644
+--- a/tests/rn-versions/0.77.1/app.json
++++ b/tests/rn-versions/0.77.1/app.json
+@@ -1,4 +1,4 @@
+ {
+-  "name": "AwesomeProject",
+-  "displayName": "AwesomeProject"
++  "name": "Travel App",
++  "displayName": "Travel App"
+ }
+diff --git a/tests/rn-versions/0.77.1/ios/Podfile b/tests/rn-versions/0.77.1/ios/Podfile
+index 72fa3e7..311247c 100644
+--- a/tests/rn-versions/0.77.1/ios/Podfile
++++ b/tests/rn-versions/0.77.1/ios/Podfile
+@@ -14,7 +14,7 @@ if linkage != nil
+   use_frameworks! :linkage => linkage.to_sym
+ end
+ 
+-target 'AwesomeProject' do
++target 'TravelApp' do
+   config = use_native_modules!
+ 
+   use_react_native!(
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/project.pbxproj b/tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/project.pbxproj
+similarity index 80%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/project.pbxproj
+rename to tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/project.pbxproj
+index 77efb8f..c368bc9 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/project.pbxproj
++++ b/tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/project.pbxproj
+@@ -7,7 +7,7 @@
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
+-		0C80B921A6F3F58F76C31292 /* libPods-AwesomeProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-AwesomeProject.a */; };
++		0C80B921A6F3F58F76C31292 /* libPods-TravelApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-TravelApp.a */; };
+ 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+ 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
+ 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+@@ -15,15 +15,15 @@
+ /* End PBXBuildFile section */
+ 
+ /* Begin PBXFileReference section */
+-		13B07F961A680F5B00A75B9A /* AwesomeProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AwesomeProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AwesomeProject/Images.xcassets; sourceTree = "<group>"; };
+-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AwesomeProject/Info.plist; sourceTree = "<group>"; };
+-		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = AwesomeProject/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+-		3B4392A12AC88292D35C810B /* Pods-AwesomeProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject.debug.xcconfig"; path = "Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject.debug.xcconfig"; sourceTree = "<group>"; };
+-		5709B34CF0A7D63546082F79 /* Pods-AwesomeProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject.release.xcconfig"; path = "Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject.release.xcconfig"; sourceTree = "<group>"; };
+-		5DCACB8F33CDC322A6C60F78 /* libPods-AwesomeProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AwesomeProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+-		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = AwesomeProject/AppDelegate.swift; sourceTree = "<group>"; };
+-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AwesomeProject/LaunchScreen.storyboard; sourceTree = "<group>"; };
++		13B07F961A680F5B00A75B9A /* TravelApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TravelApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
++		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "TravelApp/Images.xcassets"; sourceTree = "<group>"; };
++		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "TravelApp/Info.plist"; sourceTree = "<group>"; };
++		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = TravelApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
++		3B4392A12AC88292D35C810B /* Pods-TravelApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelApp.debug.xcconfig"; path = "Target Support Files/Pods-TravelApp/Pods-TravelApp.debug.xcconfig"; sourceTree = "<group>"; };
++		5709B34CF0A7D63546082F79 /* Pods-TravelApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelApp.release.xcconfig"; path = "Target Support Files/Pods-TravelApp/Pods-TravelApp.release.xcconfig"; sourceTree = "<group>"; };
++		5DCACB8F33CDC322A6C60F78 /* libPods-TravelApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TravelApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
++		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = TravelApp/AppDelegate.swift; sourceTree = "<group>"; };
++		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "TravelApp/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+ 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+ /* End PBXFileReference section */
+ 
+@@ -32,14 +32,14 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				0C80B921A6F3F58F76C31292 /* libPods-AwesomeProject.a in Frameworks */,
++				0C80B921A6F3F58F76C31292 /* libPods-TravelApp.a in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+ /* End PBXFrameworksBuildPhase section */
+ 
+ /* Begin PBXGroup section */
+-		13B07FAE1A68108700A75B9A /* AwesomeProject */ = {
++		13B07FAE1A68108700A75B9A /* TravelApp */ = {
+ 			isa = PBXGroup;
+ 			children = (
+ 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+@@ -48,14 +48,14 @@
+ 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+ 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+ 			);
+-			name = AwesomeProject;
++			name = "TravelApp";
+ 			sourceTree = "<group>";
+ 		};
+ 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
+ 			isa = PBXGroup;
+ 			children = (
+ 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+-				5DCACB8F33CDC322A6C60F78 /* libPods-AwesomeProject.a */,
++				5DCACB8F33CDC322A6C60F78 /* libPods-TravelApp.a */,
+ 			);
+ 			name = Frameworks;
+ 			sourceTree = "<group>";
+@@ -70,7 +70,7 @@
+ 		83CBB9F61A601CBA00E9B192 = {
+ 			isa = PBXGroup;
+ 			children = (
+-				13B07FAE1A68108700A75B9A /* AwesomeProject */,
++				13B07FAE1A68108700A75B9A /* TravelApp */,
+ 				832341AE1AAA6A7D00B99B32 /* Libraries */,
+ 				83CBBA001A601CBA00E9B192 /* Products */,
+ 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+@@ -84,7 +84,7 @@
+ 		83CBBA001A601CBA00E9B192 /* Products */ = {
+ 			isa = PBXGroup;
+ 			children = (
+-				13B07F961A680F5B00A75B9A /* AwesomeProject.app */,
++				13B07F961A680F5B00A75B9A /* TravelApp.app */,
+ 			);
+ 			name = Products;
+ 			sourceTree = "<group>";
+@@ -92,8 +92,8 @@
+ 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
+ 			isa = PBXGroup;
+ 			children = (
+-				3B4392A12AC88292D35C810B /* Pods-AwesomeProject.debug.xcconfig */,
+-				5709B34CF0A7D63546082F79 /* Pods-AwesomeProject.release.xcconfig */,
++				3B4392A12AC88292D35C810B /* Pods-TravelApp.debug.xcconfig */,
++				5709B34CF0A7D63546082F79 /* Pods-TravelApp.release.xcconfig */,
+ 			);
+ 			path = Pods;
+ 			sourceTree = "<group>";
+@@ -101,9 +101,9 @@
+ /* End PBXGroup section */
+ 
+ /* Begin PBXNativeTarget section */
+-		13B07F861A680F5B00A75B9A /* AwesomeProject */ = {
++		13B07F861A680F5B00A75B9A /* TravelApp */ = {
+ 			isa = PBXNativeTarget;
+-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AwesomeProject" */;
++			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "TravelApp" */;
+ 			buildPhases = (
+ 				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+ 				13B07F871A680F5B00A75B9A /* Sources */,
+@@ -117,9 +117,9 @@
+ 			);
+ 			dependencies = (
+ 			);
+-			name = AwesomeProject;
+-			productName = AwesomeProject;
+-			productReference = 13B07F961A680F5B00A75B9A /* AwesomeProject.app */;
++			name = "TravelApp";
++			productName = "TravelApp";
++			productReference = 13B07F961A680F5B00A75B9A /* TravelApp.app */;
+ 			productType = "com.apple.product-type.application";
+ 		};
+ /* End PBXNativeTarget section */
+@@ -135,7 +135,7 @@
+ 					};
+ 				};
+ 			};
+-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "AwesomeProject" */;
++			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "TravelApp" */;
+ 			compatibilityVersion = "Xcode 12.0";
+ 			developmentRegion = en;
+ 			hasScannedForEncodings = 0;
+@@ -148,7 +148,7 @@
+ 			projectDirPath = "";
+ 			projectRoot = "";
+ 			targets = (
+-				13B07F861A680F5B00A75B9A /* AwesomeProject */,
++				13B07F861A680F5B00A75B9A /* TravelApp */,
+ 			);
+ 		};
+ /* End PBXProject section */
+@@ -189,15 +189,15 @@
+ 			files = (
+ 			);
+ 			inputFileListPaths = (
+-				"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks-\${CONFIGURATION}-input-files.xcfilelist",
++				"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks-\${CONFIGURATION}-input-files.xcfilelist",
+ 			);
+ 			name = "[CP] Embed Pods Frameworks";
+ 			outputFileListPaths = (
+-				"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks-\${CONFIGURATION}-output-files.xcfilelist",
++				"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks-\${CONFIGURATION}-output-files.xcfilelist",
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+-			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks.sh\\"\\n";
++			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks.sh\\"\\n";
+ 			showEnvVarsInLog = 0;
+ 		};
+ 		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+@@ -215,7 +215,7 @@
+ 			outputFileListPaths = (
+ 			);
+ 			outputPaths = (
+-				"$(DERIVED_FILE_DIR)/Pods-AwesomeProject-checkManifestLockResult.txt",
++				"$(DERIVED_FILE_DIR)/Pods-TravelApp-checkManifestLockResult.txt",
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+@@ -228,15 +228,15 @@
+ 			files = (
+ 			);
+ 			inputFileListPaths = (
+-				"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources-\${CONFIGURATION}-input-files.xcfilelist",
++				"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources-\${CONFIGURATION}-input-files.xcfilelist",
+ 			);
+ 			name = "[CP] Copy Pods Resources";
+ 			outputFileListPaths = (
+-				"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources-\${CONFIGURATION}-output-files.xcfilelist",
++				"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources-\${CONFIGURATION}-output-files.xcfilelist",
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+-			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources.sh\\"\\n";
++			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources.sh\\"\\n";
+ 			showEnvVarsInLog = 0;
+ 		};
+ /* End PBXShellScriptBuildPhase section */
+@@ -255,13 +255,14 @@
+ /* Begin XCBuildConfiguration section */
+ 		13B07F941A680F5B00A75B9A /* Debug */ = {
+ 			isa = XCBuildConfiguration;
+-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-AwesomeProject.debug.xcconfig */;
++			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-TravelApp.debug.xcconfig */;
+ 			buildSettings = {
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+ 				CLANG_ENABLE_MODULES = YES;
+ 				CURRENT_PROJECT_VERSION = 1;
+ 				ENABLE_BITCODE = NO;
+-				INFOPLIST_FILE = AwesomeProject/Info.plist;
++				INFOPLIST_FILE = "TravelApp/Info.plist";
++             INFOPLIST_KEY_CFBundleDisplayName = "Travel App";
+ 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+@@ -273,8 +274,8 @@
+ 					"-ObjC",
+ 					"-lc++",
+ 				);
+-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+-				PRODUCT_NAME = AwesomeProject;
++				PRODUCT_BUNDLE_IDENTIFIER = "com.example.travelapp";
++				PRODUCT_NAME = "TravelApp";
+ 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+ 				SWIFT_VERSION = 5.0;
+ 				VERSIONING_SYSTEM = "apple-generic";
+@@ -283,12 +284,13 @@
+ 		};
+ 		13B07F951A680F5B00A75B9A /* Release */ = {
+ 			isa = XCBuildConfiguration;
+-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-AwesomeProject.release.xcconfig */;
++			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-TravelApp.release.xcconfig */;
+ 			buildSettings = {
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+ 				CLANG_ENABLE_MODULES = YES;
+ 				CURRENT_PROJECT_VERSION = 1;
+-				INFOPLIST_FILE = AwesomeProject/Info.plist;
++				INFOPLIST_FILE = "TravelApp/Info.plist";
++             INFOPLIST_KEY_CFBundleDisplayName = "Travel App";
+ 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+@@ -300,8 +302,8 @@
+ 					"-ObjC",
+ 					"-lc++",
+ 				);
+-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+-				PRODUCT_NAME = AwesomeProject;
++				PRODUCT_BUNDLE_IDENTIFIER = "com.example.travelapp";
++				PRODUCT_NAME = "TravelApp";
+ 				SWIFT_VERSION = 5.0;
+ 				VERSIONING_SYSTEM = "apple-generic";
+ 			};
+@@ -462,7 +464,7 @@
+ /* End XCBuildConfiguration section */
+ 
+ /* Begin XCConfigurationList section */
+-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AwesomeProject" */ = {
++		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "TravelApp" */ = {
+ 			isa = XCConfigurationList;
+ 			buildConfigurations = (
+ 				13B07F941A680F5B00A75B9A /* Debug */,
+@@ -471,7 +473,7 @@
+ 			defaultConfigurationIsVisible = 0;
+ 			defaultConfigurationName = Release;
+ 		};
+-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "AwesomeProject" */ = {
++		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "TravelApp" */ = {
+ 			isa = XCConfigurationList;
+ 			buildConfigurations = (
+ 				83CBBA201A601CBA00E9B192 /* Debug */,
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/xcshareddata/xcschemes/AwesomeProject.xcscheme b/tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/xcshareddata/xcschemes/TravelApp.xcscheme
+similarity index 79%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/xcshareddata/xcschemes/AwesomeProject.xcscheme
+rename to tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/xcshareddata/xcschemes/TravelApp.xcscheme
+index 20f13d1..c956876 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcodeproj/xcshareddata/xcschemes/AwesomeProject.xcscheme
++++ b/tests/rn-versions/0.77.1/ios/TravelApp.xcodeproj/xcshareddata/xcschemes/TravelApp.xcscheme
+@@ -15,9 +15,9 @@
+             <BuildableReference
+                BuildableIdentifier = "primary"
+                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+-               BuildableName = "AwesomeProject.app"
+-               BlueprintName = "AwesomeProject"
+-               ReferencedContainer = "container:AwesomeProject.xcodeproj">
++               BuildableName = "TravelApp.app"
++               BlueprintName = "TravelApp"
++               ReferencedContainer = "container:TravelApp.xcodeproj">
+             </BuildableReference>
+          </BuildActionEntry>
+       </BuildActionEntries>
+@@ -33,9 +33,9 @@
+             <BuildableReference
+                BuildableIdentifier = "primary"
+                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
+-               BuildableName = "AwesomeProjectTests.xctest"
+-               BlueprintName = "AwesomeProjectTests"
+-               ReferencedContainer = "container:AwesomeProject.xcodeproj">
++               BuildableName = "TravelAppTests.xctest"
++               BlueprintName = "TravelAppTests"
++               ReferencedContainer = "container:TravelApp.xcodeproj">
+             </BuildableReference>
+          </TestableReference>
+       </Testables>
+@@ -55,9 +55,9 @@
+          <BuildableReference
+             BuildableIdentifier = "primary"
+             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+-            BuildableName = "AwesomeProject.app"
+-            BlueprintName = "AwesomeProject"
+-            ReferencedContainer = "container:AwesomeProject.xcodeproj">
++            BuildableName = "TravelApp.app"
++            BlueprintName = "TravelApp"
++            ReferencedContainer = "container:TravelApp.xcodeproj">
+          </BuildableReference>
+       </BuildableProductRunnable>
+    </LaunchAction>
+@@ -72,9 +72,9 @@
+          <BuildableReference
+             BuildableIdentifier = "primary"
+             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+-            BuildableName = "AwesomeProject.app"
+-            BlueprintName = "AwesomeProject"
+-            ReferencedContainer = "container:AwesomeProject.xcodeproj">
++            BuildableName = "TravelApp.app"
++            BlueprintName = "TravelApp"
++            ReferencedContainer = "container:TravelApp.xcodeproj">
+          </BuildableReference>
+       </BuildableProductRunnable>
+    </ProfileAction>
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcworkspace/contents.xcworkspacedata b/tests/rn-versions/0.77.1/ios/TravelApp.xcworkspace/contents.xcworkspacedata
+similarity index 78%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject.xcworkspace/contents.xcworkspacedata
+rename to tests/rn-versions/0.77.1/ios/TravelApp.xcworkspace/contents.xcworkspacedata
+index 575b862..f5b74b9 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject.xcworkspace/contents.xcworkspacedata
++++ b/tests/rn-versions/0.77.1/ios/TravelApp.xcworkspace/contents.xcworkspacedata
+@@ -2,7 +2,7 @@
+ <Workspace
+    version = "1.0">
+    <FileRef
+-      location = "group:AwesomeProject.xcodeproj">
++      location = "group:TravelApp.xcodeproj">
+    </FileRef>
+    <FileRef
+       location = "group:Pods/Pods.xcodeproj">
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/AppDelegate.swift b/tests/rn-versions/0.77.1/ios/TravelApp/AppDelegate.swift
+similarity index 95%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/AppDelegate.swift
+rename to tests/rn-versions/0.77.1/ios/TravelApp/AppDelegate.swift
+index 67070ab..a0d39f0 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject/AppDelegate.swift
++++ b/tests/rn-versions/0.77.1/ios/TravelApp/AppDelegate.swift
+@@ -6,7 +6,7 @@ import ReactAppDependencyProvider
+ @main
+ class AppDelegate: RCTAppDelegate {
+   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+-    self.moduleName = "AwesomeProject"
++    self.moduleName = "Travel App"
+     self.dependencyProvider = RCTAppDependencyProvider()
+ 
+     // You can add your custom initial props in the dictionary below.
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/Images.xcassets/AppIcon.appiconset/Contents.json b/tests/rn-versions/0.77.1/ios/TravelApp/Images.xcassets/AppIcon.appiconset/Contents.json
+similarity index 100%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/Images.xcassets/AppIcon.appiconset/Contents.json
+rename to tests/rn-versions/0.77.1/ios/TravelApp/Images.xcassets/AppIcon.appiconset/Contents.json
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/Images.xcassets/Contents.json b/tests/rn-versions/0.77.1/ios/TravelApp/Images.xcassets/Contents.json
+similarity index 100%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/Images.xcassets/Contents.json
+rename to tests/rn-versions/0.77.1/ios/TravelApp/Images.xcassets/Contents.json
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/Info.plist b/tests/rn-versions/0.77.1/ios/TravelApp/Info.plist
+similarity index 96%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/Info.plist
+rename to tests/rn-versions/0.77.1/ios/TravelApp/Info.plist
+index d636c9e..fdceb7d 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject/Info.plist
++++ b/tests/rn-versions/0.77.1/ios/TravelApp/Info.plist
+@@ -5,7 +5,7 @@
+ 	<key>CFBundleDevelopmentRegion</key>
+ 	<string>en</string>
+ 	<key>CFBundleDisplayName</key>
+-	<string>AwesomeProject</string>
++	<string>Travel App</string>
+ 	<key>CFBundleExecutable</key>
+ 	<string>$(EXECUTABLE_NAME)</string>
+ 	<key>CFBundleIdentifier</key>
+@@ -33,7 +33,7 @@
+ 		<true/>
+ 	</dict>
+ 	<key>NSLocationWhenInUseUsageDescription</key>
+-	<string></string>
++	<string/>
+ 	<key>UILaunchStoryboardName</key>
+ 	<string>LaunchScreen</string>
+ 	<key>UIRequiredDeviceCapabilities</key>
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/LaunchScreen.storyboard b/tests/rn-versions/0.77.1/ios/TravelApp/LaunchScreen.storyboard
+similarity index 94%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/LaunchScreen.storyboard
+rename to tests/rn-versions/0.77.1/ios/TravelApp/LaunchScreen.storyboard
+index 1ba1a64..a5e5fb9 100644
+--- a/tests/rn-versions/0.77.1/ios/AwesomeProject/LaunchScreen.storyboard
++++ b/tests/rn-versions/0.77.1/ios/TravelApp/LaunchScreen.storyboard
+@@ -16,7 +16,7 @@
+                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                         <subviews>
+-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AwesomeProject" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="GJd-Yh-RWb">
++                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Travel App" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="GJd-Yh-RWb">
+                                 <rect key="frame" x="0.0" y="202" width="375" height="43"/>
+                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
+                                 <nil key="highlightedColor"/>
+diff --git a/tests/rn-versions/0.77.1/ios/AwesomeProject/PrivacyInfo.xcprivacy b/tests/rn-versions/0.77.1/ios/TravelApp/PrivacyInfo.xcprivacy
+similarity index 100%
+rename from tests/rn-versions/0.77.1/ios/AwesomeProject/PrivacyInfo.xcprivacy
+rename to tests/rn-versions/0.77.1/ios/TravelApp/PrivacyInfo.xcprivacy
+diff --git a/tests/rn-versions/0.77.1/package.json b/tests/rn-versions/0.77.1/package.json
+index 9531f71..f9194e9 100644
+--- a/tests/rn-versions/0.77.1/package.json
++++ b/tests/rn-versions/0.77.1/package.json
+@@ -1,5 +1,5 @@
+ {
+-  "name": "AwesomeProject",
++  "name": "travelapp",
+   "version": "0.0.1",
+   "private": true,
+   "scripts": {
+"
+`;
