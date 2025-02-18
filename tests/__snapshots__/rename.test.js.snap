@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`rn-versions/0.77.1 Change app name 1`] = `
-"diff --git a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt b/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
+diff --git a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt b/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
 index 390f6ba..23f425a 100644
 --- a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
 +++ b/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
@@ -220,8 +220,8 @@ index 77efb8f..5ac7d31 100644
  			);
  			runOnlyForDeploymentPostprocessing = 0;
  			shellPath = /bin/sh;
--			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks.sh\\"\\n";
-+			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks.sh\\"\\n";
+-			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks.sh/"/n";
++			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks.sh/"/n";
  			showEnvVarsInLog = 0;
  		};
  		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
@@ -248,8 +248,8 @@ index 77efb8f..5ac7d31 100644
  			);
  			runOnlyForDeploymentPostprocessing = 0;
  			shellPath = /bin/sh;
--			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources.sh\\"\\n";
-+			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources.sh\\"\\n";
+-			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources.sh/"/n";
++			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources.sh/"/n";
  			showEnvVarsInLog = 0;
  		};
  /* End PBXShellScriptBuildPhase section */
@@ -477,11 +477,11 @@ index 9531f71..f9194e9 100644
    "version": "0.0.1",
    "private": true,
    "scripts": {
-"
+
 `;
 
 exports[`rn-versions/0.77.1 Change app name and bundle id for android only 1`] = `
-"diff --git a/tests/rn-versions/0.77.1/android/app/build.gradle b/tests/rn-versions/0.77.1/android/app/build.gradle
+diff --git a/tests/rn-versions/0.77.1/android/app/build.gradle b/tests/rn-versions/0.77.1/android/app/build.gradle
 index 4d876c2..873d48b 100644
 --- a/tests/rn-versions/0.77.1/android/app/build.gradle
 +++ b/tests/rn-versions/0.77.1/android/app/build.gradle
@@ -738,8 +738,8 @@ index 77efb8f..5ac7d31 100644
  			);
  			runOnlyForDeploymentPostprocessing = 0;
  			shellPath = /bin/sh;
--			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks.sh\\"\\n";
-+			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks.sh\\"\\n";
+-			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks.sh/"/n";
++			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks.sh/"/n";
  			showEnvVarsInLog = 0;
  		};
  		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
@@ -766,8 +766,8 @@ index 77efb8f..5ac7d31 100644
  			);
  			runOnlyForDeploymentPostprocessing = 0;
  			shellPath = /bin/sh;
--			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources.sh\\"\\n";
-+			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources.sh\\"\\n";
+-			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources.sh/"/n";
++			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources.sh/"/n";
  			showEnvVarsInLog = 0;
  		};
  /* End PBXShellScriptBuildPhase section */
@@ -995,11 +995,11 @@ index 9531f71..f9194e9 100644
    "version": "0.0.1",
    "private": true,
    "scripts": {
-"
+
 `;
 
 exports[`rn-versions/0.77.1 Change app name and bundle id for both ios and android 1`] = `
-"diff --git a/tests/rn-versions/0.77.1/android/app/build.gradle b/tests/rn-versions/0.77.1/android/app/build.gradle
+diff --git a/tests/rn-versions/0.77.1/android/app/build.gradle b/tests/rn-versions/0.77.1/android/app/build.gradle
 index 4d876c2..873d48b 100644
 --- a/tests/rn-versions/0.77.1/android/app/build.gradle
 +++ b/tests/rn-versions/0.77.1/android/app/build.gradle
@@ -1256,8 +1256,8 @@ index 77efb8f..c368bc9 100644
  			);
  			runOnlyForDeploymentPostprocessing = 0;
  			shellPath = /bin/sh;
--			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks.sh\\"\\n";
-+			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks.sh\\"\\n";
+-			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks.sh/"/n";
++			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks.sh/"/n";
  			showEnvVarsInLog = 0;
  		};
  		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
@@ -1284,8 +1284,8 @@ index 77efb8f..c368bc9 100644
  			);
  			runOnlyForDeploymentPostprocessing = 0;
  			shellPath = /bin/sh;
--			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources.sh\\"\\n";
-+			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources.sh\\"\\n";
+-			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources.sh/"/n";
++			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources.sh/"/n";
  			showEnvVarsInLog = 0;
  		};
  /* End PBXShellScriptBuildPhase section */
@@ -1517,11 +1517,11 @@ index 9531f71..f9194e9 100644
    "version": "0.0.1",
    "private": true,
    "scripts": {
-"
+
 `;
 
 exports[`rn-versions/0.77.1 Change app name and bundle id for ios only 1`] = `
-"diff --git a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt b/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
+diff --git a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt b/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
 index 390f6ba..23f425a 100644
 --- a/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
 +++ b/tests/rn-versions/0.77.1/android/app/src/main/java/com/awesomeproject/MainActivity.kt
@@ -1740,8 +1740,8 @@ index 77efb8f..c368bc9 100644
  			);
  			runOnlyForDeploymentPostprocessing = 0;
  			shellPath = /bin/sh;
--			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks.sh\\"\\n";
-+			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks.sh\\"\\n";
+-			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-frameworks.sh/"/n";
++			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-frameworks.sh/"/n";
  			showEnvVarsInLog = 0;
  		};
  		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
@@ -1768,8 +1768,8 @@ index 77efb8f..c368bc9 100644
  			);
  			runOnlyForDeploymentPostprocessing = 0;
  			shellPath = /bin/sh;
--			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources.sh\\"\\n";
-+			shellScript = "\\"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources.sh\\"\\n";
+-			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources.sh/"/n";
++			shellScript = "/"\${PODS_ROOT}/Target Support Files/Pods-TravelApp/Pods-TravelApp-resources.sh/"/n";
  			showEnvVarsInLog = 0;
  		};
  /* End PBXShellScriptBuildPhase section */
@@ -2001,5 +2001,5 @@ index 9531f71..f9194e9 100644
    "version": "0.0.1",
    "private": true,
    "scripts": {
-"
+
 `;
