@@ -24,7 +24,7 @@ index cad480c..def42cc 100644
 +    <string name="app_name">Travel App</string>
  </resources>
 diff --git a/tests/rn-versions/0.77.1/android/settings.gradle b/tests/rn-versions/0.77.1/android/settings.gradle
-index e078236..10d4c83 100644
+index e078236..8210619 100644
 --- a/tests/rn-versions/0.77.1/android/settings.gradle
 +++ b/tests/rn-versions/0.77.1/android/settings.gradle
 @@ -1,6 +1,6 @@
@@ -32,7 +32,7 @@ index e078236..10d4c83 100644
  plugins { id("com.facebook.react.settings") }
  extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autolinkLibrariesFromCommand() }
 -rootProject.name = 'AwesomeProject'
-+rootProject.name = 'Travel App'
++rootProject.name = "Travel App"
  include ':app'
  includeBuild('../node_modules/@react-native/gradle-plugin')
 diff --git a/tests/rn-versions/0.77.1/app.json b/tests/rn-versions/0.77.1/app.json
@@ -542,7 +542,7 @@ index cad480c..def42cc 100644
 +    <string name="app_name">Travel App</string>
  </resources>
 diff --git a/tests/rn-versions/0.77.1/android/settings.gradle b/tests/rn-versions/0.77.1/android/settings.gradle
-index e078236..10d4c83 100644
+index e078236..8210619 100644
 --- a/tests/rn-versions/0.77.1/android/settings.gradle
 +++ b/tests/rn-versions/0.77.1/android/settings.gradle
 @@ -1,6 +1,6 @@
@@ -550,7 +550,7 @@ index e078236..10d4c83 100644
  plugins { id("com.facebook.react.settings") }
  extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autolinkLibrariesFromCommand() }
 -rootProject.name = 'AwesomeProject'
-+rootProject.name = 'Travel App'
++rootProject.name = "Travel App"
  include ':app'
  includeBuild('../node_modules/@react-native/gradle-plugin')
 diff --git a/tests/rn-versions/0.77.1/app.json b/tests/rn-versions/0.77.1/app.json
@@ -1060,7 +1060,7 @@ index cad480c..def42cc 100644
 +    <string name="app_name">Travel App</string>
  </resources>
 diff --git a/tests/rn-versions/0.77.1/android/settings.gradle b/tests/rn-versions/0.77.1/android/settings.gradle
-index e078236..10d4c83 100644
+index e078236..8210619 100644
 --- a/tests/rn-versions/0.77.1/android/settings.gradle
 +++ b/tests/rn-versions/0.77.1/android/settings.gradle
 @@ -1,6 +1,6 @@
@@ -1068,7 +1068,7 @@ index e078236..10d4c83 100644
  plugins { id("com.facebook.react.settings") }
  extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autolinkLibrariesFromCommand() }
 -rootProject.name = 'AwesomeProject'
-+rootProject.name = 'Travel App'
++rootProject.name = "Travel App"
  include ':app'
  includeBuild('../node_modules/@react-native/gradle-plugin')
 diff --git a/tests/rn-versions/0.77.1/app.json b/tests/rn-versions/0.77.1/app.json
@@ -1544,7 +1544,7 @@ index cad480c..def42cc 100644
 +    <string name="app_name">Travel App</string>
  </resources>
 diff --git a/tests/rn-versions/0.77.1/android/settings.gradle b/tests/rn-versions/0.77.1/android/settings.gradle
-index e078236..10d4c83 100644
+index e078236..8210619 100644
 --- a/tests/rn-versions/0.77.1/android/settings.gradle
 +++ b/tests/rn-versions/0.77.1/android/settings.gradle
 @@ -1,6 +1,6 @@
@@ -1552,7 +1552,7 @@ index e078236..10d4c83 100644
  plugins { id("com.facebook.react.settings") }
  extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autolinkLibrariesFromCommand() }
 -rootProject.name = 'AwesomeProject'
-+rootProject.name = 'Travel App'
++rootProject.name = "Travel App"
  include ':app'
  includeBuild('../node_modules/@react-native/gradle-plugin')
 diff --git a/tests/rn-versions/0.77.1/app.json b/tests/rn-versions/0.77.1/app.json
