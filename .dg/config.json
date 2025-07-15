@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "project": "react-native-rename",
+  "outputDir": ".dg",
+  "updated": "2025-07-09T10:06:53.173Z",
+  "casts": [
+    {
+      "name": "useagedemo",
+      "title": "useagedemo",
+      "created": "2025-07-09T10:06:53.172Z",
+      "updated": "2025-07-09T10:06:53.172Z",
+      "interactive": false,
+      "validation": {
+        "mode": "auto"
+      },
+      "command": "exit"
+    }
+  ]
+}
