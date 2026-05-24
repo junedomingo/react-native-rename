@@ -14,6 +14,7 @@
 
 - `docs/superpowers/specs/2026-05-24-react-native-rename-modernization-design.md`: approved design source.
 - `docs/superpowers/plans/2026-05-24-react-native-rename-modernization.md`: this implementation plan.
+- `.eslintrc`: mark config as root so local worktrees do not inherit parent checkout ESLint config.
 - `jest.config.js`: set `watchman: false` and keep test discovery stable.
 - `package.json`: add reliable `pretest`, update test/build/lint scripts, and update dependencies.
 - `package-lock.json`: lock dependency updates after `npm install`.
@@ -31,6 +32,7 @@
 ## Task 1: Stabilize Jest And Build Entry
 
 **Files:**
+- Modify: `.eslintrc`
 - Modify: `jest.config.js`
 - Modify: `package.json`
 
@@ -80,8 +82,16 @@ Change the `scripts` section in `package.json` to include:
   "build": "esbuild src/index.js --platform=node --bundle --outdir=lib --external:shelljs --minify --analyze",
   "prepublish": "npm run build",
   "relink": "npm unlink react-native-rename && npm run prepublish && npm link",
-  "format": "prettier --write 'src/*.{js,jsx}' 'tests/**/*.js'",
-  "lint": "eslint 'src/*.{js,jsx}' 'tests/**/*.js'"
+  "format": "prettier --write 'src/*.{js,jsx}' 'tests/**/*.js' --ignore-path .prettierignore",
+  "lint": "eslint --config .eslintrc --ignore-pattern 'tests/rn-versions/**' 'src/*.{js,jsx}' 'tests/**/*.js'"
+}
+```
+
+Also add top-level `root: true` to `.eslintrc`:
+
+```json
+{
+  "root": true
 }
 ```
 
@@ -102,7 +112,7 @@ Delete the temporary `jestConfig` import and `Jest disables Watchman for fixture
 - [ ] **Step 6: Commit**
 
 ```bash
-git add jest.config.js package.json tests/rename.test.js
+git add .eslintrc jest.config.js package.json tests/rename.test.js
 git commit -m "test: disable watchman for jest runs"
 ```
 
