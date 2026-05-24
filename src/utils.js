@@ -333,13 +333,14 @@ export const updateFilesContent = async filesContentOptions => {
     await delay(index * PROMISE_DELAY);
 
     const isOptionFilesString = typeof option.files === 'string';
+    const resolveFilePattern = file => normalizePath(path.join(APP_PATH, file));
     const updatedOption = {
       ...option,
       countMatches: true,
       allowEmptyPaths: true,
       files: isOptionFilesString
-        ? path.join(APP_PATH, option.files)
-        : option.files.map(file => path.join(APP_PATH, file)),
+        ? resolveFilePattern(option.files)
+        : option.files.map(resolveFilePattern),
     };
 
     try {
