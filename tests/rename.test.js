@@ -9,21 +9,44 @@ const {
   runRename,
 } = require('./helpers/fixture');
 
-const activeVersions = ['0.77.1'];
+const activeVersions = ['0.77.1', '0.81.6', '0.85.3'];
+const originalAndroidBundlePaths = {
+  '0.77.1': 'com/awesomeproject',
+  '0.81.6': 'com/awesomeproject081',
+  '0.85.3': 'com/awesomeproject085',
+};
 
-const expectCommonRename = cwd => {
+const getIosWorkspaceNames = cwd =>
+  fs.readdirSync(path.join(cwd, 'ios')).filter(filename => filename.endsWith('.xcworkspace'));
+
+const getOriginalIosWorkspaceNames = version =>
+  getIosWorkspaceNames(path.join(__dirname, 'rn-versions', version));
+
+const expectIosWorkspaceRename = (cwd, version) => {
+  const originalWorkspaceNames = getOriginalIosWorkspaceNames(version);
+  const currentWorkspaceNames = getIosWorkspaceNames(cwd);
+  const expectedWorkspaceNames = originalWorkspaceNames.map(filename =>
+    filename.replace(/^[^.]+(?=\.xcworkspace$)/, 'TravelApp')
+  );
+
+  expect([...currentWorkspaceNames].sort()).toEqual([...expectedWorkspaceNames].sort());
+};
+
+const expectCommonRename = (cwd, version) => {
   const appJson = JSON.parse(readFixtureFile(cwd, 'app.json'));
   const androidStrings = readFixtureFile(cwd, 'android/app/src/main/res/values/strings.xml');
   const androidSettings = readFixtureFile(cwd, 'android/settings.gradle');
   const iosInfoPlist = readFixtureFile(cwd, 'ios/TravelApp/Info.plist');
+  const appDelegate = readFixtureFile(cwd, 'ios/TravelApp/AppDelegate.swift');
 
   expect(appJson.name).toBe('Travel App');
   expect(appJson.displayName).toBe('Travel App');
   expect(androidSettings).toContain('rootProject.name = "Travel App"');
   expect(androidStrings).toContain('<string name="app_name">Travel App</string>');
   expect(iosInfoPlist).toContain('<string>Travel App</string>');
+  expect(appDelegate).toMatch(/(self\.moduleName =|withModuleName:) "Travel App"/);
   expect(fs.existsSync(path.join(cwd, 'ios/TravelApp.xcodeproj'))).toBe(true);
-  expect(fs.existsSync(path.join(cwd, 'ios/TravelApp.xcworkspace'))).toBe(true);
+  expectIosWorkspaceRename(cwd, version);
 };
 
 const expectIosBundleId = (cwd, bundleId) => {
@@ -55,7 +78,7 @@ describe.each(activeVersions)('rn-versions/%s', version => {
 
     runRename(project.cwd, '"Travel App"');
 
-    expectCommonRename(project.cwd);
+    expectCommonRename(project.cwd, version);
     expect(getStagedDiff(project.cwd)).toContain('Travel App');
     expect(getStagedNameStatus(project.cwd)).toContain('TravelApp.xcodeproj');
   });
@@ -65,7 +88,7 @@ describe.each(activeVersions)('rn-versions/%s', version => {
 
     runRename(project.cwd, '"Travel App" -b com.example.travelapp');
 
-    expectCommonRename(project.cwd);
+    expectCommonRename(project.cwd, version);
     expectIosBundleId(project.cwd, 'com.example.travelapp');
     expectAndroidBundleId(project.cwd, 'com.example.travelapp');
   });
@@ -75,7 +98,7 @@ describe.each(activeVersions)('rn-versions/%s', version => {
 
     runRename(project.cwd, '"Travel App" --androidBundleID com.example.travelapp');
 
-    expectCommonRename(project.cwd);
+    expectCommonRename(project.cwd, version);
     expectAndroidBundleId(project.cwd, 'com.example.travelapp');
     const pbxproj = readFixtureFile(project.cwd, 'ios/TravelApp.xcodeproj/project.pbxproj');
     expect(pbxproj).toContain(
@@ -88,10 +111,12 @@ describe.each(activeVersions)('rn-versions/%s', version => {
 
     runRename(project.cwd, '"Travel App" --iosBundleID com.example.travelapp');
 
-    expectCommonRename(project.cwd);
+    expectCommonRename(project.cwd, version);
     expectIosBundleId(project.cwd, 'com.example.travelapp');
     expect(
-      fs.existsSync(path.join(project.cwd, 'android/app/src/main/java/com/awesomeproject'))
+      fs.existsSync(
+        path.join(project.cwd, 'android/app/src/main/java', originalAndroidBundlePaths[version])
+      )
     ).toBe(true);
   });
 });
