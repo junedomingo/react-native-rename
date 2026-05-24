@@ -6,6 +6,8 @@ const path = require('path');
 const repoRoot = path.resolve(__dirname, '../..');
 const fixturesRoot = path.join(repoRoot, 'tests/rn-versions');
 const cliPath = path.join(repoRoot, 'lib/index.js');
+const escapeCharacter = String.fromCharCode(27);
+const ANSI_ESCAPE_REGEX = new RegExp(`${escapeCharacter}(?:[@-Z\\\\-_]|\\[[0-?]*[ -/]*[@-~])`, 'g');
 
 const run = (command, args, options = {}) => {
   const result = childProcess.spawnSync(command, args, {
@@ -92,6 +94,8 @@ const getStagedNameStatus = cwd =>
 const readFixtureFile = (cwd, relativePath) =>
   fs.readFileSync(path.join(cwd, relativePath), 'utf8');
 
+const stripAnsi = value => value.replace(ANSI_ESCAPE_REGEX, '');
+
 module.exports = {
   cleanupFixtureProject,
   createFixtureProject,
@@ -100,4 +104,5 @@ module.exports = {
   readFixtureFile,
   runRename,
   runRenameResult,
+  stripAnsi,
 };

@@ -9,6 +9,7 @@ const {
   readFixtureFile,
   runRename,
   runRenameResult,
+  stripAnsi,
 } = require('./helpers/fixture');
 
 const activeVersions = ['0.77.1', '0.81.6', '0.85.3'];
@@ -176,8 +177,9 @@ describe('cli validation failures', () => {
     const result = runRenameResult(project.cwd, ['Travel App', '-b', 'com.example-app']);
 
     expect(result.status).toBe(1);
-    expect(result.stdout).toContain('for Android');
-    expect(result.stdout).toContain('is not valid');
+    const stdout = stripAnsi(result.stdout);
+    expect(stdout).toContain('for Android');
+    expect(stdout).toContain('is not valid');
   });
 
   test('exits nonzero for invalid app name without path content override', () => {
