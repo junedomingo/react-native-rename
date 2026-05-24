@@ -55,15 +55,14 @@ const expectIosBundleId = (cwd, bundleId) => {
   expect(pbxproj).toContain(`PRODUCT_BUNDLE_IDENTIFIER = "${bundleId}"`);
 };
 
-const expectAndroidBundleId = (cwd, bundleId) => {
+const expectAndroidBundleId = (cwd, bundleId, bundlePath = 'com/example/travelapp') => {
   const buildGradle = readFixtureFile(cwd, 'android/app/build.gradle');
-  const mainActivity = path.join(
-    cwd,
-    'android/app/src/main/java/com/example/travelapp/MainActivity.kt'
-  );
+  const mainActivity = path.join(cwd, 'android/app/src/main/java', bundlePath, 'MainActivity.kt');
   const mainApplication = path.join(
     cwd,
-    'android/app/src/main/java/com/example/travelapp/MainApplication.kt'
+    'android/app/src/main/java',
+    bundlePath,
+    'MainApplication.kt'
   );
 
   expect(buildGradle).toContain(`namespace "${bundleId}"`);
@@ -113,6 +112,18 @@ describe.each(activeVersions)('rn-versions/%s', version => {
     expect(pbxproj).toContain(
       'PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)"'
     );
+  });
+
+  test('changes android bundle id when the new package is nested under the old package', () => {
+    const project = createFixtureProject(version);
+    const nestedBundlePath = `${originalAndroidBundlePaths[version]}/travel`;
+    const nestedBundleId = nestedBundlePath.replace(/\//g, '.');
+
+    const output = runRename(project.cwd, `"Travel App" --androidBundleID ${nestedBundleId}`);
+
+    expect(output).not.toContain('EINVAL');
+    expectCommonRename(project.cwd, version);
+    expectAndroidBundleId(project.cwd, nestedBundleId, nestedBundlePath);
   });
 
   test('changes app name and bundle id for ios only', () => {

@@ -253,12 +253,25 @@ const movePath = (currentPath, newPath) => {
 
 const moveDirectoryContents = (currentPath, newPath) => {
   fs.mkdirSync(newPath, { recursive: true });
+  const relativeNewPath = path.relative(currentPath, newPath);
+  const isMovingIntoDescendant =
+    relativeNewPath && !relativeNewPath.startsWith('..') && !path.isAbsolute(relativeNewPath);
+  const descendantRootPath = isMovingIntoDescendant
+    ? path.join(currentPath, relativeNewPath.split(path.sep)[0])
+    : null;
 
   fs.readdirSync(currentPath).forEach(filename => {
-    movePath(path.join(currentPath, filename), path.join(newPath, filename));
+    const sourcePath = path.join(currentPath, filename);
+    if (sourcePath === descendantRootPath) {
+      return;
+    }
+
+    movePath(sourcePath, path.join(newPath, filename));
   });
 
-  fs.rmSync(currentPath, { recursive: true, force: true });
+  if (!isMovingIntoDescendant) {
+    fs.rmSync(currentPath, { recursive: true, force: true });
+  }
 };
 
 const renameFoldersAndFiles = async ({

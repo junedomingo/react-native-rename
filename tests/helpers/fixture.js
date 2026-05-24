@@ -55,9 +55,13 @@ const createFixtureProject = version => {
 };
 
 const runRename = (cwd, args) => {
-  run('node', [cliPath, ...args.match(/(?:[^\s"]+|"[^"]*")+/g).map(arg => arg.replace(/"/g, ''))], {
-    cwd,
-  });
+  return run(
+    'node',
+    [cliPath, ...args.match(/(?:[^\s"]+|"[^"]*")+/g).map(arg => arg.replace(/"/g, ''))],
+    {
+      cwd,
+    }
+  );
 };
 
 const getStagedDiff = cwd => run('git', ['diff', '--cached', '--find-renames'], { cwd });
