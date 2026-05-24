@@ -61,13 +61,13 @@
   },
   "dependencies": {
     "chalk": "^5.6.2",
-    "cheerio": "^1.0.0-rc.12",
-    "commander": "^10.0.1",
+    "cheerio": "^1.2.0",
+    "commander": "^14.0.3",
     "dotenv": "^16.6.1",
-    "globby": "^13.2.0",
+    "globby": "^16.2.0",
     "html-entities": "^2.6.0",
     "normalize-path": "^3.0.0",
-    "replace-in-file": "^7.0.1",
+    "replace-in-file": "^8.4.0",
     "shelljs": "^0.8.5",
     "update-check": "^1.5.4"
   }

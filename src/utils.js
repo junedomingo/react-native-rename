@@ -1,11 +1,11 @@
 import chalk from 'chalk';
-import cheerio from 'cheerio';
+import { load } from 'cheerio';
 import * as dotenv from 'dotenv';
 import fs from 'fs';
 import { globbySync } from 'globby';
 import { decode, encode } from 'html-entities';
 import path from 'path';
-import replace from 'replace-in-file';
+import { replaceInFile } from 'replace-in-file';
 import shell from 'shelljs';
 import checkForUpdate from 'update-check';
 
@@ -163,7 +163,7 @@ export const validateNewBundleID = (newBundleID, platforms = []) => {
 
 const getElementFromXml = ({ filepath, selector }) => {
   const xml = fs.readFileSync(filepath, 'utf8');
-  const $ = cheerio.load(xml, { xmlMode: true, decodeEntities: false });
+  const $ = load(xml, { xmlMode: true, decodeEntities: false });
 
   return $(selector);
 };
@@ -299,7 +299,7 @@ export const updateFilesContent = async filesContentOptions => {
     };
 
     try {
-      const results = await replace(updatedOption);
+      const results = await replaceInFile(updatedOption);
       results.map(result => {
         const hasChanged = result.hasChanged;
         const message = `${hasChanged ? 'UPDATED' : 'NOT UPDATED'} (${pluralize(
@@ -338,7 +338,7 @@ export const updateIosFilesContent = async ({
 };
 
 const updateElementInXml = async ({ filepath, selector, text }) => {
-  const $ = cheerio.load(fs.readFileSync(filepath, 'utf8'), {
+  const $ = load(fs.readFileSync(filepath, 'utf8'), {
     xmlMode: true,
     decodeEntities: false,
   });
