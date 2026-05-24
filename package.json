@@ -4,13 +4,14 @@
   "description": "Rename react-native app with just one command",
   "main": "lib/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
+    "pretest": "npm run build",
     "dev": "esbuild src/index.js --platform=node --bundle --outdir=lib --external:shelljs --watch",
     "build": "esbuild src/index.js --platform=node --bundle --outdir=lib --external:shelljs --minify --analyze",
     "prepublish": "npm run build",
     "relink": "npm unlink react-native-rename && npm run prepublish && npm link",
-    "format": "prettier --write 'src/*.{js,jsx}'",
-    "lint": "eslint 'src/*.{js,jsx}'"
+    "format": "prettier --write 'src/*.{js,jsx}' 'tests/**/*.js' --ignore-path .prettierignore",
+    "lint": "eslint --config .eslintrc --ignore-pattern 'tests/rn-versions/**' 'src/*.{js,jsx}' 'tests/**/*.js'"
   },
   "husky": {
     "hooks": {
