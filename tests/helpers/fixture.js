@@ -65,7 +65,8 @@ const getStagedDiff = cwd => run('git', ['diff', '--cached', '--find-renames'], 
 const getStagedNameStatus = cwd =>
   run('git', ['diff', '--cached', '--name-status', '--find-renames'], { cwd });
 
-const readFixtureFile = (cwd, relativePath) => fs.readFileSync(path.join(cwd, relativePath), 'utf8');
+const readFixtureFile = (cwd, relativePath) =>
+  fs.readFileSync(path.join(cwd, relativePath), 'utf8');
 
 module.exports = {
   createFixtureProject,
