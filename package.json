@@ -11,7 +11,7 @@
     "prepublish": "npm run build",
     "relink": "npm unlink react-native-rename && npm run prepublish && npm link",
     "format": "prettier --write 'src/*.{js,jsx}' 'tests/**/*.js' --ignore-path .prettierignore",
-    "lint": "eslint --config .eslintrc --ignore-pattern 'tests/rn-versions/**' 'src/*.{js,jsx}' 'tests/**/*.js'"
+    "lint": "eslint 'src/*.{js,jsx}' 'tests/**/*.js'"
   },
   "husky": {
     "hooks": {
@@ -50,14 +50,14 @@
   },
   "homepage": "https://github.com/junedomingo/react-native-rename#readme",
   "devDependencies": {
-    "esbuild": "^0.19.2",
-    "eslint": "^8.47.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^4.2.1",
+    "esbuild": "^0.28.0",
+    "eslint": "^10.4.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
     "husky": "^8.0.3",
-    "jest": "^29.5.0",
+    "jest": "^30.4.2",
     "lint-staged": "^14.0.0",
-    "prettier": "^2.8.8"
+    "prettier": "^3.8.3"
   },
   "dependencies": {
     "chalk": "^5.6.2",
