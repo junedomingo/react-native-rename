@@ -83,6 +83,15 @@ describe.each(activeVersions)('rn-versions/%s', version => {
     expect(getStagedNameStatus(project.cwd)).toContain('TravelApp.xcodeproj');
   });
 
+  test('stages rename changes after a successful run', () => {
+    const project = createFixtureProject(version);
+
+    runRename(project.cwd, '"Travel App"');
+
+    expect(getStagedNameStatus(project.cwd)).toContain('M');
+    expect(getStagedNameStatus(project.cwd)).toContain('TravelApp');
+  });
+
   test('changes app name and bundle id for both ios and android', () => {
     const project = createFixtureProject(version);
 

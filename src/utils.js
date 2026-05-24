@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import childProcess from 'child_process';
 import { load } from 'cheerio';
 import * as dotenv from 'dotenv';
 import fs from 'fs';
@@ -6,7 +7,6 @@ import { globbySync } from 'globby';
 import { decode, encode } from 'html-entities';
 import path from 'path';
 import { replaceInFile } from 'replace-in-file';
-import shell from 'shelljs';
 import checkForUpdate from 'update-check';
 
 import pjson from '../package.json';
@@ -36,6 +36,20 @@ const MIN_LANGUAGE_ALPHANUMERIC_NAME_LENGTH = 3;
 const VALID_ANDROID_BUNDLE_ID_REGEX = /^[a-zA-Z]{1}[a-zA-Z0-9\._]{1,}$/;
 const VALID_IOS_BUNDLE_ID_REGEX = /^[a-zA-Z]{1}[a-zA-Z0-9\.\-]{1,}$/;
 
+const runCommand = (command, args, options = {}) => {
+  const result = childProcess.spawnSync(command, args, {
+    cwd: options.cwd || APP_PATH,
+    encoding: 'utf8',
+    stdio: options.silent ? 'pipe' : 'inherit',
+  });
+
+  return {
+    code: result.status,
+    stdout: result.stdout || '',
+    stderr: result.stderr || '',
+  };
+};
+
 const pluralize = (count, noun, suffix = 'es') => `${count} ${noun}${count !== 1 ? suffix : ''}`;
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 const toRelativePath = absolutePath => path.relative(APP_PATH, absolutePath);
@@ -59,9 +73,10 @@ export const validateCreation = () => {
 };
 
 export const validateGitRepo = () => {
-  shell.cd(APP_PATH);
   const isGitRepository =
-    shell.exec('git rev-parse --is-inside-work-tree', { silent: true }).code === 0;
+    runCommand('git', ['rev-parse', '--is-inside-work-tree'], {
+      silent: true,
+    }).code === 0;
 
   if (!isGitRepository) {
     console.log('This is not a git repository');
@@ -70,8 +85,7 @@ export const validateGitRepo = () => {
 };
 
 export const checkGitRepoStatus = () => {
-  shell.cd(APP_PATH);
-  const output = shell.exec('git status --porcelain', { silent: true }).stdout;
+  const output = runCommand('git', ['status', '--porcelain'], { silent: true }).stdout;
   const isClean = output === '';
 
   if (!isClean) {
@@ -227,6 +241,26 @@ export const getIosXcodeProjectPathName = () => {
   return xcodeProjectPathName.replace('.xcodeproj', '');
 };
 
+const movePath = (currentPath, newPath) => {
+  fs.mkdirSync(path.dirname(newPath), { recursive: true });
+
+  if (fs.existsSync(newPath)) {
+    fs.rmSync(newPath, { recursive: true, force: true });
+  }
+
+  fs.renameSync(currentPath, newPath);
+};
+
+const moveDirectoryContents = (currentPath, newPath) => {
+  fs.mkdirSync(newPath, { recursive: true });
+
+  fs.readdirSync(currentPath).forEach(filename => {
+    movePath(path.join(currentPath, filename), path.join(newPath, filename));
+  });
+
+  fs.rmSync(currentPath, { recursive: true, force: true });
+};
+
 const renameFoldersAndFiles = async ({
   foldersAndFilesPaths,
   currentPath: currentPathParam,
@@ -244,24 +278,21 @@ const renameFoldersAndFiles = async ({
     }
 
     if (createNewPathFirst) {
-      shell.mkdir('-p', newPath);
+      fs.mkdirSync(newPath, { recursive: true });
     }
 
     try {
-      new Promise(resolve => {
-        if (!fs.existsSync(currentPath)) {
-          return resolve();
-        }
+      if (!fs.existsSync(currentPath)) {
+        return;
+      }
 
-        const shellMove = shell.mv('-f', `${currentPath}${shellMoveCurrentPathGlobEnd}`, newPath);
+      if (shellMoveCurrentPathGlobEnd === '/*') {
+        moveDirectoryContents(currentPath, newPath);
+      } else {
+        movePath(currentPath, newPath);
+      }
 
-        if (shellMove.code !== 0) {
-          console.log(chalk.red(shellMove.stderr));
-        }
-
-        resolve();
-        console.log(toRelativePath(newPath), chalk.green('RENAMED'));
-      });
+      console.log(toRelativePath(newPath), chalk.green('RENAMED'));
     } catch (error) {
       console.log(error);
     }
@@ -440,10 +471,15 @@ export const updateOtherFilesContent = async ({
 };
 
 export const cleanBuilds = () => {
-  shell.rm(
-    '-rf',
-    buildPaths.map(buildPath => path.join(APP_PATH, buildPath))
+  const pathsToRemove = globbySync(
+    buildPaths.map(buildPath => normalizePath(path.join(APP_PATH, buildPath))),
+    { onlyFiles: false }
   );
+
+  pathsToRemove.forEach(buildPath => {
+    fs.rmSync(buildPath, { recursive: true, force: true });
+  });
+
   console.log(chalk.yellow('Done removing builds.'));
 };
 
@@ -475,10 +511,9 @@ If you like this tool, please give it a star on GitHub: https://github.com/juned
 };
 
 export const gitStageChanges = () => {
-  shell.cd(APP_PATH);
-  shell.exec('git config --local core.autocrlf false');
-  shell.exec('git config --local core.safecrlf false');
-  shell.exec('git add .');
+  runCommand('git', ['config', '--local', 'core.autocrlf', 'false']);
+  runCommand('git', ['config', '--local', 'core.safecrlf', 'false']);
+  runCommand('git', ['add', '.']);
 };
 
 export const checkPackageUpdate = async () => {

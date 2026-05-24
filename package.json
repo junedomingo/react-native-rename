@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest --runInBand",
     "pretest": "npm run build",
-    "dev": "esbuild src/index.js --platform=node --bundle --outdir=lib --external:shelljs --watch",
-    "build": "esbuild src/index.js --platform=node --bundle --outdir=lib --external:shelljs --minify --analyze",
+    "dev": "esbuild src/index.js --platform=node --bundle --outdir=lib --watch",
+    "build": "esbuild src/index.js --platform=node --bundle --outdir=lib --minify --analyze",
     "prepublish": "npm run build",
     "relink": "npm unlink react-native-rename && npm run prepublish && npm link",
     "format": "prettier --write 'src/*.{js,jsx}' 'tests/**/*.js' --ignore-path .prettierignore",
@@ -72,7 +72,6 @@
     "html-entities": "^2.6.0",
     "normalize-path": "^3.0.0",
     "replace-in-file": "^8.4.0",
-    "shelljs": "^0.8.5",
     "update-check": "^1.5.4"
   }
 }
