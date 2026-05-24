@@ -14,7 +14,7 @@ const run = (command, args, options = {}) => {
     stdio: options.stdio || 'pipe',
   });
 
-  if (result.status !== 0) {
+  if (result.status !== 0 && !options.allowFailure) {
     throw new Error(
       [
         `Command failed: ${command} ${args.join(' ')}`,
@@ -25,6 +25,10 @@ const run = (command, args, options = {}) => {
         .filter(Boolean)
         .join('\n')
     );
+  }
+
+  if (options.returnResult) {
+    return result;
   }
 
   return result.stdout;
@@ -54,14 +58,30 @@ const createFixtureProject = version => {
   return { cwd, parent, version };
 };
 
+const cleanupFixtureProject = project => {
+  if (project) {
+    fs.rmSync(project.parent, { recursive: true, force: true });
+  }
+};
+
+const normalizeRenameArgs = args => {
+  if (Array.isArray(args)) {
+    return args;
+  }
+
+  return args.match(/(?:[^\s"]+|"[^"]*")+/g).map(arg => arg.replace(/"/g, ''));
+};
+
 const runRename = (cwd, args) => {
-  return run(
-    'node',
-    [cliPath, ...args.match(/(?:[^\s"]+|"[^"]*")+/g).map(arg => arg.replace(/"/g, ''))],
-    {
-      cwd,
-    }
-  );
+  return run('node', [cliPath, ...normalizeRenameArgs(args)], { cwd });
+};
+
+const runRenameResult = (cwd, args) => {
+  return run('node', [cliPath, ...normalizeRenameArgs(args)], {
+    cwd,
+    allowFailure: true,
+    returnResult: true,
+  });
 };
 
 const getStagedDiff = cwd => run('git', ['diff', '--cached', '--find-renames'], { cwd });
@@ -73,9 +93,11 @@ const readFixtureFile = (cwd, relativePath) =>
   fs.readFileSync(path.join(cwd, relativePath), 'utf8');
 
 module.exports = {
+  cleanupFixtureProject,
   createFixtureProject,
   getStagedDiff,
   getStagedNameStatus,
   readFixtureFile,
   runRename,
+  runRenameResult,
 };

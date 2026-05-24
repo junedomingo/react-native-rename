@@ -12,3 +12,5 @@ jest.config.js
 LICENSE
 package.json
 .env
+docs
+eslint.config.js

@@ -2,11 +2,13 @@
 const fs = require('fs');
 const path = require('path');
 const {
+  cleanupFixtureProject,
   createFixtureProject,
   getStagedDiff,
   getStagedNameStatus,
   readFixtureFile,
   runRename,
+  runRenameResult,
 } = require('./helpers/fixture');
 
 const activeVersions = ['0.77.1', '0.81.6', '0.85.3'];
@@ -15,6 +17,12 @@ const originalAndroidBundlePaths = {
   '0.81.6': 'com/awesomeproject081',
   '0.85.3': 'com/awesomeproject085',
 };
+let project;
+
+afterEach(() => {
+  cleanupFixtureProject(project);
+  project = undefined;
+});
 
 const getIosWorkspaceNames = cwd =>
   fs.readdirSync(path.join(cwd, 'ios')).filter(filename => filename.endsWith('.xcworkspace'));
@@ -73,9 +81,9 @@ const expectAndroidBundleId = (cwd, bundleId, bundlePath = 'com/example/travelap
 
 describe.each(activeVersions)('rn-versions/%s', version => {
   test('changes app name', () => {
-    const project = createFixtureProject(version);
+    project = createFixtureProject(version);
 
-    runRename(project.cwd, '"Travel App"');
+    runRename(project.cwd, ['Travel App']);
 
     expectCommonRename(project.cwd, version);
     expect(getStagedDiff(project.cwd)).toContain('Travel App');
@@ -83,18 +91,18 @@ describe.each(activeVersions)('rn-versions/%s', version => {
   });
 
   test('stages rename changes after a successful run', () => {
-    const project = createFixtureProject(version);
+    project = createFixtureProject(version);
 
-    runRename(project.cwd, '"Travel App"');
+    runRename(project.cwd, ['Travel App']);
 
     expect(getStagedNameStatus(project.cwd)).toContain('M');
     expect(getStagedNameStatus(project.cwd)).toContain('TravelApp');
   });
 
   test('changes app name and bundle id for both ios and android', () => {
-    const project = createFixtureProject(version);
+    project = createFixtureProject(version);
 
-    runRename(project.cwd, '"Travel App" -b com.example.travelapp');
+    runRename(project.cwd, ['Travel App', '-b', 'com.example.travelapp']);
 
     expectCommonRename(project.cwd, version);
     expectIosBundleId(project.cwd, 'com.example.travelapp');
@@ -102,9 +110,9 @@ describe.each(activeVersions)('rn-versions/%s', version => {
   });
 
   test('changes app name and bundle id for android only', () => {
-    const project = createFixtureProject(version);
+    project = createFixtureProject(version);
 
-    runRename(project.cwd, '"Travel App" --androidBundleID com.example.travelapp');
+    runRename(project.cwd, ['Travel App', '--androidBundleID', 'com.example.travelapp']);
 
     expectCommonRename(project.cwd, version);
     expectAndroidBundleId(project.cwd, 'com.example.travelapp');
@@ -115,11 +123,11 @@ describe.each(activeVersions)('rn-versions/%s', version => {
   });
 
   test('changes android bundle id when the new package is nested under the old package', () => {
-    const project = createFixtureProject(version);
+    project = createFixtureProject(version);
     const nestedBundlePath = `${originalAndroidBundlePaths[version]}/travel`;
     const nestedBundleId = nestedBundlePath.replace(/\//g, '.');
 
-    const output = runRename(project.cwd, `"Travel App" --androidBundleID ${nestedBundleId}`);
+    const output = runRename(project.cwd, ['Travel App', '--androidBundleID', nestedBundleId]);
 
     expect(output).not.toContain('EINVAL');
     expectCommonRename(project.cwd, version);
@@ -127,9 +135,9 @@ describe.each(activeVersions)('rn-versions/%s', version => {
   });
 
   test('changes app name and bundle id for ios only', () => {
-    const project = createFixtureProject(version);
+    project = createFixtureProject(version);
 
-    runRename(project.cwd, '"Travel App" --iosBundleID com.example.travelapp');
+    runRename(project.cwd, ['Travel App', '--iosBundleID', 'com.example.travelapp']);
 
     expectCommonRename(project.cwd, version);
     expectIosBundleId(project.cwd, 'com.example.travelapp');
@@ -138,5 +146,55 @@ describe.each(activeVersions)('rn-versions/%s', version => {
         path.join(project.cwd, 'android/app/src/main/java', originalAndroidBundlePaths[version])
       )
     ).toBe(true);
+  });
+});
+
+describe('cli validation failures', () => {
+  test('exits nonzero when the project has uncommitted changes', () => {
+    project = createFixtureProject(activeVersions[0]);
+    fs.appendFileSync(path.join(project.cwd, 'app.json'), '\n');
+
+    const result = runRenameResult(project.cwd, ['Travel App']);
+
+    expect(result.status).toBe(1);
+    expect(result.stdout).toContain('The directory is not clean');
+  });
+
+  test('exits nonzero outside a git repository', () => {
+    project = createFixtureProject(activeVersions[0]);
+    fs.rmSync(path.join(project.cwd, '.git'), { recursive: true, force: true });
+
+    const result = runRenameResult(project.cwd, ['Travel App']);
+
+    expect(result.status).toBe(1);
+    expect(result.stdout).toContain('This is not a git repository');
+  });
+
+  test('exits nonzero for invalid bundle ids', () => {
+    project = createFixtureProject(activeVersions[0]);
+
+    const result = runRenameResult(project.cwd, ['Travel App', '-b', 'com.example-app']);
+
+    expect(result.status).toBe(1);
+    expect(result.stdout).toContain('for Android');
+    expect(result.stdout).toContain('is not valid');
+  });
+
+  test('exits nonzero for invalid app name without path content override', () => {
+    project = createFixtureProject(activeVersions[0]);
+
+    const result = runRenameResult(project.cwd, ['!!']);
+
+    expect(result.status).toBe(1);
+    expect(result.stdout).toContain('Please provide path and content string');
+  });
+
+  test('exits nonzero for invalid path content override', () => {
+    project = createFixtureProject(activeVersions[0]);
+
+    const result = runRenameResult(project.cwd, ['Travel App', '-p', '!!']);
+
+    expect(result.status).toBe(1);
+    expect(result.stdout).toContain('pathContentString');
   });
 });

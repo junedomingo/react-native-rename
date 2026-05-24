@@ -68,7 +68,7 @@ export const validateCreation = () => {
 
   if (!fileExists) {
     console.log('Directory should be created using "react-native init".');
-    process.exit();
+    process.exit(1);
   }
 };
 
@@ -80,7 +80,7 @@ export const validateGitRepo = () => {
 
   if (!isGitRepository) {
     console.log('This is not a git repository');
-    process.exit();
+    process.exit(1);
   }
 };
 
@@ -93,14 +93,14 @@ export const checkGitRepoStatus = () => {
       `The directory is not clean. There are changes that have not been committed to the Git repository.
 Clean it first and try again or use "--skipGitStatusCheck" option to skip this check.`
     );
-    process.exit();
+    process.exit(1);
   }
 };
 
 export const validateNewName = (newName, programOptions) => {
   if (!(newName.length <= MAX_NAME_LENGTH)) {
     console.log(`New app name "${newName}" is too long`);
-    process.exit();
+    process.exit(1);
   }
 
   const cleanNewName = cleanString(newName);
@@ -113,7 +113,7 @@ export const validateNewName = (newName, programOptions) => {
       `Please provide path and content string using "-p [value]" or "--pathContentStr [value]" option to be used in renaming the folders, files and their contents.
 example: react-native-rename "${newName}" -p "[value]"`
     );
-    process.exit();
+    process.exit(1);
   }
 };
 
@@ -125,7 +125,7 @@ export const validateNewPathContentStr = value => {
     console.log(
       'The value provided in --pathContentString or -p option is too short or contains special characters.'
     );
-    process.exit();
+    process.exit(1);
   }
 };
 
@@ -150,19 +150,19 @@ export const validateNewBundleID = (newBundleID, platforms = []) => {
   ) {
     console.log(errorMessage);
     console.log(chalk.yellow(additionalMessage));
-    process.exit();
+    process.exit(1);
   }
 
   if (platforms.includes('ios') && !isIosBundleIdValid) {
     console.log(iosErrorMessage);
     console.log(chalk.yellow(additionalMessage));
-    process.exit();
+    process.exit(1);
   }
 
   if (platforms.includes('android') && !isAndroidBundleIdValid) {
     console.log(androidErrorMessage);
     console.log(chalk.yellow(additionalMessage));
-    process.exit();
+    process.exit(1);
   }
 
   const segments = newBundleID.split('.');
@@ -171,7 +171,7 @@ export const validateNewBundleID = (newBundleID, platforms = []) => {
     console.log(
       `The bundle identifier "${newBundleID}" is not valid. It should contain at least 2 segments, e.g. com.example.app or com.example`
     );
-    process.exit();
+    process.exit(1);
   }
 };
 
