@@ -49,6 +49,9 @@
     "url": "https://github.com/junedomingo/react-native-rename/issues"
   },
   "homepage": "https://github.com/junedomingo/react-native-rename#readme",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "esbuild": "^0.28.0",
