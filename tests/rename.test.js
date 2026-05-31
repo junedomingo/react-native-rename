@@ -150,9 +150,9 @@ describe.each(activeVersions)('rn-versions/%s', version => {
   });
 });
 
-describe('cli validation failures', () => {
+describe.each(activeVersions)('cli validation failures/%s', version => {
   test('exits nonzero when the project has uncommitted changes', () => {
-    project = createFixtureProject(activeVersions[0]);
+    project = createFixtureProject(version);
     fs.appendFileSync(path.join(project.cwd, 'app.json'), '\n');
 
     const result = runRenameResult(project.cwd, ['Travel App']);
@@ -162,7 +162,7 @@ describe('cli validation failures', () => {
   });
 
   test('exits nonzero outside a git repository', () => {
-    project = createFixtureProject(activeVersions[0]);
+    project = createFixtureProject(version);
     fs.rmSync(path.join(project.cwd, '.git'), { recursive: true, force: true });
 
     const result = runRenameResult(project.cwd, ['Travel App']);
@@ -172,7 +172,7 @@ describe('cli validation failures', () => {
   });
 
   test('exits nonzero for invalid bundle ids', () => {
-    project = createFixtureProject(activeVersions[0]);
+    project = createFixtureProject(version);
 
     const result = runRenameResult(project.cwd, ['Travel App', '-b', 'com.example-app']);
 
@@ -183,7 +183,7 @@ describe('cli validation failures', () => {
   });
 
   test('exits nonzero for invalid app name without path content override', () => {
-    project = createFixtureProject(activeVersions[0]);
+    project = createFixtureProject(version);
 
     const result = runRenameResult(project.cwd, ['!!']);
 
@@ -192,7 +192,7 @@ describe('cli validation failures', () => {
   });
 
   test('exits nonzero for invalid path content override', () => {
-    project = createFixtureProject(activeVersions[0]);
+    project = createFixtureProject(version);
 
     const result = runRenameResult(project.cwd, ['Travel App', '-p', '!!']);
 

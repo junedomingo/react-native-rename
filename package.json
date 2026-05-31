@@ -10,8 +10,8 @@
     "build": "esbuild src/index.js --platform=node --bundle --outdir=lib --minify --analyze",
     "prepublish": "npm run build",
     "relink": "npm unlink react-native-rename && npm run prepublish && npm link",
-    "format": "prettier --write 'src/*.{js,jsx}' 'tests/**/*.js' --ignore-path .prettierignore",
-    "lint": "eslint 'src/*.{js,jsx}' 'tests/**/*.js'"
+    "format": "prettier --write src tests --ignore-path .prettierignore",
+    "lint": "eslint src tests"
   },
   "husky": {
     "hooks": {

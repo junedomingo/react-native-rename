@@ -13,6 +13,10 @@ const run = (command, args, options = {}) => {
   const result = childProcess.spawnSync(command, args, {
     cwd: options.cwd,
     encoding: 'utf8',
+    env: {
+      ...process.env,
+      REACT_NATIVE_RENAME_SKIP_UPDATE_CHECK: 'true',
+    },
     stdio: options.stdio || 'pipe',
   });
 
