@@ -6,6 +6,8 @@ tests
 .eslintignore
 .eslintrc
 .github
+.worktrees
+node_modules
 .prettierignore
 .prettierrc
 jest.config.js
