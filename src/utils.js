@@ -323,7 +323,7 @@ export const renameIosFoldersAndFiles = async newPathContentStr => {
 
   await renameFoldersAndFiles({
     foldersAndFilesPaths,
-    currentPath: cleanString(currentPathContentStr),
+    currentPath: currentPathContentStr,
     newPath: cleanString(newPathContentStr),
   });
 };
@@ -454,8 +454,13 @@ export const updateAndroidFilesContentBundleID = async ({
   await updateFilesContent(filesContentOptions);
 };
 
-const getJsonContent = jsonFile => {
-  return JSON.parse(fs.readFileSync(path.join(APP_PATH, jsonFile), 'utf8'));
+const getJsonContent = (jsonFile, { optional = false } = {}) => {
+  const jsonFilePath = path.join(APP_PATH, jsonFile);
+  if (optional && !fs.existsSync(jsonFilePath)) {
+    return null;
+  }
+
+  return JSON.parse(fs.readFileSync(jsonFilePath, 'utf8'));
 };
 
 export const updateOtherFilesContent = async ({
@@ -466,7 +471,7 @@ export const updateOtherFilesContent = async ({
   newAndroidBundleID,
   newIosBundleID,
 }) => {
-  const appJsonContent = getJsonContent(appJson);
+  const appJsonContent = getJsonContent(appJson, { optional: true });
   const packageJsonContent = getJsonContent(packageJson);
 
   const filesContentOptions = getOtherUpdateFilesContentOptions({
@@ -474,6 +479,7 @@ export const updateOtherFilesContent = async ({
     newName,
     currentPathContentStr,
     newPathContentStr,
+    hasAppJson: !!appJsonContent,
     appJsonName: appJsonContent?.name,
     appJsonDisplayName: appJsonContent?.displayName,
     packageJsonName: packageJsonContent?.name,
@@ -498,7 +504,7 @@ export const cleanBuilds = () => {
 };
 
 export const showSuccessMessages = newName => {
-  const appJsonContent = getJsonContent(appJson);
+  const appJsonContent = getJsonContent(appJson, { optional: true });
   const isUsingExpo = !!appJsonContent?.expo;
 
   console.log(
