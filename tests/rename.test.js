@@ -80,6 +80,49 @@ const expectAndroidBundleId = (cwd, bundleId, bundlePath = 'com/example/travelap
   expect(fs.existsSync(mainApplication)).toBe(true);
 };
 
+const renameFixturePathIfExists = (cwd, from, to) => {
+  const fromPath = path.join(cwd, from);
+  if (!fs.existsSync(fromPath)) {
+    return;
+  }
+
+  fs.renameSync(fromPath, path.join(cwd, to));
+};
+
+const replaceTextInFileIfExists = (cwd, relativePath, from, to) => {
+  const filePath = path.join(cwd, relativePath);
+  if (!fs.existsSync(filePath)) {
+    return;
+  }
+
+  fs.writeFileSync(filePath, fs.readFileSync(filePath, 'utf8').replaceAll(from, to));
+};
+
+const renameIosProjectPath = (cwd, currentName, newName) => {
+  renameFixturePathIfExists(cwd, `ios/${currentName}`, `ios/${newName}`);
+  renameFixturePathIfExists(cwd, `ios/${currentName}.xcodeproj`, `ios/${newName}.xcodeproj`);
+  renameFixturePathIfExists(cwd, `ios/${currentName}.xcworkspace`, `ios/${newName}.xcworkspace`);
+  renameFixturePathIfExists(
+    cwd,
+    `ios/${newName}.xcodeproj/xcshareddata/xcschemes/${currentName}.xcscheme`,
+    `ios/${newName}.xcodeproj/xcshareddata/xcschemes/${newName}.xcscheme`
+  );
+  replaceTextInFileIfExists(cwd, 'ios/Podfile', currentName, newName);
+  replaceTextInFileIfExists(
+    cwd,
+    `ios/${newName}.xcworkspace/contents.xcworkspacedata`,
+    currentName,
+    newName
+  );
+  replaceTextInFileIfExists(cwd, `ios/${newName}.xcodeproj/project.pbxproj`, currentName, newName);
+  replaceTextInFileIfExists(
+    cwd,
+    `ios/${newName}.xcodeproj/xcshareddata/xcschemes/${newName}.xcscheme`,
+    currentName,
+    newName
+  );
+};
+
 describe.each(activeVersions)('rn-versions/%s', version => {
   test('changes app name', () => {
     project = createFixtureProject(version);
@@ -198,5 +241,36 @@ describe.each(activeVersions)('cli validation failures/%s', version => {
 
     expect(result.status).toBe(1);
     expect(result.stdout).toContain('pathContentString');
+  });
+});
+
+describe('issue regressions', () => {
+  test('renames ios project paths that contain underscores', () => {
+    project = createFixtureProject('0.77.1');
+    renameIosProjectPath(project.cwd, 'AwesomeProject', 'Awesome_Project');
+
+    runRename(project.cwd, ['Travel App', '--skipGitStatusCheck']);
+
+    expectCommonRename(project.cwd, '0.77.1');
+    expect(fs.existsSync(path.join(project.cwd, 'ios/TravelApp'))).toBe(true);
+    expect(fs.existsSync(path.join(project.cwd, 'ios/TravelApp.xcodeproj'))).toBe(true);
+    expect(fs.existsSync(path.join(project.cwd, 'ios/TravelApp.xcworkspace'))).toBe(true);
+    expect(readFixtureFile(project.cwd, 'ios/Podfile')).not.toContain('Awesome_Project');
+    expect(readFixtureFile(project.cwd, 'ios/TravelApp.xcodeproj/project.pbxproj')).not.toContain(
+      'Awesome_Project'
+    );
+  });
+
+  test('renames projects that do not have app.json', () => {
+    project = createFixtureProject('0.85.3');
+    fs.rmSync(path.join(project.cwd, 'app.json'));
+
+    runRename(project.cwd, ['Travel App', '--skipGitStatusCheck']);
+
+    expect(fs.existsSync(path.join(project.cwd, 'app.json'))).toBe(false);
+    expect(fs.existsSync(path.join(project.cwd, 'ios/TravelApp.xcodeproj'))).toBe(true);
+    expect(readFixtureFile(project.cwd, 'android/settings.gradle')).toContain(
+      'rootProject.name = "Travel App"'
+    );
   });
 });

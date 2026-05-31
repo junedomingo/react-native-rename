@@ -302,6 +302,7 @@ export const getOtherUpdateFilesContentOptions = ({
   newName,
   currentPathContentStr,
   newPathContentStr,
+  hasAppJson,
   appJsonName,
   appJsonDisplayName,
   packageJsonName,
@@ -309,8 +310,7 @@ export const getOtherUpdateFilesContentOptions = ({
   newIosBundleID,
 }) => {
   const cleanNewPathContentStr = newPathContentStr.replace(/\s/g, '').toLowerCase();
-
-  return [
+  const options = [
     {
       files: ['index.js', 'index.ios.js', 'index.android.js'],
       from: [new RegExp(`\\b${currentName}\\b`, 'g'), new RegExp(`\\b'${currentName}'\\b`, 'g')],
@@ -321,26 +321,34 @@ export const getOtherUpdateFilesContentOptions = ({
       from: [new RegExp(`${packageJsonName}`, 'gi'), new RegExp(`${currentPathContentStr}`, 'gi')],
       to: cleanNewPathContentStr,
     },
-    {
-      files: 'app.json',
-      from: [
-        new RegExp(`${appJsonName}`, 'gi'),
-        new RegExp(`${appJsonDisplayName}`, 'gi'),
-        /\"scheme\"\: \"(.*)\"/,
-        /\"package\"\: \"(.*)\"/,
-        /\"bundleIdentifier\"\: \"(.*)\"/,
-        /\"name\"\: \"(.*)\"/,
-        /\"slug\"\: \"(.*)\"/,
-      ],
-      to: [
-        newName,
-        newName,
-        `"scheme": "${cleanNewPathContentStr}"`,
-        `"package": "${newAndroidBundleID}"`,
-        `"bundleIdentifier": "${newIosBundleID}"`,
-        `"name": "${newName}"`,
-        `"slug": "${newName}"`,
-      ],
-    },
   ];
+
+  if (hasAppJson) {
+    const appJsonFrom = [
+      appJsonName && new RegExp(`${appJsonName}`, 'gi'),
+      appJsonDisplayName && new RegExp(`${appJsonDisplayName}`, 'gi'),
+      /\"scheme\"\: \"(.*)\"/,
+      /\"package\"\: \"(.*)\"/,
+      /\"bundleIdentifier\"\: \"(.*)\"/,
+      /\"name\"\: \"(.*)\"/,
+      /\"slug\"\: \"(.*)\"/,
+    ].filter(Boolean);
+    const appJsonTo = [
+      appJsonName && newName,
+      appJsonDisplayName && newName,
+      `"scheme": "${cleanNewPathContentStr}"`,
+      `"package": "${newAndroidBundleID}"`,
+      `"bundleIdentifier": "${newIosBundleID}"`,
+      `"name": "${newName}"`,
+      `"slug": "${newName}"`,
+    ].filter(Boolean);
+
+    options.push({
+      files: 'app.json',
+      from: appJsonFrom,
+      to: appJsonTo,
+    });
+  }
+
+  return options;
 };
