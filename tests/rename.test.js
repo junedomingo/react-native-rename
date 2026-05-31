@@ -273,4 +273,14 @@ describe('issue regressions', () => {
       'rootProject.name = "Travel App"'
     );
   });
+
+  test('removes stale CocoaPods installation artifacts after ios rename', () => {
+    project = createFixtureProject('0.77.1');
+
+    runRename(project.cwd, ['Travel App', '--skipGitStatusCheck']);
+
+    expect(fs.existsSync(path.join(project.cwd, 'ios/Pods'))).toBe(false);
+    expect(fs.existsSync(path.join(project.cwd, 'ios/TravelApp.xcodeproj'))).toBe(true);
+    expect(readFixtureFile(project.cwd, 'ios/Podfile')).toContain("target 'TravelApp' do");
+  });
 });

@@ -10,6 +10,7 @@ export const appJson = 'app.json';
 export const packageJson = 'package.json';
 export const buildPaths = [
   'ios/build/*',
+  'ios/Pods',
   'android/.gradle/*',
   'android/app/build/*',
   'android/build/*',
