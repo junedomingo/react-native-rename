@@ -11,6 +11,14 @@ Rename react-native app with just one command
 
 **Note:** This package does not attempt to properly rename build artifacts such as `ios/build` or Cocoa Pod installation targets. After renaming your project you should clean, build, and reinstall third party dependencies to get it running properly with the new name.
 
+### React Native version support
+
+The actively tested support window is React Native `0.77+`.
+
+This package is tested against React Native `0.77.1`, `0.81.6`, and `0.85.3`. Older React Native versions may still work, but they are best effort and are not part of the active test matrix. If you need support for an older version, please open an issue with a reproducible fixture or sample project.
+
+This package requires Node.js `20.19.0` or newer.
+
 ### Usage
 ```
 $ npx react-native-rename@latest "new_name"

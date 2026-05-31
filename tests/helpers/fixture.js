@@ -1,0 +1,112 @@
+const childProcess = require('child_process');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+
+const repoRoot = path.resolve(__dirname, '../..');
+const fixturesRoot = path.join(repoRoot, 'tests/rn-versions');
+const cliPath = path.join(repoRoot, 'lib/index.js');
+const escapeCharacter = String.fromCharCode(27);
+const ANSI_ESCAPE_REGEX = new RegExp(`${escapeCharacter}(?:[@-Z\\\\-_]|\\[[0-?]*[ -/]*[@-~])`, 'g');
+
+const run = (command, args, options = {}) => {
+  const result = childProcess.spawnSync(command, args, {
+    cwd: options.cwd,
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      REACT_NATIVE_RENAME_SKIP_UPDATE_CHECK: 'true',
+    },
+    stdio: options.stdio || 'pipe',
+  });
+
+  if (result.status !== 0 && !options.allowFailure) {
+    throw new Error(
+      [
+        `Command failed: ${command} ${args.join(' ')}`,
+        `Exit code: ${result.status}`,
+        result.stdout,
+        result.stderr,
+      ]
+        .filter(Boolean)
+        .join('\n')
+    );
+  }
+
+  if (options.returnResult) {
+    return result;
+  }
+
+  return result.stdout;
+};
+
+const initGit = cwd => {
+  run('git', ['init'], { cwd });
+  run('git', ['config', 'user.email', 'fixture@example.test'], { cwd });
+  run('git', ['config', 'user.name', 'Fixture Test'], { cwd });
+  run('git', ['config', 'core.autocrlf', 'false'], { cwd });
+  run('git', ['config', 'core.safecrlf', 'false'], { cwd });
+  run('git', ['add', '.'], { cwd });
+  run('git', ['commit', '-m', 'fixture baseline'], { cwd });
+};
+
+const createFixtureProject = version => {
+  const source = path.join(fixturesRoot, version);
+  const parent = fs.mkdtempSync(path.join(os.tmpdir(), `react-native-rename-${version}-`));
+  const cwd = path.join(parent, 'project');
+
+  fs.cpSync(source, cwd, {
+    recursive: true,
+    filter: sourcePath => !sourcePath.includes(`${path.sep}node_modules${path.sep}`),
+  });
+  initGit(cwd);
+
+  return { cwd, parent, version };
+};
+
+const cleanupFixtureProject = project => {
+  if (project) {
+    fs.rmSync(project.parent, { recursive: true, force: true });
+  }
+};
+
+const normalizeRenameArgs = args => {
+  if (Array.isArray(args)) {
+    return args;
+  }
+
+  return args.match(/(?:[^\s"]+|"[^"]*")+/g).map(arg => arg.replace(/"/g, ''));
+};
+
+const runRename = (cwd, args) => {
+  return run('node', [cliPath, ...normalizeRenameArgs(args)], { cwd });
+};
+
+const runRenameResult = (cwd, args) => {
+  return run('node', [cliPath, ...normalizeRenameArgs(args)], {
+    cwd,
+    allowFailure: true,
+    returnResult: true,
+  });
+};
+
+const getStagedDiff = cwd => run('git', ['diff', '--cached', '--find-renames'], { cwd });
+
+const getStagedNameStatus = cwd =>
+  run('git', ['diff', '--cached', '--name-status', '--find-renames'], { cwd });
+
+const readFixtureFile = (cwd, relativePath) =>
+  fs.readFileSync(path.join(cwd, relativePath), 'utf8');
+
+const stripAnsi = value => value.replace(ANSI_ESCAPE_REGEX, '');
+
+module.exports = {
+  cleanupFixtureProject,
+  createFixtureProject,
+  getStagedDiff,
+  getStagedNameStatus,
+  readFixtureFile,
+  runRename,
+  runRenameResult,
+  stripAnsi,
+};

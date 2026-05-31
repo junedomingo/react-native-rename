@@ -131,7 +131,9 @@ program
     cleanBuilds();
     showSuccessMessages(newName);
     gitStageChanges();
-    checkPackageUpdate();
+    if (!process.env.REACT_NATIVE_RENAME_SKIP_UPDATE_CHECK) {
+      checkPackageUpdate();
+    }
   });
 
 // If no arguments are passed, show help
