@@ -491,6 +491,13 @@ export const updateOtherFilesContent = async ({
 };
 
 export const cleanBuilds = () => {
+  buildPaths.forEach(buildPath => {
+    const fullPath = path.join(APP_PATH, buildPath);
+    if (fs.existsSync(fullPath)) {
+      fs.rmSync(fullPath, { recursive: true, force: true });
+    }
+  });
+
   const pathsToRemove = globbySync(
     buildPaths.map(buildPath => normalizePath(path.join(APP_PATH, buildPath))),
     { onlyFiles: false }
